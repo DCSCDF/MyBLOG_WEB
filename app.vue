@@ -3,14 +3,11 @@
     <n-dialog-provider>
         <n-config-provider>
             <n-message-provider>
-                <div class="">
-                    <NuxtPage>
-                    </NuxtPage>
-                </div>
+                <NuxtPage>
+                </NuxtPage>
             </n-message-provider>
         </n-config-provider>
     </n-dialog-provider>
-
 
 </template>
 <script setup>
@@ -33,6 +30,7 @@ console.info("%c jiuliuTOP %c v1.0 ", "padding: 2px 6px; border-radius: 3px 0 0 
 body {
     font-family: 'MyCustomFont', sans-serif;
 }
+
 /* 深色模式适配 */
 /* 默认浅色主题 */
 :root {
@@ -166,6 +164,7 @@ body {
 .rotate-180 {
     transform: rotate(180deg);
 }
+
 /* 滚动条整体部分 */
 ::-webkit-scrollbar {
     width: 5px;

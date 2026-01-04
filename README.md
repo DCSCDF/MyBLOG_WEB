@@ -1,5 +1,30 @@
 # JIULIU新BLOG网站 项目结构文档
 
+
+## 🛠️ 快速启动
+
+### 开发环境
+```bash
+#克隆项目
+git clone https://github.com/DCSCDF/jiuliu_NEW_BLOG_WEB
+
+# 安装依赖
+npm install
+
+# 启动开发服务器
+npm run dev
+
+# 访问地址
+http://localhost:3001/
+
+# 构建服务端启动版本
+npm run build 
+
+# 预览构建结果
+npm run preview
+```
+
+
 ### 功能模块
 ```
 components/
@@ -27,25 +52,23 @@ components/
 └── sidebar.vue            # 侧边栏
 ```
 
-## 🛠️ 快速启动
+### 主路由
+| 路由路径 | 名称 | 中间件 | 布局 |
+|---------|------|--------|------|
+| `/` | `index` | `-` | `(default)` |
 
-### 开发环境
-```bash
-#克隆项目
-git clone https://github.com/DCSCDF/jiuliu_NEW_BLOG_WEB
+### 管理路由
+| 路由路径 | 名称 | 中间件 | 布局 |
+|---------|------|--------|------|
+| `/admin` | `admin` | `-` | `(default)` |
+| `/admin/dashboard` | `admin-dashboard` | `-` | `(default)` |
 
-# 安装依赖
-npm install
+### 内容路由
+| 路由路径 | 名称 | 中间件 | 布局 |
+|---------|------|--------|------|
+| `/blog/id?` | `blog-id` | `-` | `(default)` |
+| `/guestbook` | `guestbook` | `-` | `(default)` |
+| `/links` | `links` | `-` | `(default)` |
+| `/page/page?` | 未指定 | 未指定 | 未指定 |
 
-# 启动开发服务器
-npm run dev
 
-# 访问地址
-http://localhost:3001/
-
-# 构建服务端启动版本
-npm run build 
-
-# 预览构建结果
-npm run preview
-```
