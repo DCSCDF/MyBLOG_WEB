@@ -1,80 +1,328 @@
 <template>
-    <div class="flex flex-col min-h-screen h-full bg-white/50 dark:bg-gray-800/60 md:mx-10 xl:mx-40">
-        <div class="flex-1">
+   <section class="bg-white dark:bg-gray-900 min-h-screen flex items-center justify-center">
+        <div class="container mx-auto px-6 py-8">
+            <!-- 通知组件 -->
+            <Notification v-model:show="notification.show" :type="notification.type" :title="notification.title"
+                :message="notification.message" :duration="notification.duration" @close="clearNotification" />
 
-            <Header></Header>
-
-            <div class="container md:px-6 py-5 mx-auto">
-                <div class="flex 2xl:flex-row flex-col-reverse gap-6">
-                    <!-- Main content area -->
-                    <div class="2xl:w-3/5">
-                        <div class="m-4">
-                            <!-- Removed blog card component -->
-                            <!-- <Blogcard :search-keyword="searchKeyword"></Blogcard> -->
-                        </div>
-                    </div>
-
-                    <!-- Sidebar area -->
-                    <div class="2xl:w-2/5 2xl:my-20">
-                        <!-- Mobile floating button -->
-                        <button
-                            class="fixed bottom-12 right-10 2xl:hidden z-50 px-5 py-3 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-300 hover:shadow-xl flex items-center space-x-1"
-                            @click="toggleSidebar">
-                            <svg width="20" height="20" viewBox="0 0 1028 1024" version="1.1"
-                                xmlns="http://www.w3.org/2000/svg" class="flex-shrink-0">
-                                <path
-                                    d="M7.856789 602.079857c158.044987 2.617399 316.007318 3.788341 473.882404 3.512825A56865.980269 56865.980269 0 0 1 482.519821 2.805668 3854.340592 3854.340592 0 0 0 15.975318 25.710206a3762.015283 3762.015283 0 0 0-8.118529 576.369651zM54.308735 1002.280179a3557.0913 3557.0913 0 0 0 430.653991 21.141238c-1.322475-115.702816-2.291372-231.506655-2.897506-347.406924-156.378117 0.518888-312.834296-1.653094-469.377722-6.520538a3835.297865 3835.297865 0 0 0 41.621237 332.786224zM543.62461 1022.250475c143.557453-4.059265 287.105722-16.843193 430.658583-38.360968 30.269991-177.17496 47.498906-354.267265 51.686744-531.276915a27595.367318 27595.367318 0 0 0-479.314654-6.088897c-0.298475 192.167605-1.304108 384.078063-3.030673 575.72678zM546.072108 4.07304c0.514296 124.147372 0.734709 248.18913 0.656645 372.120682 160.152682 1.235229 320.213525 5.115408 480.191713 11.649722a3611.202583 3611.202583 0 0 0-14.303856-342.218045C857.097184 22.316771 701.58235 8.467516 546.072108 4.07304z"
-                                    fill="#84ADDD" class="dark:fill-blue-400">
-                                </path>
+          <div class="w-full max-w-md mx-auto">
+                <!-- Logo/标题区域 -->
+                <div class="flex justify-center mx-auto mb-8">
+                    <div class="flex items-center space-x-3">
+                        <div class="p-2 bg-blue-100 dark:bg-blue-900 rounded-lg">
+                            <svg class="w-8 h-8 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                             </svg>
-                            <span
-                                class="text-sm pt-1 font-bold text-gray-500 dark:text-gray-300 whitespace-nowrap tracking-wide leading-tight">侧边栏</span>
-                        </button>
-
-                        <!-- Sidebar content -->
-                        <div :class="[
-                            '2xl:sticky 2xl:top-20 2xl:self-start',
-                            'fixed inset-0 z-40 2xl:z-0 bg-white/80 dark:bg-gray-800/80 2xl:bg-white/0 2xl:dark:bg-gray-900/0 backdrop-blur-md 2xl:backdrop-blur-none transition-transform duration-300 ease-in-out 2xl:transform-none',
-                            mobileSidebarOpen ? 'translate-x-0' : '-translate-x-full'
-                        ]">
-                            <!-- Close button (mobile) -->
-                            <button class="absolute top-4 right-4 p-2 2xl:hidden text-gray-800 dark:text-gray-200"
-                                @click="toggleSidebar">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M6 18L18 6M6 6L18 18" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" />
-                                </svg>
-                            </button>
-
-                            <div
-                                class="mx-3 h-full overflow-y-auto p-6 2xl:p-0 2xl:max-h-[calc(100vh-5rem)] 2xl:overflow-y-auto">
-                                <!-- Removed sidebar component -->
-                                <!-- <Sidebar @search="handleSearch"></Sidebar> -->
-                            </div>
                         </div>
+                        <h1 class="text-2xl font-bold text-gray-800 dark:text-white">系统登录</h1>
                     </div>
                 </div>
-            </div>
 
-        </div>
-    </div>
+              <!-- 登录/注册切换 -->
+                <div class="flex items-center justify-center mb-8">
+                    <div class="w-full flex border-b dark:border-gray-700">
+                        <button
+                           class="w-1/2 pb-4 font-medium text-center text-blue-600 capitalize border-b-2 border-blue-500 dark:border-blue-400 dark:text-white transition-colors duration-300">
+                            用户登录
+                        </button>
+                       <button
+                            class="w-1/2 pb-4 font-medium text-center text-gray-500 capitalize dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors duration-300">
+                            注册账号
+                        </button>
+                   </div>
+                </div>
+
+              <!-- 登录表单 -->
+                <form class="mt-6 space-y-10" @submit="submitForm">
+                    <!-- 用户名输入框 -->
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg class="w-5 h-5 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            </svg>
+                        </div>
+                       <input id="username" type="text" required v-model="username"
+                            class="block w-full pl-10 pr-4 py-3 text-gray-700 bg-white border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-400 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-500 focus:outline-none transition-colors duration-300"
+                            placeholder="请输入用户名"
+                            :class="{ 'cursor-not-allowed bg-gray-100 dark:bg-gray-700': hasSavedCredentials }"
+                            :readonly="hasSavedCredentials" />
+                   </div>
+                   <!-- 密码输入框 -->
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg class="w-5 h-5 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                            </svg>
+                       </div>
+                       <input id="password" :type="passwordType" required v-model="password"
+                            class="block w-full pl-10 pr-12 py-3 text-gray-700 bg-white border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-400 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-500 focus:outline-none transition-colors duration-300"
+                            :placeholder="hasSavedCredentials ? '已保存密码' : '请输入密码'"
+                            :class="{ 'cursor-not-allowed bg-gray-100 dark:bg-gray-700': hasSavedCredentials }"
+                            :readonly="hasSavedCredentials" />
+                        <!-- 密码显示切换按钮 -->
+                        <button type="button" class="absolute inset-y-0 right-0 pr-3 flex items-center"
+                            @click="togglePasswordVisibility" v-if="!hasSavedCredentials">
+                            <svg class="w-5 h-5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    :d="passwordType === 'password' ? 'M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z' : 'M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21'" />
+                            </svg>
+                        </button>
+                   </div>
+                   <!-- 记住密码选项 -->
+                    <div class="flex items-center justify-between mt-4">
+                        <label class="flex items-center cursor-pointer">
+                            <input type="checkbox" v-model="rememberMe"
+                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                            <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">记住密码</span>
+                        </label>
+
+                        <a href="#"
+                            class="text-sm text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300 transition-colors duration-300">
+                            忘记密码？
+                        </a>
+                   </div>
+
+                  <!-- 登录按钮 -->
+                    <button type="submit" :disabled="cooldown || loading"
+                        class="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-lg hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+                        :class="{
+                            'bg-green-600 hover:bg-green-500 focus:ring-green-300': hasSavedCredentials
+                        }">
+                        <svg v-if="loading" class="animate-spin w-4 h-4 text-white" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                            </circle>
+                            <path class="opacity-75" fill="currentColor"
+                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                            </path>
+                        </svg>
+                        <svg v-else-if="hasSavedCredentials" class="w-4 h-4" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span>{{ getButtonText() }}</span>
+                    </button>
+
+                    <!-- 注册提示 -->
+                    <div class="mt-6 text-center">
+                        <span class="text-sm text-gray-600 dark:text-gray-400">
+                            还没有账号？
+                            <a href="#"
+                                class="text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300 transition-colors duration-300">
+                                立即注册
+                            </a>
+                        </span>
+                   </div>
+               </form>
+           </div>
+       </div>
+    </section>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
+import { useRouter } from 'vue-router'
+import AdminService from '../utils/api/user/auth/authApi'
+import { useRuntimeConfig } from '#app'
+// 导入 RSA 加密工具
+import { encryptWithRSA, isEncryptionEnabled } from '../utils/api/rsa'
 
+// 初始化
+const runtimeConfig = useRuntimeConfig()
+const API_BASE_URL = runtimeConfig.public.apiBaseUrl
+const adminService = new AdminService(API_BASE_URL)
+const router = useRouter()
 
-// 控制移动端侧边栏是否打开
-const mobileSidebarOpen = ref(false)
+// 表单数据
+const username = ref('')
+const password = ref('')
+const rememberMe = ref(false)
+const loading = ref(false)
+const cooldown = ref(false)
+const cooldownTime = ref(0)
+const passwordType = ref('password')
 
-// 切换侧边栏显示状态
-const toggleSidebar = () => {
-    mobileSidebarOpen.value = !mobileSidebarOpen.value
+// 控制 UI 状态
+const hasSavedCredentials = ref(false)
+const usingSavedCredentials = ref(false)
+
+// 密码显示切换
+const togglePasswordVisibility = () => {
+    passwordType.value = passwordType.value === 'password' ? 'text' : 'password'
 }
 
-// 可选：点击侧边栏外区域关闭（进阶体验）
-// 如果需要该功能，可监听点击事件并判断是否在侧边栏内
-</script>
+// 按钮文字
+const getButtonText = () => {
+    if (loading.value) return '登录中...'
+    if (hasSavedCredentials.value) return '使用保存的账户登录'
+    return '立即登录'
+}
 
-<style scoped></style>
+// 其余的业务逻辑保持不变（与原始代码相同）
+const remainingMinutes = computed(() => Math.ceil(cooldownTime.value / 60))
+
+const STORAGE_KEYS = {
+    USERNAME: 'savedUsername',
+    ENCRYPTED_PASSWORD: 'savedEncryptedPassword'
+}
+
+const saveCredentials = (user, encryptedPass) => {
+    localStorage.setItem(STORAGE_KEYS.USERNAME, user)
+    localStorage.setItem(STORAGE_KEYS.ENCRYPTED_PASSWORD, encryptedPass)
+}
+
+const loadSavedCredentials = () => {
+    const savedUser = localStorage.getItem(STORAGE_KEYS.USERNAME)
+    const savedPass = localStorage.getItem(STORAGE_KEYS.ENCRYPTED_PASSWORD)
+
+    if (savedUser && savedPass) {
+        username.value = savedUser
+        password.value = '••••••••'
+        hasSavedCredentials.value = true
+        rememberMe.value = true
+        usingSavedCredentials.value = true
+    } else {
+        hasSavedCredentials.value = false
+        usingSavedCredentials.value = false
+    }
+}
+
+const clearSavedCredentials = () => {
+    localStorage.removeItem(STORAGE_KEYS.USERNAME)
+    localStorage.removeItem(STORAGE_KEYS.ENCRYPTED_PASSWORD)
+    hasSavedCredentials.value = false
+    usingSavedCredentials.value = false
+}
+
+// 页面加载：检查已保存凭据
+onMounted(async () => {
+    if (import.meta.server) return
+    loadSavedCredentials()
+
+    try {
+        const status = await adminService.checkLoginStatus()
+        if (status.isLoggedIn) {
+            router.push('/user/dashboard')
+        }
+    } catch (error) {
+        console.warn('检查登录状态时出错，继续显示登录页:', error.message)
+    }
+})
+
+// 监听 rememberMe 变化
+watch(rememberMe, (newVal) => {
+    if (!newVal && hasSavedCredentials.value) {
+        clearSavedCredentials()
+    }
+})
+
+// 登录逻辑
+const handleLogin = async () => {
+    let finalUsername = username.value.trim()
+    let finalPassword = password.value
+
+    if (usingSavedCredentials.value) {
+        const savedPass = localStorage.getItem(STORAGE_KEYS.ENCRYPTED_PASSWORD)
+        if (!savedPass) {
+            showNotification('保存的密码已丢失，请重新登录')
+            clearSavedCredentials()
+            return
+        }
+        finalPassword = savedPass
+    } else {
+        if (!finalUsername || !finalPassword) {
+            showNotification('请输入用户名和密码')
+            return
+        }
+
+        if (isEncryptionEnabled()) {
+            try {
+                const publicKey = await adminService.getPublicKey()
+                finalPassword = await encryptWithRSA(finalPassword, publicKey)
+                console.log('密码加密成功，密文长度:', finalPassword.length)
+            } catch (encryptError) {
+                loading.value = false
+                console.error('密码加密失败:', encryptError)
+                showNotification(encryptError)
+                return
+            }
+        }
+    }
+
+    try {
+        loading.value = true
+        await adminService.login(finalUsername, finalPassword)
+
+        showNotification('登录成功！', 'success')
+
+        if (rememberMe.value) {
+            saveCredentials(finalUsername, finalPassword)
+        } else {
+            clearSavedCredentials()
+        }
+
+        router.push('/user/dashboard')
+    } catch (error) {
+        loading.value = false
+        clearSavedCredentials()
+
+        let message = '网络异常，请检查连接'
+        let isCooldown = false
+
+        if (error.response) {
+            const { status, data } = error.response
+            if (status === 429) {
+                message = '登录尝试次数过多，请稍后再试'
+                isCooldown = true
+            } else {
+                message = data?.message
+            }
+        } else if (error.request) {
+            message = '服务器无响应，请稍后再试'
+        }
+        showNotification(message)
+    }
+}
+
+// 记住密码切换
+const toggleRememberMe = () => {
+    rememberMe.value = !rememberMe.value
+}
+
+// 表单提交
+const submitForm = (e) => {
+    e.preventDefault()
+    handleLogin()
+}
+
+// 响应式通知状态
+const notification = reactive({
+    show: false,
+    type: '',
+    title: '',
+    message: '',
+    duration: 3000
+})
+
+// 显示通知的方法
+const showNotification = (message, type = 'error') => {
+    notification.type = type
+    notification.title = type === 'error' ? '错误' : '成功'
+    notification.message = message
+    notification.show = true
+}
+
+// 清除通知
+const clearNotification = () => {
+    notification.show = false
+    notification.message = ''
+    notification.title = ''
+}
+</script>

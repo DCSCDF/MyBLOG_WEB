@@ -1,7 +1,6 @@
 # MyBLOG项目 前端部分
 
 
-
 ![npm](https://img.shields.io/badge/npm-10.9.2-CB3837?logo=npm&logoColor=white)
 ![Vue](https://img.shields.io/badge/Vue-5.0.8-4FC08D?logo=vue.js&logoColor=white)
 ![Nuxt](https://img.shields.io/badge/Nuxt-3.16.2-00DC82?logo=nuxt.js&logoColor=white)

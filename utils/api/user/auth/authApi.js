@@ -25,7 +25,7 @@ class AdminService {
         console.log('使用的 baseURL:', baseURL)
     }
 
-    // ==================== 核心 API 方法 ====================
+    // 核心 API 方法
 
     /**
      * 获取 RSA 公钥（用于前端密码加密）
@@ -33,13 +33,12 @@ class AdminService {
      */
     async getPublicKey() {
         try {
-            console.log('正在获取 RSA 公钥，URL:', this.axiosInstance.defaults.baseURL + '/auth/public-key')
+            console.log('正在获取 RSA 公钥，URL:', this.axiosInstance.defaults.baseURL + '/api/auth/public-key')
 
-            const response = await this.axiosInstance.get('/auth/public-key')
+            const response = await this.axiosInstance.get('/api/auth/public-key')
 
             console.log('公钥接口原始响应:', response)
 
-            // ✅ 修正：response 本身就是 { publicKey: "..." }
             const publicKey = response?.publicKey
 
             if (!publicKey || typeof publicKey !== 'string' || publicKey.length < 100) {
@@ -77,9 +76,9 @@ class AdminService {
 
         try {
             console.log('正在登录，用户名:', username.trim())
-            console.log('请求URL:', this.axiosInstance.defaults.baseURL + '/auth/login')
+            console.log('请求URL:', this.axiosInstance.defaults.baseURL + '/api/auth/login')
 
-            const userData = await this.axiosInstance.post('/auth/login', {
+            const userData = await this.axiosInstance.post('/api/auth/login', {
                 username: username.trim(),
                 password: encryptedPassword // 直接使用传入的密码（应已加密）
             })
@@ -109,68 +108,11 @@ class AdminService {
 
 
 
-    async checkLoginStatus() {
-        try {
-            console.log('检查登录状态，URL:', this.axiosInstance.defaults.baseURL + '/auth/is-logged-in')
-
-            const response = await this.axiosInstance.get('/auth/is-logged-in')
-
-            console.log('登录状态检查结果:', response)
-
-            const loggedIn = response.loggedIn === true
-
-            console.log('解析后的登录状态:', loggedIn)
-
-            if (!loggedIn) {
-                this.clearUserData()
-                return {
-                    isLoggedIn: false,
-                    error: '用户未登录',
-                    shouldRedirect: true
-                }
-            }
-
-            this.updateLastCheckTime()
-
-            return {
-                isLoggedIn: true,
-                username: this.getUsername(),
-                loginTime: this.getLoginTime()
-            }
-        } catch (error) {
-            console.error('检查登录状态失败:', error)
-            showError({
-                statusCode: 500,
-                statusMessage: '检查登录状态失败',
-                message: error,
-                fatal: false
-            })
-            if (error.response) {
-                console.error('状态检查响应:', error.response.status, error.response.data)
-            }
-
-            if (error.status === 401 || error.response?.status === 401) {
-                this.clearUserData()
-                return {
-                    isLoggedIn: false,
-                    error: '登录已过期，请重新登录',
-                    shouldRedirect: true
-                }
-            }
-
-            return {
-                isLoggedIn: false,
-                error: error.message,
-                shouldRedirect: false
-            }
-        }
-    }
-
     async getUserProfile() {
         try {
-            console.log('获取用户资料，URL:', this.axiosInstance.defaults.baseURL + '/auth/profile')
+            console.log('获取用户资料，URL:', this.axiosInstance.defaults.baseURL + '/api/auth/profile')
 
-            const profile = await this.axiosInstance.get('/auth/profile')
+            const profile = await this.axiosInstance.get('/api/auth/profile')
 
             console.log('用户资料获取成功:', profile)
 
@@ -192,8 +134,8 @@ class AdminService {
 
     async logout() {
         try {
-            console.log('执行登出，URL:', this.axiosInstance.defaults.baseURL + '/auth/logout')
-            await this.axiosInstance.post('/auth/logout')
+            console.log('执行登出，URL:', this.axiosInstance.defaults.baseURL + '/api/auth/logout')
+            await this.axiosInstance.post('/api/auth/logout')
             console.log('后端登出接口调用成功')
         } catch (error) {
             console.warn('登出接口调用失败:', error.message)
@@ -213,7 +155,7 @@ class AdminService {
         }
     }
 
-    // ==================== 本地存储管理 ====================
+    // 本地存储管理
 
     saveUserData(userData) {
         if (typeof window === 'undefined') return
@@ -296,7 +238,7 @@ class AdminService {
         localStorage.setItem(this.lastCheckKey, Date.now().toString())
     }
 
-    // ==================== 工具方法 ====================
+    // 工具方法 
 
     async initialize() {
         console.log('初始化认证状态...')
