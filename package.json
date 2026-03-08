@@ -1,5 +1,5 @@
 {
-  "name": "Myblog_web",
+  "name": "myblog_web",
   "type": "module",
   "private": true,
   "scripts": {
