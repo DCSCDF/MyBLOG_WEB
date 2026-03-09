@@ -1,9 +1,11 @@
 <template>
-        <div>
-                <app-header/>
-                <slot/>
-                <app-footer/>
-        </div>
+	<div class="min-h-screen flex flex-col">
+		<app-header/>
+		<main class="flex-1">
+			<slot/>
+		</main>
+		<app-footer/>
+	</div>
 </template>
 
 
