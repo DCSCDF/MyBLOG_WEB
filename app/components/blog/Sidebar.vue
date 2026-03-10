@@ -16,7 +16,11 @@
         </div>
 
         <!--        <div class="mb-6 w-full overflow-x-auto">-->
-        <!--                <img alt="" src="https://raw.githubusercontent.com/DCSCDF/DCSCDF/main/github-metrics.svg">-->
+        <!--                <img-->
+        <!--                    alt=""-->
+        <!--                    class="w-full h-full object-cover rounded-lg pointer-events-none select-none"-->
+        <!--                    draggable="false"-->
+        <!--                    src="https://raw.githubusercontent.com/DCSCDF/DCSCDF/main/github-metrics.svg">-->
         <!--        </div>-->
 
 

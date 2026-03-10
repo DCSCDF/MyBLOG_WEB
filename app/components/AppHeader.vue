@@ -1,6 +1,9 @@
 <template>
 
-        <header class="sticky top-0 left-0 right-0 z-40 duration-300 flex justify-center">
+        <header :class="[
+            'sticky top-0 left-0 right-0 z-40 duration-300 flex justify-center transition-transform',
+            isVisible || isMenuOpen ? 'translate-y-0' : '-translate-y-full'
+        ]">
                 <div
                     class="my-6 w-full max-w-4xl mx-4 md:mx-12 bg-white/90 rounded-full backdrop-blur-md
                     shadow-[0_0px_0.34px_0.34px_rgba(30,45,82,0.06),0.34px_0.34px_0.34px_0px_rgba(30,45,82,0.2)] opacity-100 mix-blend-plus-lighter">
@@ -10,19 +13,20 @@
                                                 <img alt="" height="30" src="../assets/images/白猫.svg" width="30">
                                         </div>
                                         <div class="hidden md:flex items-center gap-2 mx-4">
-                                                <a-button v-for="(item, index) in menu" :key="index"
-                                                          type="text">
-                                                        {{ item.name }}
-                                                </a-button>
-                                        </div>
+                                              <a-button v-for="(item, index) in menu" :key="index"
+                                                        type="text"
+                                                        @click="navigateTo(item.link)">
+                                                      {{ item.name }}
+                                              </a-button>
+                                      </div>
                                 </div>
                                 <div class="flex items-center gap-2 mx-1 ">
-                                        <a
+                                        <NuxtLink
                                             class="hidden md:flex p-2 text-md px-6 text-white rounded-full bg-gradient-to-b
-                                            from-gray-600 to-gray-900 shadow-[inset_0_1px_1px_0px_rgba(255,255,255,0.25),0_3px_3px_0px_rgba(0,0,0,0.15)]"
-                                            href="#">
+                                           from-gray-600 to-gray-900 shadow-[inset_0_1px_1px_0px_rgba(255,255,255,0.25),0_3px_3px_0px_rgba(0,0,0,0.15)]"
+                                            to="/login">
                                                 登陆
-                                        </a>
+                                        </NuxtLink>
                                         <div class="mx-4 flex md:hidden">
                                                 <button class="flex items-center" @click="toggleMenu">
                                                         <MenuOutlined :style="{ fontSize: '18px' }"/>
@@ -70,10 +74,40 @@ const menu = ref([
 ])
 
 const isMenuOpen = ref(false)
+const isVisible = ref(true)
+const lastScrollY = ref(0)
 
 const toggleMenu = () => {
         isMenuOpen.value = !isMenuOpen.value
 }
 
+const handleScroll = () => {
+        const currentScrollY = window.scrollY
+
+        // 只有下滑超过 ~px 才启动隐藏逻辑
+        if (currentScrollY > 10000000) {
+                // 下滑时隐藏
+                if (currentScrollY > lastScrollY.value) {
+                        isVisible.value = false
+                }
+                // 上滑时显示
+                else if (currentScrollY < lastScrollY.value) {
+                        isVisible.value = true
+                }
+        } else {
+                // 滚动距离小于 ~px 时始终显示
+                isVisible.value = true
+        }
+
+        lastScrollY.value = currentScrollY
+}
+
+onMounted(() => {
+        window.addEventListener('scroll', handleScroll)
+})
+
+onUnmounted(() => {
+        window.removeEventListener('scroll', handleScroll)
+})
 
 </script>
