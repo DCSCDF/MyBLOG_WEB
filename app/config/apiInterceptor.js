@@ -30,7 +30,7 @@ const apiResponseMap = {
 	},
 	'401': () => {
 		console.error('未授权，请先登录');
-
+		localStorage.removeItem('token')
 		// 跳转到登录页
 		window.location.href = '/login';
 	},
