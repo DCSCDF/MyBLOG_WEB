@@ -1,19 +1,31 @@
 <template>
         <div class="mb-6">
-                <h1 class="font-black text-3xl mb-2">我的博客</h1>
+                <h1 class="font-semibold text-2xl mb-2 text-gray-800">我的博客</h1>
                 <p class="text-md text-gray-600">
-                        Stay updated with the latest discoveries, innovations, and explorations in space science.
+                        一个简单的博客网站，主要分享前端开发和生活日常等内容，该项目使用的技术栈主要有Vite、Nuxt、Java、Mysql等，三端分离。项目开源地址：<a
+                    class="text-blue-400"
+                    href="https://github.com/DCSCDF" target="_blank">https://github.com/DCSCDF</a>
                 </p>
         </div>
 
 
         <div class="mb-6">
-                <h1 class="font-black text-xl mb-2">搜索</h1>
+                <h2 class="mb-2 text-gray-700 text-lg font-semibold">全局搜索</h2>
                 <a-input-search
                     class="max-w-lg"
                     placeholder="检索内容"
                 />
         </div>
+
+
+        <!--        <div class="mb-4">-->
+        <!--                <h2 class="mb-2 text-gray-800 text-lg">分类</h2>-->
+        <!--                <a-tag :bordered="false">Tag 1</a-tag>-->
+        <!--                <a-tag :bordered="false">Tag 1</a-tag>-->
+        <!--                <a-tag :bordered="false">Tag 1</a-tag>-->
+        <!--                <a-tag :bordered="false">Tag 1</a-tag>-->
+        <!--        </div>-->
+
 
         <!--        <div class="mb-6 w-full overflow-x-auto">-->
         <!--                <img-->

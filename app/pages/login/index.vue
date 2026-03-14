@@ -1,9 +1,11 @@
 <template>
 
 
-        <a-card class="w-60 mx-auto">
-                <p>Redirecting to login...</p>
-        </a-card>
+        <div class="flex justify-center pt-20 flex-col">
+
+                <a-spin size="large"/>
+                <p class="mx-auto mt-3 text-gray-600">Loading...</p>
+        </div>
 
 
 </template>
