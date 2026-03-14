@@ -36,9 +36,11 @@ const service = axios.create({
 service.interceptors.request.use(
     (config) => {
 
-	    // 使用 Pinia store 获取当前 token
-	    // const authStore = useAuthStore();
-	    const token = " authStore.currentToken;"
+	    // 优先从sessionStorage获取token，否则从localStorage获取
+	    let token = sessionStorage.getItem('token')
+	    if (!token) {
+		    token = localStorage.getItem('token')
+	    }
 
 	    if (token) {
 		    config.headers.token = `${token}`;

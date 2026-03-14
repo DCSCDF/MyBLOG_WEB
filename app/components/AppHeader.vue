@@ -5,7 +5,7 @@
             isVisible || isMenuOpen ? 'translate-y-0' : '-translate-y-full'
         ]">
                 <div
-                    class="my-6 w-full max-w-4xl mx-4 md:mx-12 bg-white/90 rounded-full backdrop-blur-md
+                    class="my-4 w-full max-w-4xl mx-4 md:mx-12 bg-white/90 rounded-full backdrop-blur-md
                     shadow-[0_0px_0.34px_0.34px_rgba(30,45,82,0.06),0.34px_0.34px_0.34px_0px_rgba(30,45,82,0.2)] opacity-100 mix-blend-plus-lighter">
                         <div class="p-2 flex justify-between flex-row">
                                 <div class="mx-4 flex h-10">
@@ -13,20 +13,36 @@
                                                 <img alt="" height="30" src="../assets/images/白猫.svg" width="30">
                                         </div>
                                         <div class="hidden md:flex items-center gap-2 mx-4">
-                                              <a-button v-for="(item, index) in menu" :key="index"
-                                                        type="text"
-                                                        @click="navigateTo(item.link)">
-                                                      {{ item.name }}
-                                              </a-button>
-                                      </div>
+                                                <a-button v-for="(item, index) in menu" :key="index"
+                                                          type="text"
+                                                          @click="navigateTo(item.link)">
+                                                        {{ item.name }}
+                                                </a-button>
+                                        </div>
                                 </div>
                                 <div class="flex items-center gap-2 mx-1 ">
+                                        <!-- 已登录：显示头像和用户名 -->
+                                        <div v-if="userInfo" class="hidden md:flex items-center gap-2">
+                                                <a-avatar
+                                                    :size="40"
+                                                    :src="userInfo.avatarUrl || undefined"
+                                                    :style="{ backgroundColor: userInfo.avatarUrl ? undefined : '#1890ff' }"
+                                                    class="cursor-pointer hover:opacity-80 transition-opacity"
+                                                    @click="navigateTo('/login')">
+                                                        {{ userInfo.nickname?.[0] || userInfo.username?.[0] || '?' }}
+                                                </a-avatar>
+                                                <!--                                                <span class="text-sm font-medium">{{userInfo.nickname || userInfo.username}}</span>-->
+                                        </div>
+                                        <!-- 未登录：显示登陆按钮 -->
                                         <NuxtLink
+                                            v-else
                                             class="hidden md:flex p-2 text-md px-6 text-white rounded-full bg-gradient-to-b
                                            from-gray-600 to-gray-900 shadow-[inset_0_1px_1px_0px_rgba(255,255,255,0.25),0_3px_3px_0px_rgba(0,0,0,0.15)]"
                                             to="/login">
                                                 登陆
                                         </NuxtLink>
+
+
                                         <div class="mx-4 flex md:hidden">
                                                 <button class="flex items-center" @click="toggleMenu">
                                                         <MenuOutlined :style="{ fontSize: '18px' }"/>
@@ -46,17 +62,31 @@
             leave-to-class="opacity-0">
                 <div v-if="isMenuOpen" class="md:hidden fixed w-full h-full bg-white z-30">
                         <div class="mt-28 flex flex-col">
-                                <a v-for="(item, index) in menu"
-                                   :key="index" class="mb-4 mx-6 text-xl font-black "
-                                   type="text">
+                                <NuxtLink v-for="(item, index) in menu"
+                                          :key="index" class="mb-4 mx-6 text-xl font-black "
+                                          type="text"
+                                          @click="navigateTo(item.link)">
                                         {{ item.name }}
-                                </a>
+                                </NuxtLink>
+
+                                <div v-if="userInfo">
+                                        <NuxtLink class="mb-4 mx-6 text-xl font-black " to="/login">
+                                                用户中心 - {{ userInfo.nickname || userInfo.username }}
+                                        </NuxtLink>
+                                </div>
+                                <NuxtLink v-else class="mb-4 mx-6 text-xl font-black " to="/login">
+                                        登陆
+                                </NuxtLink>
+
+
                         </div>
                 </div>
         </transition>
 </template>
 
 <script lang="ts" setup>
+
+import {authApi} from '~/api/user/authApi'
 
 const menu = ref([
         {
@@ -65,7 +95,7 @@ const menu = ref([
         },
         {
                 name: "友情链接",
-                link: "/"
+                link: "/123"
         },
         {
                 name: "MyBlog",
@@ -76,6 +106,25 @@ const menu = ref([
 const isMenuOpen = ref(false)
 const isVisible = ref(true)
 const lastScrollY = ref(0)
+const userInfo = ref<{
+        id: number
+        username: string
+        nickname: string
+        email: string
+        avatarUrl: string | null
+} | null>(null)
+
+const fetchUserProfile = async () => {
+        try {
+                const result = await authApi.profile()
+                if (result.data) {
+                        userInfo.value = result.data
+                }
+        } catch (error) {
+                console.log('获取用户信息失败，用户未登录')
+                userInfo.value = null
+        }
+}
 
 const toggleMenu = () => {
         isMenuOpen.value = !isMenuOpen.value
@@ -104,6 +153,7 @@ const handleScroll = () => {
 
 onMounted(() => {
         window.addEventListener('scroll', handleScroll)
+        fetchUserProfile()
 })
 
 onUnmounted(() => {

@@ -33,7 +33,6 @@
                 </div>
         </div>
 
-
         <div class=" flex flex-col sm:flex-row bg-white mb-8 gap-6 ">
                 <div class="flex-shrink-0 flex items-center h-40">
                         <img
@@ -66,7 +65,6 @@
                         </div>
                 </div>
         </div>
-
         <div class=" flex flex-col sm:flex-row bg-white mb-8 gap-6 ">
                 <div class="flex-shrink-0 flex items-center h-40">
                         <img
@@ -99,7 +97,6 @@
                         </div>
                 </div>
         </div>
-
         <div class=" flex flex-col sm:flex-row bg-white mb-8 gap-6 ">
                 <div class="flex-shrink-0 flex items-center h-40">
                         <img

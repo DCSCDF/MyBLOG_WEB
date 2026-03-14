@@ -18,9 +18,10 @@ export const authApi = {
 	/**
 	 * 根据code换取token
 	 * @param {string} code - 授权码
+	 * @param {boolean} remember - 是否记住登录，true存localStorage，false存sessionStorage
 	 */
-	getToken: async (code) => {
-		return request.post(`${AUTH_BASE_PATH}/oauth/token`, { code })
+	getToken: async (code, remember = false) => {
+		return request.post(`${AUTH_BASE_PATH}/oauth/token`, { code, remember })
 	},
 
 };

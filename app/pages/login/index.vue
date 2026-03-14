@@ -22,10 +22,13 @@ onMounted(async () => {
         const code = route.query.code as string
         const redirectUrl = route.query.redirect_url as string
         const logout = route.query.logout as string
+        // 获取remember参数，默认为false（会话存储）
+        const remember = route.query.remember === 'true'
 
         // 处理 logout 参数
         if (logout === 'true') {
                 localStorage.removeItem('token')
+                sessionStorage.removeItem('token')
                 window.location.href = '/'
                 return
         }
@@ -38,14 +41,20 @@ onMounted(async () => {
 
         if (code && redirectUrl) {
                 try {
-                        const result = await authApi.getToken(code)
+                        const result = await authApi.getToken(code, remember)
                         console.log('获取token成功:', result.data.token)
                         if (result && result.data.token) {
-                                localStorage.setItem('token', result.data.token)
+                                // 根据remember参数决定存储位置
+                                if (remember) {
+                                        localStorage.setItem('token', result.data.token)
+                                } else {
+                                        sessionStorage.setItem('token', result.data.token)
+                                }
                         }
                 } catch (error) {
                         console.error('获取token失败:', error)
                         localStorage.removeItem('token')
+                        sessionStorage.removeItem('token')
                 }
 
                 // 存储token后再执行跳转
