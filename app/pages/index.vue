@@ -4,7 +4,7 @@ import ContentList from "~/components/blog/ContentList.vue";
 </script>
 
 <template>
-        <div class="md:my-10"></div>
+        <div class="md:my-20"></div>
         <div class="mx-auto  max-w-7xl w-auto">
                 <div class="flex md:mx-32 mx-4 lg:mx-14 w-auto flex-col lg:flex-row lg:gap-10">
                         <div class="basis-1/3">

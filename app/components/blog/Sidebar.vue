@@ -2,9 +2,11 @@
         <div class="mb-6">
                 <h1 class="font-semibold text-2xl mb-2 text-gray-800">我的博客</h1>
                 <p class="text-md text-gray-600">
-                        一个简单的博客网站，主要分享前端开发和生活日常等内容，该项目使用的技术栈主要有Vite、Nuxt、Java、Mysql等，三端分离。项目开源地址：<a
-                    class="text-blue-400"
-                    href="https://github.com/DCSCDF" target="_blank">https://github.com/DCSCDF</a>
+                        一个简单的博客网站，主要分享前端开发和生活日常等内容。项目开源地址：
+                        <a
+                            class="text-blue-400 break-all"
+                            href="https://github.com/DCSCDF" target="_blank">https://github.com/DCSCDF</a>
+                        。
                 </p>
         </div>
 
@@ -12,9 +14,12 @@
         <div class="mb-6">
                 <h2 class="mb-2 text-gray-700 text-lg font-semibold">全局搜索</h2>
                 <a-input-search
+                    v-model:value="searchValue"
                     class="max-w-lg"
                     placeholder="检索内容"
+                    @search="handleSearch"
                 />
+                <p class="text-sm mt-2 text-gray-600">支持检索标题、简介、分类。</p>
         </div>
 
 
@@ -49,7 +54,19 @@
 </template>
 
 <script lang="ts" setup>
+import {ref} from 'vue';
+import {useArticleStore} from '~/stores/articleStore'; // Pinia store
 
+// Pinia store
+const articleStore = useArticleStore();
+
+// 搜索关键词
+const searchValue = ref('');
+
+// 搜索处理
+const handleSearch = () => {
+        articleStore.search(searchValue.value);
+};
 </script>
 
 <style scoped>
