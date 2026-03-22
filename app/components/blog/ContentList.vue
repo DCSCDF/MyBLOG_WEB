@@ -120,7 +120,7 @@ const articleList = ref<any[]>([]);
 
 // 分页相关
 const currentPage = ref(1);
-const pageSize = ref(5);
+const pageSize = ref(7);
 const total = ref(0);
 
 // 加载状态

@@ -11,8 +11,8 @@
                         <div class="my-4 md:my-0"></div>
                         <div class="flex flex-row md:mx-10">
                                 <div class="my-auto flex gap-4 mx-8 md:mx-10">
-                                        <GithubOutlined/>
-                                        <QqOutlined/>
+                                        <!--                                        <GithubOutlined/>-->
+                                        <!--                                        <QqOutlined/>-->
                                 </div>
                         </div>
                 </div>
