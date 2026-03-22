@@ -10,6 +10,8 @@ export const useArticleStore = defineStore('article', {
         searchKeyword: '',
         // 搜索触发标志（用于通知ContentList重新搜索）
         shouldSearch: false,
+        // 选中的分类ID
+        categoryId: null as number | null,
     }),
 
     actions: {
@@ -42,6 +44,15 @@ export const useArticleStore = defineStore('article', {
          */
         search(keyword: string) {
             this.searchKeyword = keyword;
+            this.triggerSearch();
+        },
+
+        /**
+         * 设置分类ID并触发搜索
+         * @param {number | null} categoryId - 分类ID
+         */
+        setCategoryId(categoryId: number | null) {
+            this.categoryId = categoryId;
             this.triggerSearch();
         },
 

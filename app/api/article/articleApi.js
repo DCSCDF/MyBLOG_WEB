@@ -14,18 +14,20 @@ import request from '../../utils/request.js';
 export const articleApi = {
 
 	/**
-	 * 获取公共文章列表（支持分页和关键词搜索）
+	 * 获取公共文章列表（支持分页、关键词搜索和分类筛选）
 	 * @param {Object} params - 查询参数
 	 * @param {number} params.currentPage - 当前页码（从1开始）
 	 * @param {number} params.pageSize - 每页数量
 	 * @param {string} [params.keyword] - 搜索关键词（可选）
+	 * @param {number} [params.categoryId] - 分类ID（可选）
 	 * @returns {Promise} 返回文章分页列表
 	 */
-	getPublicArticleList: async ({ currentPage, pageSize, keyword = '' }) => {
+	getPublicArticleList: async ({ currentPage, pageSize, keyword = '', categoryId }) => {
 		return request.post(`${PUBLIC_ARTICLE_BASE_PATH}/list`, {
 			currentPage,
 			pageSize,
-			keyword
+			keyword,
+			...(categoryId && { categoryId })
 		})
 	},
 
