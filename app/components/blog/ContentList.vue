@@ -52,16 +52,24 @@
                                                         <div class="flex flex-col justify-center">
                                                                 <div class="flex items-center gap-3 mb-2">
 
-                                                                            <span
-                                                                                class="text-[0.65rem] uppercase tracking-widest font-bold text-primary">
+                                                                         <span
+                                                                             class="text-[0.65rem] uppercase tracking-widest font-bold text-primary">
                                                                                      {{
-                                                                                            article.categoryName || '未分类'
-                                                                                    }}
-                                                                            </span>
+                                                                                         article.categoryName || '未分类'
+                                                                                 }}
+                                                                        </span>
+
                                                                         <span
                                                                             class="text-[0.65rem] text-secondary font-medium">
                                                                                 {{ formatDate(article.createTime) }}
                                                                         </span>
+
+
+                                                                        <span v-if="article.isTop"
+                                                                              class="text-[0.65rem] uppercase tracking-widest font-bold text-red-400">
+                                                                                    置顶
+                                                                        </span>
+
                                                                 </div>
                                                                 <h2
                                                                     class="text-xl font-bold text-on-background mb-2 group-hover:text-primary transition-colors">
@@ -95,11 +103,18 @@
 </template>
 
 <script lang="ts" setup>
-import {onMounted, ref, watch} from 'vue';
+import {ref, watch} from 'vue';
 import {useRoute} from 'vue-router';
 import {articleApi} from '~/api/article/articleApi.js';
 import {message} from 'ant-design-vue';
 import {useArticleStore} from '~/stores/articleStore';
+
+const props = defineProps<{
+        initialData?: {
+                records?: any[];
+                total?: number;
+        };
+}>();
 
 const route = useRoute();
 
@@ -115,16 +130,19 @@ const handleImageError = (event: Event) => {
         img.src = cover404;
 };
 
-// 文章列表数据
+// 文章列表数据 - 使用 ref，初始化为 props 数据
 const articleList = ref<any[]>([]);
-
-// 分页相关
 const currentPage = ref(1);
 const pageSize = ref(7);
 const total = ref(0);
+const loading = ref(true);
 
-// 加载状态
-const loading = ref(false);
+// 在 SSR 时使用 props 初始化
+if (props.initialData?.records) {
+        articleList.value = props.initialData.records;
+        total.value = props.initialData.total || 0;
+        loading.value = false;
+}
 
 // Pinia store
 const articleStore = useArticleStore();
@@ -184,16 +202,6 @@ const handlePageChange = (page: number) => {
         window.scrollTo({top: 0, behavior: 'smooth'});
 };
 
-// 组件挂载时获取数据
-onMounted(() => {
-        fetchArticleList();
-});
-
-// 监听搜索关键词变化
-watch(() => articleStore.searchKeyword, () => {
-        handleSearch();
-});
-
 // 监听搜索触发
 watch(() => articleStore.shouldSearch, (shouldSearch) => {
         if (shouldSearch) {
@@ -202,11 +210,13 @@ watch(() => articleStore.shouldSearch, (shouldSearch) => {
         }
 });
 
-// 监听URL中categoryId参数变化
-watch(() => route.query.categoryId, () => {
-        currentPage.value = 1;
-        fetchArticleList();
-});
+// 监听分类变化（仅在客户端执行）
+if (import.meta.client) {
+        watch(() => route.query.categoryId, () => {
+                currentPage.value = 1;
+                fetchArticleList();
+        });
+}
 </script>
 
 <style scoped>

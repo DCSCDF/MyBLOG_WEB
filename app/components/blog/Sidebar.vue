@@ -90,6 +90,10 @@ import {useArticleStore} from '~/stores/articleStore';
 import CategoryList from "~/components/blog/sidebar/CategoryList.vue";
 import {CloseCircleFilled} from '@ant-design/icons-vue';
 
+defineProps<{
+        initialCategories?: any[];
+}>();
+
 // Pinia store
 const articleStore = useArticleStore();
 

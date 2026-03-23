@@ -10,14 +10,12 @@
                         <!--                        <h1 class="mx-2">MYBLOG</h1>-->
                 </div>
                 <div class="hidden md:flex items-center gap-8">
-                        <a v-for="(item, index) in menu"
-                           :key="index"
-                           class="text-slate-500 hover:text-blue-500 transition-colors font-['Plus_Jakarta_Sans'] text-sm font-medium tracking-tight"
-                           @click="navigateTo(item.link)">
-                                {{
-                                        item.name
-                                }}
-                        </a>
+                        <NuxtLink v-for="(item, index) in menu"
+                                  :key="index"
+                                  class="text-slate-500 hover:text-blue-500 transition-colors font-['Plus_Jakarta_Sans'] text-sm font-medium tracking-tight"
+                                  @click="navigateTo(item.link)">
+                                {{ item.name }}
+                        </NuxtLink>
                 </div>
                 <!-- 已登录：显示头像和用户名 -->
                 <div v-if="userInfo" class="hidden md:flex items-center gap-2">
@@ -147,10 +145,10 @@ const menu = ref([
                 name: "友情链接",
                 link: "/123"
         },
-        {
-                name: "MyBlog",
-                link: "/"
-        }
+        // {
+        //         name: "MyBlog",
+        //         link: "/"
+        // }
 ])
 
 const isMenuOpen = ref(false)

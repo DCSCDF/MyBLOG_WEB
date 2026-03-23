@@ -31,10 +31,12 @@
 </template>
 
 <script lang="ts" setup>
-import {computed, onMounted, ref} from 'vue';
+import {computed, ref} from 'vue';
 import {useRoute} from 'vue-router';
-import {categoryApi} from '~/api/category/categoryApi.js';
-import {message} from 'ant-design-vue';
+
+const props = defineProps<{
+        initialCategories?: any[];
+}>();
 
 const route = useRoute();
 
@@ -48,14 +50,20 @@ const isActiveCategory = (categoryId: number) => {
         return currentCategoryId.value === categoryId;
 };
 
-// 分类列表数据
-const categoryList = ref<any[]>([]);
+// 分类列表数据 - 优先使用传入的初始数据
+const categoryList = ref<any[]>(props.initialCategories || []);
 
-// 加载状态
-const loading = ref(false);
+// 加载状态 - 如果有初始数据则不需要加载
+const loading = ref(!props.initialCategories?.length);
 
-// 获取分类列表
+// 延迟加载分类列表（仅在无初始数据时调用）
+import {onMounted} from 'vue';
+import {categoryApi} from '~/api/category/categoryApi.js';
+import {message} from 'ant-design-vue';
+
 const fetchCategoryList = async () => {
+        if (props.initialCategories?.length) return; // 已有数据，跳过
+
         loading.value = true;
         try {
                 const result = await categoryApi.getCategoryList();
@@ -73,7 +81,7 @@ const fetchCategoryList = async () => {
         }
 };
 
-// 组件挂载时获取数据
+// 组件挂载时获取数据（仅在无初始数据时）
 onMounted(() => {
         fetchCategoryList();
 });

@@ -3,7 +3,6 @@ import {handleApi} from '../config/apiInterceptor.js';
 
 axios.defaults.baseURL = "http://localhost:8088"
 
-
 /**
  * 创建一个axios实例
  * 包含预设的配置参数和拦截器
@@ -25,14 +24,17 @@ const service = axios.create({
 service.interceptors.request.use(
     (config) => {
 
-	    // 优先从sessionStorage获取token，否则从localStorage获取
-	    let token = sessionStorage.getItem('token')
-	    if (!token) {
-		    token = localStorage.getItem('token')
-	    }
+	    // 在客户端环境中获取token，避免SSR报错
+	    if (typeof window !== 'undefined') {
+		    // 优先从sessionStorage获取token，否则从localStorage获取
+		    let token = sessionStorage.getItem('token')
+		    if (!token) {
+			    token = localStorage.getItem('token')
+		    }
 
-	    if (token) {
-		    config.headers.token = `${token}`;
+		    if (token) {
+			    config.headers.token = `${token}`;
+		    }
 	    }
 	    return config;
     },
