@@ -31,4 +31,13 @@ export const articleApi = {
 		})
 	},
 
+	/**
+	 * 获取公共文章详情
+	 * @param {number} id - 文章ID
+	 * @returns {Promise} 返回文章详情信息
+	 */
+	getPublicArticleDetail: async (id) => {
+		return request.get(`${PUBLIC_ARTICLE_BASE_PATH}/${id}`)
+	},
+
 };

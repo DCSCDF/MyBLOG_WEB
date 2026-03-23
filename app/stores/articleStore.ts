@@ -51,10 +51,10 @@ export const useArticleStore = defineStore('article', {
          * 设置分类ID并触发搜索
          * @param {number | null} categoryId - 分类ID
          */
-        setCategoryId(categoryId: number | null) {
-            this.categoryId = categoryId;
-            this.triggerSearch();
-        },
+        // setCategoryId(categoryId: number | null) {
+        //     this.categoryId = categoryId;
+        //     this.triggerSearch();
+        // },
 
         /**
          * 清空搜索
