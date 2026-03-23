@@ -44,10 +44,10 @@
                                                         <div
                                                             class="w-full md:w-48 h-32 flex-shrink-0 overflow-hidden rounded-lg">
                                                                 <img :alt="article.title"
-                                                                     :src="article.coverImage || defaultCover"
+                                                                     :src="getArticleImage(article)"
                                                                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                                                      data-alt="Minimalist workspace with warm atmospheric lighting"
-                                                                     @error="handleImageError"/>
+                                                                     @error="handleImageError($event, article.id)"/>
                                                         </div>
                                                         <div class="flex flex-col justify-center">
                                                                 <div class="flex items-center gap-3 mb-2">
@@ -103,20 +103,11 @@
 </template>
 
 <script lang="ts" setup>
-import {ref, watch} from 'vue';
+import {ref, watch, onMounted} from 'vue';
 import {useRoute} from 'vue-router';
 import {articleApi} from '~/api/article/articleApi.js';
 import {message} from 'ant-design-vue';
 import {useArticleStore} from '~/stores/articleStore';
-
-const props = defineProps<{
-        initialData?: {
-                records?: any[];
-                total?: number;
-        };
-}>();
-
-const route = useRoute();
 
 // 默认封面图
 const defaultCover = '/images/main.png';
@@ -124,28 +115,95 @@ const defaultCover = '/images/main.png';
 // 404封面图
 const cover404 = '/images/404.png';
 
-// 处理图片加载失败
-const handleImageError = (event: Event) => {
-        const img = event.target as HTMLImageElement;
-        img.src = cover404;
+// 记录加载失败的图片ID
+const failedImages = ref<number[]>([]);
+
+// 检测图片是否可以加载
+const checkImage = (url: string): Promise<boolean> => {
+        return new Promise((resolve) => {
+                const img = new Image();
+                img.onload = () => resolve(true);
+                img.onerror = () => resolve(false);
+                img.src = url;
+        });
 };
 
-// 文章列表数据 - 使用 ref，初始化为 props 数据
+// 获取文章图片
+const getArticleImage = (article: any) => {
+        // 如果之前加载失败，返回404图片
+        if (failedImages.value.includes(article.id)) {
+                return cover404;
+        }
+        // 如果没有coverImage或coverImage为空，返回默认封面
+        if (!article.coverImage) {
+                return defaultCover;
+        }
+        return article.coverImage;
+};
+
+// 处理图片加载失败
+const handleImageError = (event: Event, articleId: number) => {
+        const img = event.target as HTMLImageElement;
+        img.src = cover404;
+        if (!failedImages.value.includes(articleId)) {
+                failedImages.value.push(articleId);
+        }
+};
+
+// 检测文章封面图是否有效
+const validateArticleImages = async () => {
+        for (const article of articleList.value) {
+                if (article.coverImage && !failedImages.value.includes(article.id)) {
+                        const isValid = await checkImage(article.coverImage);
+                        if (!isValid) {
+                                failedImages.value.push(article.id);
+                        }
+                }
+        }
+};
+
+// 文章列表数据
 const articleList = ref<any[]>([]);
+
+// 分页相关
 const currentPage = ref(1);
 const pageSize = ref(7);
 const total = ref(0);
 const loading = ref(true);
 
-// 在 SSR 时使用 props 初始化
-if (props.initialData?.records) {
-        articleList.value = props.initialData.records;
-        total.value = props.initialData.total || 0;
-        loading.value = false;
-}
+// Route
+const route = useRoute();
 
 // Pinia store
 const articleStore = useArticleStore();
+
+// 使用 useAsyncData 启用 SSR
+const { data: serverData, refresh } = await useAsyncData(
+        'article-list',
+        async () => {
+                const result = await articleApi.getPublicArticleList({
+                        currentPage: currentPage.value,
+                        pageSize: pageSize.value,
+                        keyword: '',
+                        categoryId: undefined
+                });
+                return result?.data || { records: [], total: 0 };
+        }
+);
+
+// 如果服务端数据存在，使用它
+if (serverData.value) {
+        articleList.value = serverData.value.records || [];
+        total.value = serverData.value.total || 0;
+        loading.value = false;
+}
+
+// 监听文章列表变化，验证图片
+watch(articleList, () => {
+        if (import.meta.client) {
+                validateArticleImages();
+        }
+}, { immediate: false });
 
 // 格式化日期
 const formatDate = (dateStr: string) => {
@@ -157,7 +215,7 @@ const formatDate = (dateStr: string) => {
         return `${year}/${month}/${day}`;
 };
 
-// 获取文章列表
+// 获取文章列表（客户端）
 const fetchArticleList = async () => {
         loading.value = true;
         try {
@@ -217,6 +275,11 @@ if (import.meta.client) {
                 fetchArticleList();
         });
 }
+
+// 客户端挂载后验证图片
+onMounted(() => {
+        validateArticleImages();
+});
 </script>
 
 <style scoped>
