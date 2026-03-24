@@ -12,8 +12,8 @@
                 <div class="hidden md:flex items-center gap-8">
                         <NuxtLink v-for="(item, index) in menu"
                                   :key="index"
-                                  class="text-slate-500 hover:text-blue-500 transition-colors font-['Plus_Jakarta_Sans'] text-sm font-medium tracking-tight"
-                                  @click="navigateTo(item.link)">
+                                  :to="item.link"
+                                  class="text-slate-500 hover:text-blue-500 transition-colors font-['Plus_Jakarta_Sans'] text-sm font-medium tracking-tight cursor-pointer">
                                 {{ item.name }}
                         </NuxtLink>
                 </div>
@@ -111,18 +111,17 @@
                 <div v-if="isMenuOpen" class="md:hidden fixed w-full h-full bg-white z-30">
                         <div class="mt-28 flex flex-col">
                                 <NuxtLink v-for="(item, index) in menu"
-                                          :key="index" class="mb-4 mx-6 text-xl font-black "
-                                          type="text"
-                                          @click="navigateTo(item.link)">
+                                          :key="index" class="mb-4 mx-6 text-xl font-black cursor-pointer"
+                                          :to="item.link">
                                         {{ item.name }}
                                 </NuxtLink>
 
                                 <div v-if="userInfo">
-                                        <NuxtLink class="mb-4 mx-6 text-xl font-black " to="/login">
+                                        <NuxtLink class="mb-4 mx-6 text-xl font-black cursor-pointer" to="/login">
                                                 用户中心 - {{ userInfo.nickname || userInfo.username }}
                                         </NuxtLink>
                                 </div>
-                                <NuxtLink v-else class="mb-4 mx-6 text-xl font-black " to="/login">
+                                <NuxtLink v-else class="mb-4 mx-6 text-xl font-black cursor-pointer" to="/login">
                                         登陆
                                 </NuxtLink>
 
@@ -137,143 +136,143 @@
 import {authApi} from '~/api/user/authApi'
 
 const menu = ref([
-	{
-		name: "主页",
-		link: "/"
-	},
-	{
-		name: "友情链接",
-		link: "/123"
-	},
-	// {
-	//         name: "MyBlog",
-	//         link: "/"
-	// }
+        {
+                name: "主页",
+                link: "/"
+        },
+        {
+                name: "友情链接",
+                link: "/friendsLink"
+        },
+        // {
+        //         name: "MyBlog",
+        //         link: "/"
+        // }
 ])
 
 const isMenuOpen = ref(false)
 const isVisible = ref(true)
 const lastScrollY = ref(0)
 const userInfo = ref<{
-	id: number
-	username: string
-	nickname: string
-	email: string
-	avatarUrl: string | null
+        id: number
+        username: string
+        nickname: string
+        email: string
+        avatarUrl: string | null
 } | null>(null)
 
 const fetchUserProfile = async () => {
-	try {
-		const result = await authApi.profile()
-		if (result.data) {
-			userInfo.value = result.data
-		}
-	} catch (error) {
-		console.log('获取用户信息失败，用户未登录')
-		userInfo.value = null
-	}
+        try {
+                const result = await authApi.profile()
+                if (result.data) {
+                        userInfo.value = result.data
+                }
+        } catch (error) {
+                console.log('获取用户信息失败，用户未登录')
+                userInfo.value = null
+        }
 }
 
 // 检查是否有可用的 token
 const hasToken = (): boolean => {
-	if (typeof window === 'undefined') return false
+        if (typeof window === 'undefined') return false
 
-	// 根据 remember 值决定从哪里读取 token
-	const isRemember = localStorage.getItem('remember') === 'true'
+        // 根据 remember 值决定从哪里读取 token
+        const isRemember = localStorage.getItem('remember') === 'true'
 
-	if (isRemember) {
-		return !!localStorage.getItem('token')
-	} else {
-		return !!(sessionStorage.getItem('token') || localStorage.getItem('token'))
-	}
+        if (isRemember) {
+                return !!localStorage.getItem('token')
+        } else {
+                return !!(sessionStorage.getItem('token') || localStorage.getItem('token'))
+        }
 }
 
 // 同步 localStorage token 到 sessionStorage（跨标签页共享）
 const syncTokenFromLocalStorage = () => {
-	// 只在 remember=false 且 sessionStorage 没有 token 时同步
-	const isRemember = localStorage.getItem('remember') === 'true'
-	if (isRemember) return
+        // 只在 remember=false 且 sessionStorage 没有 token 时同步
+        const isRemember = localStorage.getItem('remember') === 'true'
+        if (isRemember) return
 
-	const localToken = localStorage.getItem('token')
-	const sessionToken = sessionStorage.getItem('token')
+        const localToken = localStorage.getItem('token')
+        const sessionToken = sessionStorage.getItem('token')
 
-	if (localToken && !sessionToken) {
-		sessionStorage.setItem('token', localToken)
-	}
+        if (localToken && !sessionToken) {
+                sessionStorage.setItem('token', localToken)
+        }
 }
 
 // 处理其他标签页的登录状态变化
 const handleStorageChange = (event: StorageEvent) => {
-	const triggerKeys = ['token', 'login_status', 'session_login_trigger', 'logout_trigger']
+        const triggerKeys = ['token', 'login_status', 'session_login_trigger', 'logout_trigger']
 
-	if (event.key && triggerKeys.includes(event.key)) {
-		if (event.key === 'logout_trigger') {
-			// 登出事件，清除用户状态
-			userInfo.value = null
-			sessionStorage.removeItem('token')
-		} else if (event.newValue === null && event.key === 'token') {
-			// token 被清除，用户登出
-			userInfo.value = null
-		} else if (event.key === 'login_status' || event.key === 'session_login_trigger') {
-			// 登录触发器事件，先同步 token，再重新获取用户信息
-			syncTokenFromLocalStorage()
-			if (hasToken()) {
-				fetchUserProfile()
-			}
-		}
-	}
+        if (event.key && triggerKeys.includes(event.key)) {
+                if (event.key === 'logout_trigger') {
+                        // 登出事件，清除用户状态
+                        userInfo.value = null
+                        sessionStorage.removeItem('token')
+                } else if (event.newValue === null && event.key === 'token') {
+                        // token 被清除，用户登出
+                        userInfo.value = null
+                } else if (event.key === 'login_status' || event.key === 'session_login_trigger') {
+                        // 登录触发器事件，先同步 token，再重新获取用户信息
+                        syncTokenFromLocalStorage()
+                        if (hasToken()) {
+                                fetchUserProfile()
+                        }
+                }
+        }
 }
 
 // 处理页面可见性变化
 const handleVisibilityChange = () => {
-	if (document.visibilityState === 'visible') {
-		// 页面重新可见时，检查 token 是否存在
-		if (hasToken()) {
-			fetchUserProfile()
-		} else {
-			userInfo.value = null
-		}
-	}
+        if (document.visibilityState === 'visible') {
+                // 页面重新可见时，检查 token 是否存在
+                if (hasToken()) {
+                        fetchUserProfile()
+                } else {
+                        userInfo.value = null
+                }
+        }
 }
 
 const toggleMenu = () => {
-	isMenuOpen.value = !isMenuOpen.value
+        isMenuOpen.value = !isMenuOpen.value
 }
 
 const handleScroll = () => {
-	const currentScrollY = window.scrollY
+        const currentScrollY = window.scrollY
 
-	// 只有下滑超过 ~px 才启动隐藏逻辑
-	if (currentScrollY > 10000000) {
-		// 下滑时隐藏
-		if (currentScrollY > lastScrollY.value) {
-			isVisible.value = false
-		}
-		// 上滑时显示
-		else if (currentScrollY < lastScrollY.value) {
-			isVisible.value = true
-		}
-	} else {
-		// 滚动距离小于 ~px 时始终显示
-		isVisible.value = true
-	}
+        // 只有下滑超过 ~px 才启动隐藏逻辑
+        if (currentScrollY > 10000000) {
+                // 下滑时隐藏
+                if (currentScrollY > lastScrollY.value) {
+                        isVisible.value = false
+                }
+                // 上滑时显示
+                else if (currentScrollY < lastScrollY.value) {
+                        isVisible.value = true
+                }
+        } else {
+                // 滚动距离小于 ~px 时始终显示
+                isVisible.value = true
+        }
 
-	lastScrollY.value = currentScrollY
+        lastScrollY.value = currentScrollY
 }
 
 onMounted(() => {
-	window.addEventListener('scroll', handleScroll)
-	window.addEventListener('storage', handleStorageChange)
-	document.addEventListener('visibilitychange', handleVisibilityChange)
-	// 初始化时同步 localStorage token 到 sessionStorage
-	syncTokenFromLocalStorage()
-	fetchUserProfile()
+        window.addEventListener('scroll', handleScroll)
+        window.addEventListener('storage', handleStorageChange)
+        document.addEventListener('visibilitychange', handleVisibilityChange)
+        // 初始化时同步 localStorage token 到 sessionStorage
+        syncTokenFromLocalStorage()
+        fetchUserProfile()
 })
 
 onUnmounted(() => {
-	window.removeEventListener('scroll', handleScroll)
-	window.removeEventListener('storage', handleStorageChange)
-	document.removeEventListener('visibilitychange', handleVisibilityChange)
+        window.removeEventListener('scroll', handleScroll)
+        window.removeEventListener('storage', handleStorageChange)
+        document.removeEventListener('visibilitychange', handleVisibilityChange)
 })
 
 </script>
