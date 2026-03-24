@@ -39,7 +39,7 @@
 
                         <!-- 文章列表 -->
                         <template v-else-if="articleList.length > 0" key="articles">
-                                <TransitionGroup class="flex flex-col gap-4" name="list" tag="div">
+                                <TransitionGroup class="flex flex-col gap-8" name="list" tag="div">
                                         <router-link
                                             v-for="article in articleList"
                                             :key="article.id"

@@ -182,6 +182,10 @@
                                                                 </div>
                                                                 <div class="flex justify-end">
                                                                         <button
+                                                                            class="bg-gray-200 mx-3  px-8 py-2.5 rounded-md text-sm font-semibold hover:opacity-90 transition-opacity">
+                                                                                关闭
+                                                                        </button>
+                                                                        <button
                                                                             class="bg-primary text-white px-8 py-2.5 rounded-md text-sm font-semibold hover:opacity-90 transition-opacity">
                                                                                 提交评论
                                                                         </button>
@@ -265,6 +269,10 @@
                                                                             placeholder="Write a comment..."></textarea>
                                                                 </div>
                                                                 <div class="flex justify-end">
+                                                                        <button
+                                                                            class="bg-gray-200 mx-3  px-8 py-2.5 rounded-md text-sm font-semibold hover:opacity-90 transition-opacity">
+                                                                                关闭
+                                                                        </button>
                                                                         <button
                                                                             class="bg-primary text-white px-8 py-2.5 rounded-md text-sm font-semibold hover:opacity-90 transition-opacity">
                                                                                 提交评论
