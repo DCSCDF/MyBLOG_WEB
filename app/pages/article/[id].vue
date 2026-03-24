@@ -1,6 +1,7 @@
 <template>
-        <div class="my-20"></div>
-        <div class="mx-auto max-w-4xl w-auto px-4 md:px-8">
+        <div>
+                <div class="my-20"></div>
+                <div class="mx-auto max-w-4xl w-auto px-4 md:px-8">
 
                 <!-- 加载状态 -->
                 <div v-if="loading" class="animate-pulse">
@@ -170,6 +171,7 @@
                 <!-- 评论区占位 -->
                 <div v-if="!loading && !error" class="mt-8 bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-sm">
                         <article-comment-list :blog-id="article.id"/>
+                </div>
                 </div>
         </div>
 </template>
