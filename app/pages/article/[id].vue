@@ -169,7 +169,7 @@
 
                 <!-- 评论区占位 -->
                 <div v-if="!loading && !error" class="mt-8 bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-sm">
-                        <article-comment-list/>
+                        <article-comment-list :blog-id="article.id"/>
                 </div>
         </div>
 </template>

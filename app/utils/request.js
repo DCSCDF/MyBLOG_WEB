@@ -26,10 +26,20 @@ service.interceptors.request.use(
 
 	    // 在客户端环境中获取token，避免SSR报错
 	    if (typeof window !== 'undefined') {
-		    // 优先从sessionStorage获取token，否则从localStorage获取
-		    let token = sessionStorage.getItem('token')
-		    if (!token) {
-			    token = localStorage.getItem('token')
+		    // 根据 remember 值决定从哪里读取 token
+		    const isRemember = localStorage.getItem('remember') === 'true';
+		    let token = null;
+
+		    if (isRemember) {
+			    // 记住登录：从 localStorage 读取
+			    token = localStorage.getItem('token');
+		    } else {
+			    // 会话登录：从 sessionStorage 读取
+			    token = sessionStorage.getItem('token');
+			    // 如果 sessionStorage 没有，尝试 localStorage 作为降级
+			    if (!token) {
+				    token = localStorage.getItem('token');
+			    }
 		    }
 
 		    if (token) {
