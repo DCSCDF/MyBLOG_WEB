@@ -121,11 +121,11 @@
                         prose-li:my-1
                         break-words hyphenate
                         prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-a:underline hover:prose-a:text-blue-800 dark:hover:prose-a:text-blue-300
-                        prose-img:rounded-xl prose-img:shadow-lg prose-img:mx-auto prose-img:my-8
+                        prose-img:rounded-md prose-img:shadow-lg prose-img:mx-auto prose-img:my-8
                         prose-code:px-2 prose-code:py-1 prose-code:rounded prose-code:text-sm prose-code:bg-gray-100 dark:prose-code:bg-gray-800 prose-code:text-gray-700 dark:prose-code:text-gray-300
-                        prose-pre:rounded-xl prose-pre:p-0 prose-pre:bg-gray-100 dark:prose-pre:bg-gray-800 prose-pre:text-gray-700 dark:prose-pre:text-gray-300
+                        prose-pre:rounded-md prose-pre:p-0 prose-pre:bg-gray-100 dark:prose-pre:bg-gray-800 prose-pre:text-gray-700 dark:prose-pre:text-gray-300
                         prose-pre:overflow-x-auto prose-pre:whitespace-pre-wrap prose-pre:word-break-break-word
-                        prose-table:rounded-lg prose-table:shadow-sm prose-table:overflow-hidden
+                        prose-table:rounded-md prose-table:shadow-sm prose-table:overflow-hidden
                         prose-table:border-collapse prose-table:w-full prose-table:my-6
                         prose-table:border prose-table:border-gray-200 dark:prose-table:border-gray-700
                         prose-th:p-3 prose-th:text-left prose-th:border-b prose-th:border-gray-200 dark:prose-th:border-gray-700
@@ -169,10 +169,7 @@
 
                 <!-- 评论区占位 -->
                 <div v-if="!loading && !error" class="mt-8 bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-sm">
-                        <h3 class="text-lg font-bold text-on-background mb-4">评论区</h3>
-                        <div class="text-center py-8 text-on-surface-variant">
-                                <p>评论功能开发中...</p>
-                        </div>
+                        <article-comment-list/>
                 </div>
         </div>
 </template>

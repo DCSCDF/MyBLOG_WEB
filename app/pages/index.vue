@@ -1,18 +1,18 @@
 <template>
         <div class="md:my-36 my-20"></div>
-        <div class="mx-auto  max-w-7xl w-auto">
-                <div class="flex md:mx-32 mx-4 lg:mx-14 w-auto flex-col lg:flex-row lg:gap-10">
-                        <div class="basis-2/3">
-                                <content-list></content-list>
-                        </div>
-                        <div class="basis-1/3">
-                                <div class="lg:sticky lg:top-28">
-                                        <sidebar
-                                            :initial-categories="categoryData"
-                                        ></sidebar>
+        <div class="mx-auto  max-w-7xl ">
+                <div class="w-auto md:mx-32 mx-4 lg:mx-14">
+                        <div class="flex  w-auto flex-col-reverse lg:flex-row lg:gap-10">
+                                <div class="basis-2/3">
+                                        <content-list></content-list>
+                                </div>
+                                <div class="basis-1/3">
+                                        <div class="lg:sticky lg:top-28">
+                                                <sidebar :initial-categories="categoryData">
+                                                </sidebar>
+                                        </div>
                                 </div>
                         </div>
-
                 </div>
         </div>
 </template>

@@ -23,65 +23,127 @@
         <!--        </div>-->
 
 
-        <aside class="w-full lg:w-80 space-y-10 mt-10 lg:mt-0">
+        <aside class="lg:w-80 my-10 lg:my-0">
                 <!-- Search Component -->
-                <div class="space-y-4">
-                        <!--                        <div class="relative">-->
-                        <!--                                <input-->
-                        <!--                                    v-model="searchValue"-->
-                        <!--                                    class="w-full bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-primary/10 focus:border-primary outline-none transition-all placeholder:text-outline-variant"-->
-                        <!--                                    placeholder="分类、关键词、标签......" type="text"-->
-                        <!--                                    @keyup.enter="handleSearch"/>-->
-                        <!--                                <span-->
-                        <!--                                    class="material-symbols-outlined absolute right-3 top-2.5 text-secondary/40 pointer-events-none"-->
-                        <!--                                ><SearchOutlined/></span>-->
-                        <!--                        </div>-->
-                        <!--                        <label class="text-[0.7rem] uppercase tracking-[0.15em] font-bold text-secondary-dim px-1">-->
-                        <!--                                搜索文章内容-->
-                        <!--                        </label>-->
-                        <div class="relative group">
-                                                <span
-                                                    class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline-variant group-focus-within:text-primary transition-colors"
-                                                    data-icon="search"><SearchOutlined/></span>
-                                <input
-                                    v-model="searchValue"
-                                    class="w-full pl-11 pr-10 py-3 border border-outline-variant/15 rounded-md text-sm focus:ring-2 focus:ring-primary/10 focus:bg-white transition-all outline-none placeholder:text-outline"
-                                    placeholder="分类、关键词、标签......"
-                                    type="text" @keyup.enter="handleSearch"/>
-                                <button
-                                    v-if="searchValue"
-                                    class="absolute right-3 top-1/2 -translate-y-1/2 text-outline-variant hover:text-primary transition-colors"
-                                    type="button"
-                                    @click="clearSearch"
-                                >
-                                        <CloseCircleFilled/>
-                                </button>
+                <!--                <div class="space-y-4">-->
+                <!--                        <div class="relative">-->
+                <!--                                <input-->
+                <!--                                    v-model="searchValue"-->
+                <!--                                    class="w-full bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-primary/10 focus:border-primary outline-none transition-all placeholder:text-outline-variant"-->
+                <!--                                    placeholder="分类、关键词、标签......" type="text"-->
+                <!--                                    @keyup.enter="handleSearch"/>-->
+                <!--                                <span-->
+                <!--                                    class="material-symbols-outlined absolute right-3 top-2.5 text-secondary/40 pointer-events-none"-->
+                <!--                                ><SearchOutlined/></span>-->
+                <!--                        </div>-->
+                <!--                        <label class="text-[0.7rem] uppercase tracking-[0.15em] font-bold text-secondary-dim px-1">-->
+                <!--                                搜索文章内容-->
+                <!--                        </label>-->
+                <!--                        <div class="relative group">-->
+                <!--                                                <span-->
+                <!--                                                    class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline-variant group-focus-within:text-primary transition-colors"-->
+                <!--                                                    data-icon="search"><SearchOutlined/></span>-->
+                <!--                                <input-->
+                <!--                                    v-model="searchValue"-->
+                <!--                                    class="w-full pl-11 pr-10 py-3 border border-outline-variant/15 rounded-md text-sm focus:ring-2 focus:ring-primary/10 focus:bg-white transition-all outline-none placeholder:text-outline"-->
+                <!--                                    placeholder="分类、关键词、标签......"-->
+                <!--                                    type="text" @keyup.enter="handleSearch"/>-->
+                <!--                                <button-->
+                <!--                                    v-if="searchValue"-->
+                <!--                                    class="absolute right-3 top-1/2 -translate-y-1/2 text-outline-variant hover:text-primary transition-colors"-->
+                <!--                                    type="button"-->
+                <!--                                    @click="clearSearch"-->
+                <!--                                >-->
+                <!--                                        <CloseCircleFilled/>-->
+                <!--                                </button>-->
+                <!--                        </div>-->
+                <!--                </div>-->
+                <div class="relative group mb-10">
+                        <div class="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+                        <span
+                            class="material-symbols-outlined text-slate-400 group-focus-within:text-primary transition-colors"
+                        ><SearchOutlined/></span>
                         </div>
+                        <input
+                            v-model="searchValue"
+                            class="w-full bg-white border border-slate-100 rounded-lg py-3 pl-10 pr-4 text-sm focus:outline-none focus:ring-2 focus:border-primary transition-all font-body"
+                            placeholder="分类、关键词、标签......"
+                            type="text"
+                            @keyup.enter="handleSearch"/>
+                        <button
+                            v-if="searchValue"
+                            class="absolute right-3 top-1/2 -translate-y-1/2 text-outline-variant hover:text-primary transition-colors"
+                            type="button"
+                            @click="clearSearch"
+                        >
+                                <CloseCircleFilled/>
+                        </button>
                 </div>
-                <!-- About Section -->
-                <div class="p-1">
-                        <h3 class="text-[0.7rem] font-bold tracking-[0.15em] uppercase text-secondary/50 mb-4">
-                                关于作者
-                        </h3>
-                        <div class="space-y-4">
-                                <img
-                                    class="w-16 h-16 rounded-lg object-cover bg-slate-100 transition-all duration-500"
-                                    data-alt="Portrait of a male technical editorial curator"
-                                    src="https://avatars.githubusercontent.com/u/75759503?v=4"/>
 
-                                <p class="text-[13px] text-secondary leading-relaxed">
-                                        从2021年开始接触前端开发，正在迭代自己的博客项目。从事过影视行业、建模CG渲染等，现在主要目标是全栈开发。
-                                </p>
-                                <div class="flex gap-4 pt-2">
-                                        <QqOutlined/>
-                                        <GithubOutlined/>
+
+                <!-- About Section -->
+                <!--                <div class="p-1">-->
+                <!--                        <h3 class="text-[0.7rem] font-bold tracking-[0.15em] uppercase text-secondary/50 mb-4">-->
+                <!--                                关于作者-->
+                <!--                        </h3>-->
+                <!--                        <div class="space-y-4">-->
+                <!--                                <img-->
+                <!--                                    class="w-16 h-16 rounded-lg object-cover bg-slate-100 transition-all duration-500"-->
+                <!--                                    data-alt="Portrait of a male technical editorial curator"-->
+                <!--                                    src="https://avatars.githubusercontent.com/u/75759503?v=4"/>-->
+
+                <!--                                <p class="text-[13px] text-secondary leading-relaxed">-->
+                <!--                                        从2021年开始接触前端开发，正在迭代自己的博客项目。从事过影视行业、建模CG渲染等，现在主要目标是全栈开发。-->
+                <!--                                </p>-->
+                <!--                                <div class="flex gap-4 pt-2">-->
+                <!--                                        <QqOutlined/>-->
+                <!--                                        <GithubOutlined/>-->
+                <!--                                </div>-->
+                <!--                        </div>-->
+                <!--                </div>-->
+                <!--                <section class="p-6 border border-slate-100 rounded-lg bg-transparent space-y-3">-->
+                <!--                        <div class="flex items-center gap-2 mb-1">-->
+                <!--                                <div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>-->
+                <!--                                <span class="text-[0.7rem] uppercase tracking-widest font-bold text-primary font-label">关于作者</span>-->
+                <!--                        </div>-->
+                <!--                        <h1 class="text-xl font-bold tracking-tight text-slate-900 font-headline">JiuLiu</h1>-->
+                <!--                        <p class="text-sm leading-relaxed text-secondary font-body">-->
+                <!--                                目前是一名个人开发者，我从2021年开始接触前端开发，正在迭代自己的博客项目。从事过影视行业、建模CG渲染等，现在主要目标是全栈开发。-->
+                <!--                        </p>-->
+                <!--                </section>-->
+
+                <!-- 3. About the Curator -->
+                <section class="p-6 border border-slate-100 rounded-lg bg-transparent mb-10">
+                        <div class="flex items-center gap-4 mb-4">
+                                <img alt=""
+                                     class="w-16 h-16 rounded-lg object-cover bg-slate-100 transition-all duration-500"
+                                     data-alt="Portrait of a male technical editorial curator"
+                                     src="https://avatars.githubusercontent.com/u/75759503?v=4"/>
+
+                                <div>
+                                        <h3 class="text-sm font-bold text-slate-900 font-headline">JiuLiu</h3>
+                                        <p class="text-[0.7rem] text-slate-400 font-medium uppercase tracking-wider">
+                                                3209174373@qq.com</p>
                                 </div>
                         </div>
-                </div>
-
+                        <p class="text-sm text-secondary leading-relaxed font-body mb-4">
+                                目前是一名个人开发者，我从2021年开始接触前端开发，正在迭代自己的博客项目。从事过影视行业、建模CG渲染等，现在主要目标是全栈开发。
+                        </p>
+                        <div class="flex gap-4">
+                                <!--                                <a class="material-symbols-outlined text-slate-400 hover:text-primary transition-colors text-xl"-->
+                                <!--                                   data-icon="alternate_email" href="#">alternate_email</a>-->
+                                <!--                                <a class="material-symbols-outlined text-slate-400 hover:text-primary transition-colors text-xl"-->
+                                <!--                                   data-icon="public" href="#">public</a>-->
+                                <!--                                <a class="material-symbols-outlined text-slate-400 hover:text-primary transition-colors text-xl"-->
+                                <!--                                   data-icon="rss_feed" href="#">rss_feed</a>-->
+                                <QqOutlined/>
+                                <GithubOutlined/>
+                        </div>
+                </section>
                 <category-list/>
-
         </aside>
+
+
 </template>
 
 <script lang="ts" setup>

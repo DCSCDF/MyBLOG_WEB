@@ -1,6 +1,12 @@
 <template>
         <div class="flex flex-col gap-4">
-
+                <!--                <header class="mb-6">-->
+                <!--                        <h1 class="text-4xl font-extrabold tracking-tight text-on-background mb-2">Editorial-->
+                <!--                                Feed</h1>-->
+                <!--                        <p class="text-secondary text-sm">Deep dives into distributed systems, UI engineering,-->
+                <!--                                and-->
+                <!--                                digital philosophy.</p>-->
+                <!--                </header>-->
                 <!-- 加载状态 -->
                 <Transition mode="out-in" name="fade">
                         <div v-if="loading" key="loading" class="flex justify-center">
@@ -50,7 +56,9 @@
                                                                      @error="handleImageError($event, article.id)"/>
                                                         </div>
                                                         <div class="flex flex-col justify-center">
-                                                                <div class="flex items-center gap-3 mb-2">
+                                                                <div class="flex items-center gap-1 mb-2 my-2">
+
+
 
                                                                          <span
                                                                              class="text-[0.65rem] uppercase tracking-widest font-bold text-primary">
@@ -59,11 +67,21 @@
                                                                                  }}
                                                                         </span>
 
+                                                                        <!--                                                                        <a-tag :bordered="false" color="blue">-->
+                                                                        <!--                                                                                {{ article.categoryName || '未分类' }}-->
+                                                                        <!--                                                                        </a-tag>-->
+
+
                                                                         <span
-                                                                            class="text-[0.65rem] text-secondary font-medium">
-                                                                                {{ formatDate(article.createTime) }}
+                                                                            class="text-[0.65rem] mx-2 text-secondary font-medium">
+                                                                                                                                                        {{
+                                                                                        formatDate(article.createTime)
+                                                                                }}
                                                                         </span>
 
+                                                                        <!--                                                                        <a-tag :bordered="false">-->
+                                                                        <!--                                                                                {{ formatDate(article.createTime) }}-->
+                                                                        <!--                                                                        </a-tag>-->
 
                                                                         <span v-if="article.isTop"
                                                                               class="text-[0.65rem] uppercase tracking-widest font-bold text-red-400">
@@ -75,13 +93,18 @@
                                                                     class="text-xl font-bold text-on-background mb-2 group-hover:text-primary transition-colors">
                                                                         {{ article.title }}
                                                                 </h2>
-                                                                <p class="text-sm text-on-surface-variant line-clamp-2 leading-relaxed">
-                                                                        {{ article.summary || '暂无摘要' }}
-                                                                </p>
+                                                                <div class="h-full">
+                                                                        <p class="text-sm h-12 text-on-surface-variant line-clamp-2 leading-relaxed ">
+                                                                                {{ article.summary || '暂无摘要' }}
+                                                                        </p>
+                                                                </div>
                                                         </div>
                                                 </article>
+
                                         </router-link>
+
                                 </TransitionGroup>
+
                         </template>
 
                         <!-- 空状态 -->
@@ -103,7 +126,7 @@
 </template>
 
 <script lang="ts" setup>
-import {ref, watch, onMounted} from 'vue';
+import {onMounted, ref, watch} from 'vue';
 import {useRoute} from 'vue-router';
 import {articleApi} from '~/api/article/articleApi.js';
 import {message} from 'ant-design-vue';
@@ -130,7 +153,7 @@ const checkImage = (url: string): Promise<boolean> => {
 
 // 获取文章图片
 const getArticleImage = (article: any) => {
-        // 如果之前加载失败，返回404图片
+        // 如果之前加载失败，返回404的图片
         if (failedImages.value.includes(article.id)) {
                 return cover404;
         }
@@ -178,17 +201,17 @@ const route = useRoute();
 const articleStore = useArticleStore();
 
 // 使用 useAsyncData 启用 SSR
-const { data: serverData, refresh } = await useAsyncData(
-        'article-list',
-        async () => {
-                const result = await articleApi.getPublicArticleList({
-                        currentPage: currentPage.value,
-                        pageSize: pageSize.value,
-                        keyword: '',
-                        categoryId: undefined
-                });
-                return result?.data || { records: [], total: 0 };
-        }
+const {data: serverData} = await useAsyncData(
+    'article-list',
+    async () => {
+            const result = await articleApi.getPublicArticleList({
+                    currentPage: currentPage.value,
+                    pageSize: pageSize.value,
+                    keyword: '',
+                    categoryId: undefined
+            });
+            return result?.data || {records: [], total: 0};
+    }
 );
 
 // 如果服务端数据存在，使用它
@@ -203,7 +226,7 @@ watch(articleList, () => {
         if (import.meta.client) {
                 validateArticleImages();
         }
-}, { immediate: false });
+}, {immediate: false});
 
 // 格式化日期
 const formatDate = (dateStr: string) => {
