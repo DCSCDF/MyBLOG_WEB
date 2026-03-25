@@ -10,7 +10,7 @@
                                     leave-to-class="opacity-0 -translate-y-2"
                                     mode="out-in">
 
-                                <div v-if="loading" class="animate-pulse mt-40">
+                                <div v-if="loading" class=" mt-40">
                                         <div class="h-8 w-48 bg-gray-200 rounded mb-4"></div>
                                         <div class="h-12 w-3/4 bg-gray-200 rounded mb-6"></div>
                                         <div class="flex gap-4 mb-8">
@@ -185,10 +185,6 @@ import {articleApi} from '~/api/article/articleApi.js';
 import Vue3MarkdownIt from 'vue3-markdown-it'
 
 import 'highlight.js/styles/monokai.css';
-// 标记为客户端渲染
-definePageMeta({
-        ssr: false
-});
 
 // 文章数据
 const article = ref<any>(null);
