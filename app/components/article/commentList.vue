@@ -14,7 +14,7 @@
                                         <input
                                             v-model="commentForm.username"
                                             class="antd-input w-full px-3 py-2 text-sm rounded-md border-[1.6px] border-gray-200"
-                                            placeholder="e.g. John Doe" type="text"/>
+                                            placeholder="name" type="text"/>
                                 </div>
                                 <div>
                                         <label

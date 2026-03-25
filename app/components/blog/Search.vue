@@ -64,11 +64,11 @@
                                                     @click="goToArticle(article.id)"
                                                 >
                                                         <div class="flex gap-3">
-                                                                <img
-                                                                    :alt="article.title"
-                                                                    :src="getArticleImage(article)"
-                                                                    class="w-16 h-16 rounded-lg object-cover flex-shrink-0"
-                                                                    @error="handleImageError($event, article.id)"/>
+                                                                <!--                                                                <img-->
+                                                                <!--                                                                    :alt="article.title"-->
+                                                                <!--                                                                    :src="getArticleImage(article)"-->
+                                                                <!--                                                                    class="w-16 h-16 rounded-lg object-cover flex-shrink-0"-->
+                                                                <!--                                                                    @error="handleImageError($event, article.id)"/>-->
                                                                 <div class="flex-1 min-w-0">
                                                                         <h4 class="text-sm font-medium text-gray-800 truncate">
                                                                                 {{ article.title }}</h4>
@@ -76,7 +76,9 @@
                                                                                 {{ article.summary }}</p>
                                                                         <div class="flex items-center gap-2 mt-2">
                                                                                 <span
-                                                                                    class="text-xs text-primary">{{ article.categoryName }}</span>
+                                                                                    class="text-xs text-primary">{{
+                                                                                                article.categoryName
+                                                                                        }}</span>
                                                                                 <span v-if="article.isTop"
                                                                                       class="text-xs px-1.5 py-0.5 bg-primary/10 text-primary rounded">置顶</span>
                                                                         </div>
@@ -137,11 +139,11 @@ let searchDebounceTimer: string | number | NodeJS.Timeout | null | undefined = n
 
 const router = useRouter();
 
-// 默认封面图
-const defaultCover = '/images/main.png';
-
-// 404封面图
-const cover404 = '/images/404.png';
+// // 默认封面图
+// const defaultCover = '/images/main.png';
+//
+// // 404封面图
+// const cover404 = '/images/404.png';
 
 // 记录加载失败的图片ID
 const failedImages = ref<number[]>([]);
@@ -155,28 +157,28 @@ const checkImage = (url: string): Promise<boolean> => {
                 img.src = url;
         });
 };
-
-// 获取文章图片
-const getArticleImage = (article: any) => {
-        // 如果之前加载失败，返回404的图片
-        if (failedImages.value.includes(article.id)) {
-                return cover404;
-        }
-        // 如果没有coverImage或coverImage为空，返回默认封面
-        if (!article.coverImage) {
-                return defaultCover;
-        }
-        return article.coverImage;
-};
-
-// 处理图片加载失败
-const handleImageError = (event: Event, articleId: number) => {
-        const img = event.target as HTMLImageElement;
-        img.src = cover404;
-        if (!failedImages.value.includes(articleId)) {
-                failedImages.value.push(articleId);
-        }
-};
+//
+// // 获取文章图片
+// const getArticleImage = (article: any) => {
+//         // 如果之前加载失败，返回404的图片
+//         if (failedImages.value.includes(article.id)) {
+//                 return cover404;
+//         }
+//         // 如果没有coverImage或coverImage为空，返回默认封面
+//         if (!article.coverImage) {
+//                 return defaultCover;
+//         }
+//         return article.coverImage;
+// };
+//
+// // 处理图片加载失败
+// const handleImageError = (event: Event, articleId: number) => {
+//         const img = event.target as HTMLImageElement;
+//         img.src = cover404;
+//         if (!failedImages.value.includes(articleId)) {
+//                 failedImages.value.push(articleId);
+//         }
+// };
 
 // 搜索弹窗开关
 const isSearchOpen = ref(false);

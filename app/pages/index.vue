@@ -1,6 +1,6 @@
 <template>
         <div>
-                <div class="md:my-36 my-20"></div>
+                <div class="md:my-36 my-24"></div>
                 <div class="mx-auto  max-w-2xl px-3">
 
                         <content-list></content-list>
