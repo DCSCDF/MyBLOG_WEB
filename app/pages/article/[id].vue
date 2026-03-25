@@ -10,7 +10,7 @@
                                     leave-to-class="opacity-0 -translate-y-2"
                                     mode="out-in">
 
-                                <div v-if="loading" class=" mt-40">
+                                <div v-if="loading" class="mt-40">
                                         <div class="h-8 w-48 bg-gray-200 rounded mb-4"></div>
                                         <div class="h-12 w-3/4 bg-gray-200 rounded mb-6"></div>
                                         <div class="flex gap-4 mb-8">

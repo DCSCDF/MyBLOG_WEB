@@ -2,7 +2,7 @@
         <div class="relative">
                 <!-- 搜索图标按钮 -->
                 <button
-                    class="flex items-center justify-center p-2  rounded-full hover:bg-slate-100 transition-colors cursor-pointer"
+                    class="flex items-center justify-center p-2  rounded-full hover:bg-gray-100 transition-colors cursor-pointer"
                     type="button"
                     @click="openSearch"
                 >
@@ -96,7 +96,7 @@
                                                 <div class="flex items-center gap-2">
                                                         <button
                                                             :disabled="currentPage <= 1"
-                                                            class="w-7 h-7 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                                                            class="w-7 h-7 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                                                             type="button"
                                                             @click="prevPage"
                                                         >
@@ -107,7 +107,7 @@
                                                         </span>
                                                         <button
                                                             :disabled="currentPage >= totalPages"
-                                                            class="w-7 h-7 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                                                            class="w-7 h-7 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                                                             type="button"
                                                             @click="nextPage"
                                                         >

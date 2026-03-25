@@ -1,7 +1,7 @@
 <template>
         <section>
                 <h3 class="text-2xl font-headline font-bold text-on-background mb-8 border-b pb-2 border-outline-variant/10">
-                        评论 <span class="text-base font-normal text-slate-400">({{ totalComments }})</span>
+                        评论 <span class="text-base font-normal text-gray-400">({{ totalComments }})</span>
                 </h3>
 
                 <!-- 提交评论表单 -->
@@ -117,7 +117,7 @@
                 </div>
 
                 <!-- 空状态 -->
-                <div v-else class="text-center py-12 text-slate-400">
+                <div v-else class="text-center py-12 text-gray-400">
                         <p>暂无评论，快来抢沙发吧~</p>
                 </div>
         </section>

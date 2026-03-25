@@ -2,10 +2,10 @@
         <!-- TopNavBar (Shared Component) -->
         <nav
             :class="isVisible || isMenuOpen ? 'translate-y-0' : '-translate-y-full'"
-            class="fixed top-4 left-1/2 -translate-x-1/2 w-[95%] md:max-w-2xl max-w-xl rounded-full px-4 py-2 border border-slate-200/50 dark:border-slate-700/50 bg-white/70 backdrop-blur-md flex items-center justify-between z-50 shadow-[0_8px_32px_rgba(22,119,255,0.04)] transition-transform duration-300"
+            class="fixed top-4 left-1/2 -translate-x-1/2 w-[95%] md:max-w-2xl max-w-xl rounded-full px-4 py-2 border border-gray-200/50 dark:border-gray-700/50 bg-white/70 backdrop-blur-md flex items-center justify-between z-50 shadow-[0_8px_32px_rgba(22,119,255,0.04)] transition-transform duration-300"
             data-allow-mismatch
         >
-                <div class="text-lg font-bold tracking-tighter text-slate-900 px-3 flex items-center ">
+                <div class="text-lg font-bold tracking-tighter text-gray-900 px-3 flex items-center ">
                         <img alt="" height="30" src="../assets/images/白猫.svg" width="30">
                         <!--                        <h1 class="mx-2">MYBLOG</h1>-->
                 </div>
@@ -13,14 +13,14 @@
                         <NuxtLink v-for="(item, index) in menu"
                                   :key="index"
                                   :to="item.link"
-                                  class="text-slate-500 hover:text-blue-500 transition-colors font-['Plus_Jakarta_Sans'] text-sm font-medium tracking-tight cursor-pointer"
+                                  class="text-gray-500 hover:text-blue-500 transition-colors font-['Plus_Jakarta_Sans'] text-sm font-medium tracking-tight cursor-pointer"
                                   data-allow-mismatch>
                                 {{ item.name }}
                         </NuxtLink>
                         <!-- 分类选择下拉 (仅文章列表页面显示) -->
                         <div v-if="showCategoryDropdown" class="category-dropdown">
                                 <button
-                                    class="category-dropdown-trigger text-slate-500 hover:text-blue-500 transition-colors font-['Plus_Jakarta_Sans'] text-sm font-medium tracking-tight cursor-pointer"
+                                    class="category-dropdown-trigger text-gray-500 hover:text-blue-500 transition-colors font-['Plus_Jakarta_Sans'] text-sm font-medium tracking-tight cursor-pointer"
                                     @click="toggleDropdown"
                                 >
                                         {{ currentCategoryName }}
