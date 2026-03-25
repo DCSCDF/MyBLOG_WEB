@@ -10,7 +10,7 @@
                                     leave-to-class="opacity-0 -translate-y-2"
                                     mode="out-in">
 
-                                <div v-if="loading" class="mt-40">
+                                <div v-if="pending" class="mt-40">
                                         <div class="h-8 w-48 bg-gray-200 rounded mb-4"></div>
                                         <div class="h-12 w-3/4 bg-gray-200 rounded mb-6"></div>
                                         <!--                                        <div class="flex gap-4 mb-8">-->
@@ -115,7 +115,7 @@
                                                 </div>
 
                                                 <!-- 文章内容 -->
-                                                <div ref="contentRef" class="prose-sm max-w-none dark:prose-invert
+                                                <div v-if="article.htmlContent" :key="article.id" class="prose-sm max-w-none dark:prose-invert
                         prose-h1:text-3xl prose-h1:mb-6 prose-h1:border-b prose-h1:pb-4 prose-h1:border-gray-200 dark:prose-h1:border-gray-700
                         prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4
                         prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3
@@ -131,15 +131,7 @@
                         prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-a:underline hover:prose-a:text-blue-800 dark:hover:prose-a:text-blue-300
                         prose-img:rounded-md prose-img:shadow-lg prose-img:mx-auto prose-img:my-8
                         prose-code:px-2 prose-code:py-1 prose-code:rounded prose-code:text-sm prose-code:bg-gray-100 dark:prose-code:bg-gray-800 prose-code:text-gray-700 dark:prose-code:text-gray-300
-                        prose-pre:rounded-md prose-pre:p-0 prose-pre:bg-gray-100 dark:prose-pre:bg-gray-800 prose-pre:text-gray-700 dark:prose-pre:text-gray-300
-                        prose-pre:overflow-x-auto prose-pre:whitespace-pre-wrap prose-pre:word-break-break-word
-                        prose-table:rounded-md prose-table:shadow-sm prose-table:overflow-hidden
-                        prose-table:border-collapse prose-table:w-full prose-table:my-6
-                        prose-table:border prose-table:border-gray-200 dark:prose-table:border-gray-700
-                        prose-th:p-3 prose-th:text-left prose-th:border-b prose-th:border-gray-200 dark:prose-th:border-gray-700
-                        prose-th:bg-gray-900/5 dark:prose-th:bg-gray-800/30 prose-th:text-gray-700 dark:prose-th:text-gray-300
-                        prose-td:p-3 prose-td:border-b prose-td:border-gray-200 dark:prose-td:border-gray-700
-                        prose-td:bg-gray-50/60 dark:prose-td:bg-gray-800/20 prose-td:text-gray-700 dark:prose-td:text-gray-300
+                        prose-pre:rounded-md prose-pre:my-6 prose-pre:overflow-x-auto
                         line-numbers"
                                                      v-html="article.htmlContent">
                                                 </div>
@@ -177,29 +169,47 @@
 </template>
 
 <script lang="ts" setup>
-import {computed, nextTick, onMounted, ref, watch} from 'vue';
-import {useRoute, useRouter} from 'vue-router';
-import {articleApi} from '~/api/article/articleApi.js';
+import {computed, onMounted} from 'vue';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/monokai.css';
+import {articleApi} from '~/api/article/articleApi.js';
 
+// 路由
+const route = useRoute();
+
+// 服务端渲染：使用 useAsyncData 获取初始数据
+const {data: apiResult, error: fetchError, pending} = await useAsyncData(
+    `article-${route.params.id}`,
+    async () => {
+            return await articleApi.getPublicArticleDetail(route.params.id);
+    },
+    {
+            watch: [() => route.params.id]
+    }
+);
 
 // 文章数据
-const article = ref<any>(null);
-const loading = ref(true);
-const error = ref<string | null>(null);
-const contentRef = ref<HTMLElement | null>(null);
-// const isLiked = ref(false);
+const article = computed(() => {
+        if (apiResult.value) {
+                const result = apiResult.value as any;
+                if (result.success !== false) {
+                        return result.data;
+                }
+        }
+        return null;
+});
 
-// 路由和路由跳转
-const route = useRoute();
-const router = useRouter();
-
-// // 计算作者昵称首字母
-// const authorInitial = computed(() => {
-//         if (!article.value?.authorNickname) return '?';
-//         return article.value.authorNickname.charAt(0).toUpperCase();
-// });
+// 错误信息
+const error = computed(() => {
+        if (fetchError.value) {
+                return '获取文章详情失败';
+        }
+        const result = apiResult.value as any;
+        if (result && result.success === false) {
+                return result.errorMsg || '文章不存在或已下架';
+        }
+        return null;
+});
 
 // 解析标签
 const articleTags = computed(() => {
@@ -218,97 +228,69 @@ const formatDate = (dateStr: string) => {
         return `${year}年${month}月${day}日`;
 };
 
-// 获取文章详情
-const fetchArticleDetail = async () => {
-        loading.value = true;
-        error.value = null;
-
-        try {
-                const id = Number(route.params.id);
-                if (isNaN(id)) {
-                        error.value = '无效的文章ID';
-                        return;
-                }
-
-                const result = await articleApi.getPublicArticleDetail(id);
-
-                if (result && result.success && result.data) {
-                        article.value = result.data;
-                } else {
-                        error.value = result?.errorMsg || '文章不存在或已下架';
-                }
-        } catch (err: any) {
-                console.error('获取文章详情失败:', err);
-                error.value = err.message || '获取文章详情失败，请稍后重试';
-        } finally {
-                loading.value = false;
-        }
-};
-
-// 监听文章内容变化，触发代码高亮
-watch(() => article.value?.htmlContent, () => {
-        if (article.value?.htmlContent) {
-                nextTick(() => {
-                        highlightCode();
-                });
-        }
-});
-
 // 返回首页
 const goHome = () => {
+        const router = useRouter();
         router.push('/');
 };
 
 // 高亮代码块（带重试机制）
-const highlightCode = (retryCount = 0) => {
+const highlightCode = (attempt = 0) => {
+        let container = document.querySelector('.prose-sm');
+        if (!container) {
+                container = document.querySelector('[class*="prose"]');
+        }
+        if (!container) {
+                container = document.querySelector('article');
+        }
 
-        if (!contentRef.value) {
-                if (retryCount < 5) {
-                        setTimeout(() => highlightCode(retryCount + 1), 200);
-                } else {
-                        console.error('Failed to find contentRef after 5 attempts');
-                        // 尝试使用备选方案：直接在 DOM 中查找
-                        const fallbackRef = document.querySelector('.prose-sm');
-                        if (fallbackRef) {
-                                const preBlocks = fallbackRef.querySelectorAll('pre');
-                                preBlocks.forEach((pre) => {
-                                        let code = pre.querySelector('code');
-                                        if (!code) {
-                                                code = document.createElement('code');
-                                                code.innerHTML = pre.innerHTML;
-                                                pre.innerHTML = '';
-                                                pre.appendChild(code);
-                                        }
-                                        hljs.highlightElement(code as HTMLElement);
-                                });
-                        }
+        if (!container) {
+                const allPre = document.querySelectorAll('pre');
+                if (allPre.length > 0) {
+                        allPre.forEach((pre) => {
+                                let code = pre.querySelector('code');
+                                if (!code) {
+                                        code = document.createElement('code');
+                                        code.innerHTML = pre.innerHTML;
+                                        pre.innerHTML = '';
+                                        pre.appendChild(code);
+                                }
+                                hljs.highlightElement(code as HTMLElement);
+                        });
+                        return;
+                }
+        }
+
+        if (!container) {
+                if (attempt < 3) {
+                        setTimeout(() => highlightCode(attempt + 1), 100);
                 }
                 return;
         }
 
-        // 查找所有 pre 标签
-        const preBlocks = contentRef.value.querySelectorAll('pre');
+        const codeBlocks = container.querySelectorAll('pre code');
 
-        preBlocks.forEach((pre, index) => {
-                let code = pre.querySelector('code');
-                if (!code) {
-                        code = document.createElement('code');
-                        code.innerHTML = pre.innerHTML;
-                        pre.innerHTML = '';
-                        pre.appendChild(code);
-                }
-                hljs.highlightElement(code as HTMLElement);
-        });
+        if (codeBlocks.length === 0) {
+                const preBlocks = container.querySelectorAll('pre');
+                preBlocks.forEach((pre) => {
+                        let code = pre.querySelector('code');
+                        if (!code) {
+                                code = document.createElement('code');
+                                code.innerHTML = pre.innerHTML;
+                                pre.innerHTML = '';
+                                pre.appendChild(code);
+                        }
+                        hljs.highlightElement(code as HTMLElement);
+                });
+        } else {
+                codeBlocks.forEach((block) => {
+                        hljs.highlightElement(block as HTMLElement);
+                });
+        }
 };
 
-// // 点赞
-// const handleLike = () => {
-//         isLiked.value = !isLiked.value;
-//         message.success(isLiked.value ? '点赞成功' : '已取消点赞');
-// };
-
-// 组件挂载时获取文章详情
+// 组件挂载时执行代码高亮（客户端）
 onMounted(() => {
-        fetchArticleDetail();
+        setTimeout(() => highlightCode(0), 100);
 });
 </script>

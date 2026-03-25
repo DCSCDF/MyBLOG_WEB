@@ -1,43 +1,47 @@
 /**
- * 公共文章API模块
- * 用于前台公开接口，无需登录即可访问
+ * 文章API模块
+ * 统一管理文章相关的API接口
+ * 文档: /api/public/article/*
  */
 
-// API基础路径配置
-const PUBLIC_ARTICLE_BASE_PATH = '/api/public/article';
+// API路径配置
+const API_BASE = '/api/public/article';
 
-import request from '../../utils/request.js';
+// ==================== 公共文章接口 ====================
 
 /**
- * 公共文章相关API函数
+ * 获取公共文章列表
+ * @param {Object} params - 查询参数
+ * @param {number} params.currentPage - 当前页码（从1开始）
+ * @param {number} params.pageSize - 每页数量
+ * @param {string} [params.keyword] - 搜索关键词（模糊搜索标题、摘要、分类名称、标签）
+ * @param {number} [params.categoryId] - 分类ID（筛选指定分类，传入后搜索也只在该分类内进行）
+ */
+export const getPublicArticleList = async ({currentPage, pageSize, keyword = '', categoryId}) => {
+	const {default: request} = await import('../../utils/request.js');
+	return request.post(`${API_BASE}/list`, {
+		currentPage,
+		pageSize,
+		keyword,
+		...(categoryId && {categoryId})
+	});
+};
+
+/**
+ * 获取公共文章详情
+ */
+export const getPublicArticleDetail = async (id) => {
+	const {default: request} = await import('../../utils/request.js');
+	return request.get(`${API_BASE}/${id}`);
+};
+
+// ==================== 导出模块 ====================
+
+/**
+ * 文章API模块 - 统一导出
  */
 export const articleApi = {
-
-	/**
-	 * 获取公共文章列表（支持分页、关键词搜索和分类筛选）
-	 * @param {Object} params - 查询参数
-	 * @param {number} params.currentPage - 当前页码（从1开始）
-	 * @param {number} params.pageSize - 每页数量
-	 * @param {string} [params.keyword] - 搜索关键词（可选）
-	 * @param {number} [params.categoryId] - 分类ID（可选）
-	 * @returns {Promise} 返回文章分页列表
-	 */
-	getPublicArticleList: async ({ currentPage, pageSize, keyword = '', categoryId }) => {
-		return request.post(`${PUBLIC_ARTICLE_BASE_PATH}/list`, {
-			currentPage,
-			pageSize,
-			keyword,
-			...(categoryId && { categoryId })
-		})
-	},
-
-	/**
-	 * 获取公共文章详情
-	 * @param {number} id - 文章ID
-	 * @returns {Promise} 返回文章详情信息
-	 */
-	getPublicArticleDetail: async (id) => {
-		return request.get(`${PUBLIC_ARTICLE_BASE_PATH}/${id}`)
-	},
-
+	getPublicArticleList,
+	getPublicArticleDetail
 };
+

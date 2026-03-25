@@ -147,9 +147,9 @@ const {data: serverData} = await useAsyncData(
 );
 
 // 处理服务端返回的数据
-if (serverData.value && serverData.value.data) {
-        articleList.value = serverData.value.data.records || [];
-        total.value = serverData.value.data.total || 0;
+if ((serverData.value as any)?.success !== false) {
+	articleList.value = serverData.value?.data?.records || [];
+	total.value = serverData.value?.data?.total || 0;
 }
 loading.value = false;
 
