@@ -115,7 +115,7 @@
                                                 </div>
 
                                                 <!-- 文章内容 -->
-                                                <div class="prose-sm max-w-none dark:prose-invert
+                                                <div ref="contentRef" class="prose-sm max-w-none dark:prose-invert
                         prose-h1:text-3xl prose-h1:mb-6 prose-h1:border-b prose-h1:pb-4 prose-h1:border-gray-200 dark:prose-h1:border-gray-700
                         prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4
                         prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3
@@ -131,7 +131,7 @@
                         prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-a:underline hover:prose-a:text-blue-800 dark:hover:prose-a:text-blue-300
                         prose-img:rounded-md prose-img:shadow-lg prose-img:mx-auto prose-img:my-8
                         prose-code:px-2 prose-code:py-1 prose-code:rounded prose-code:text-sm prose-code:bg-gray-100 dark:prose-code:bg-gray-800 prose-code:text-gray-700 dark:prose-code:text-gray-300
-                        prose-pre:rounded-md prose-pre:p-4 prose-pre:bg-gray-100 dark:prose-pre:bg-gray-800 prose-pre:text-gray-700 dark:prose-pre:text-gray-300
+                        prose-pre:rounded-md prose-pre:p-0 prose-pre:bg-gray-100 dark:prose-pre:bg-gray-800 prose-pre:text-gray-700 dark:prose-pre:text-gray-300
                         prose-pre:overflow-x-auto prose-pre:whitespace-pre-wrap prose-pre:word-break-break-word
                         prose-table:rounded-md prose-table:shadow-sm prose-table:overflow-hidden
                         prose-table:border-collapse prose-table:w-full prose-table:my-6
@@ -177,16 +177,18 @@
 </template>
 
 <script lang="ts" setup>
-import {computed, onMounted, ref} from 'vue';
+import {computed, nextTick, onMounted, ref, watch} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
 import {articleApi} from '~/api/article/articleApi.js';
-
+import hljs from 'highlight.js';
 import 'highlight.js/styles/monokai.css';
+
 
 // 文章数据
 const article = ref<any>(null);
 const loading = ref(true);
 const error = ref<string | null>(null);
+const contentRef = ref<HTMLElement | null>(null);
 // const isLiked = ref(false);
 
 // 路由和路由跳转
@@ -243,9 +245,60 @@ const fetchArticleDetail = async () => {
         }
 };
 
+// 监听文章内容变化，触发代码高亮
+watch(() => article.value?.htmlContent, () => {
+        if (article.value?.htmlContent) {
+                nextTick(() => {
+                        highlightCode();
+                });
+        }
+});
+
 // 返回首页
 const goHome = () => {
         router.push('/');
+};
+
+// 高亮代码块（带重试机制）
+const highlightCode = (retryCount = 0) => {
+
+        if (!contentRef.value) {
+                if (retryCount < 5) {
+                        setTimeout(() => highlightCode(retryCount + 1), 200);
+                } else {
+                        console.error('Failed to find contentRef after 5 attempts');
+                        // 尝试使用备选方案：直接在 DOM 中查找
+                        const fallbackRef = document.querySelector('.prose-sm');
+                        if (fallbackRef) {
+                                const preBlocks = fallbackRef.querySelectorAll('pre');
+                                preBlocks.forEach((pre) => {
+                                        let code = pre.querySelector('code');
+                                        if (!code) {
+                                                code = document.createElement('code');
+                                                code.innerHTML = pre.innerHTML;
+                                                pre.innerHTML = '';
+                                                pre.appendChild(code);
+                                        }
+                                        hljs.highlightElement(code as HTMLElement);
+                                });
+                        }
+                }
+                return;
+        }
+
+        // 查找所有 pre 标签
+        const preBlocks = contentRef.value.querySelectorAll('pre');
+
+        preBlocks.forEach((pre, index) => {
+                let code = pre.querySelector('code');
+                if (!code) {
+                        code = document.createElement('code');
+                        code.innerHTML = pre.innerHTML;
+                        pre.innerHTML = '';
+                        pre.appendChild(code);
+                }
+                hljs.highlightElement(code as HTMLElement);
+        });
 };
 
 // // 点赞
