@@ -1,35 +1,27 @@
 <template>
         <div>
                 <div class="md:my-36 my-20"></div>
-                <div class="mx-auto  max-w-7xl ">
-                        <div class="w-auto md:mx-32 mx-4 lg:mx-14">
-                                <div class="flex  w-auto flex-col-reverse lg:flex-row lg:gap-10">
-                                        <div class="basis-2/3">
-                                                <content-list></content-list>
-                                        </div>
-                                        <div class="basis-1/3">
-                                                <div class="lg:sticky lg:top-28">
-                                                        <sidebar :initial-categories="categoryData">
-                                                        </sidebar>
-                                                </div>
-                                        </div>
-                                </div>
-                        </div>
+                <div class="mx-auto  max-w-2xl px-3">
+
+                        <content-list></content-list>
+                        <!--                                <div class="flex w-auto flex-col-reverse lg:flex-row lg:gap-10">-->
+                        <!--                                   -->
+                        <!--                                        &lt;!&ndash;					<div class="basis-2/3">&ndash;&gt;-->
+                        <!--                                        &lt;!&ndash;						<content-list></content-list>&ndash;&gt;-->
+                        <!--                                        &lt;!&ndash;					</div>&ndash;&gt;-->
+                        <!--                                        &lt;!&ndash; Sidebar - currently commented out-->
+                        <!--                                        <div class="basis-1/3">-->
+                        <!--                                                <div class="lg:sticky lg:top-28">-->
+                        <!--                                                        <sidebar :initial-categories="categoryData"></sidebar>-->
+                        <!--                                                </div>-->
+                        <!--                                        </div>-->
+                        <!--                                        &ndash;&gt;-->
+                        <!--                                </div>-->
+
                 </div>
         </div>
 </template>
 
 <script lang="ts" setup>
-import Sidebar from "~/components/blog/Sidebar.vue";
 import ContentList from "~/components/blog/ContentList.vue";
-import {categoryApi} from '~/api/category/categoryApi.js';
-
-// 启用 SSR - 在服务端获取分类列表
-const {data: categoryData} = await useAsyncData(
-    'home-categories',
-    async () => {
-            const result = await categoryApi.getCategoryList();
-            return result?.data || [];
-    }
-);
 </script>
