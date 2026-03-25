@@ -1,7 +1,18 @@
 import axios from 'axios';
 import {handleApi} from '../config/apiInterceptor.js';
 
-axios.defaults.baseURL = "http://localhost:8088"
+// 基础 URL 配置
+const getBaseURL = () => {
+	// 服务端使用默认值
+	if (typeof window === 'undefined') {
+		return 'http://localhost:8088';
+	}
+	// 客户端使用相对路径，让浏览器自动使用当前域名
+	return '';
+};
+
+const BASE_URL = getBaseURL();
+axios.defaults.baseURL = BASE_URL;
 
 /**
  * 创建一个axios实例
@@ -10,7 +21,7 @@ axios.defaults.baseURL = "http://localhost:8088"
  */
 const service = axios.create({
 	// 设置请求基础URL
-	baseURL: "http://localhost:8088",
+	baseURL: BASE_URL,
 	// 设置请求超时时间为40秒，避免长时间等待
 	timeout: 40000,
 	// 默认请求头配置，指定请求来源和数据格式
@@ -28,7 +39,7 @@ service.interceptors.request.use(
 	    if (typeof window !== 'undefined') {
 		    // 根据 remember 值决定从哪里读取 token
 		    const isRemember = localStorage.getItem('remember') === 'true';
-		    let token = null;
+		    let token;
 
 		    if (isRemember) {
 			    // 记住登录：从 localStorage 读取

@@ -13,11 +13,11 @@
                                 <div v-if="loading" class="mt-40">
                                         <div class="h-8 w-48 bg-gray-200 rounded mb-4"></div>
                                         <div class="h-12 w-3/4 bg-gray-200 rounded mb-6"></div>
-                                        <div class="flex gap-4 mb-8">
-                                                <div class="h-4 w-24 bg-gray-200 rounded"></div>
-                                                <div class="h-4 w-32 bg-gray-200 rounded"></div>
-                                                <div class="h-4 w-20 bg-gray-200 rounded"></div>
-                                        </div>
+                                        <!--                                        <div class="flex gap-4 mb-8">-->
+                                        <!--                                                <div class="h-4 w-24 bg-gray-200 rounded"></div>-->
+                                        <!--                                                <div class="h-4 w-32 bg-gray-200 rounded"></div>-->
+                                        <!--                                                <div class="h-4 w-20 bg-gray-200 rounded"></div>-->
+                                        <!--                                        </div>-->
                                         <div class="space-y-3">
                                                 <div class="h-4 w-full bg-gray-200 rounded"></div>
                                                 <div class="h-4 w-5/6 bg-gray-200 rounded"></div>
@@ -131,7 +131,7 @@
                         prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-a:underline hover:prose-a:text-blue-800 dark:hover:prose-a:text-blue-300
                         prose-img:rounded-md prose-img:shadow-lg prose-img:mx-auto prose-img:my-8
                         prose-code:px-2 prose-code:py-1 prose-code:rounded prose-code:text-sm prose-code:bg-gray-100 dark:prose-code:bg-gray-800 prose-code:text-gray-700 dark:prose-code:text-gray-300
-                        prose-pre:rounded-md prose-pre:p-0 prose-pre:bg-gray-100 dark:prose-pre:bg-gray-800 prose-pre:text-gray-700 dark:prose-pre:text-gray-300
+                        prose-pre:rounded-md prose-pre:p-4 prose-pre:bg-gray-100 dark:prose-pre:bg-gray-800 prose-pre:text-gray-700 dark:prose-pre:text-gray-300
                         prose-pre:overflow-x-auto prose-pre:whitespace-pre-wrap prose-pre:word-break-break-word
                         prose-table:rounded-md prose-table:shadow-sm prose-table:overflow-hidden
                         prose-table:border-collapse prose-table:w-full prose-table:my-6
@@ -140,9 +140,8 @@
                         prose-th:bg-gray-900/5 dark:prose-th:bg-gray-800/30 prose-th:text-gray-700 dark:prose-th:text-gray-300
                         prose-td:p-3 prose-td:border-b prose-td:border-gray-200 dark:prose-td:border-gray-700
                         prose-td:bg-gray-50/60 dark:prose-td:bg-gray-800/20 prose-td:text-gray-700 dark:prose-td:text-gray-300
-                        line-numbers">
-
-                                                        <vue3-markdown-it :source="article.content"/>
+                        line-numbers"
+                                                     v-html="article.htmlContent">
                                                 </div>
 
                                                 <!-- 文章底部 -->
@@ -181,8 +180,6 @@
 import {computed, onMounted, ref} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
 import {articleApi} from '~/api/article/articleApi.js';
-// @ts-ignore
-import Vue3MarkdownIt from 'vue3-markdown-it'
 
 import 'highlight.js/styles/monokai.css';
 

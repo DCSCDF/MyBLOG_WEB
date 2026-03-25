@@ -144,11 +144,22 @@
                                           data-allow-mismatch>
                                         {{ item.name }}
                                 </NuxtLink>
-
+                                <ClientOnly fallback="<!-- mobile-user-auth-section -->" fallback-tag="div">
+                                        <div v-if="userInfo">
+                                                <NuxtLink class="mb-4 mx-6 text-xl font-black cursor-pointer"
+                                                          to="/login">
+                                                        用户中心 - {{ userInfo.nickname || userInfo.username }}
+                                                </NuxtLink>
+                                        </div>
+                                        <NuxtLink v-else class="mb-4 mx-6 text-xl font-black cursor-pointer"
+                                                  to="/login">
+                                                登陆
+                                        </NuxtLink>
+                                </ClientOnly>
                                 <!-- 移动端分类选择 (仅文章列表页面显示) -->
                                 <div v-if="showMobileCategory" class="mb-4 mx-6">
                                         <div class="text-xl font-black mb-2">选择分类</div>
-                                        <div class="flex flex-col gap-2 px-3 border-l-2 border-gray-600">
+                                        <div class="flex flex-col gap-2 px-3 border-l-2 border-gray-300">
                                                 <div
                                                     :class="{ 'text-blue-500 font-bold': !selectedCategoryId }"
                                                     class="text-base cursor-pointer"
@@ -168,18 +179,7 @@
                                         </div>
                                 </div>
 
-                                <ClientOnly fallback="<!-- mobile-user-auth-section -->" fallback-tag="div">
-                                        <div v-if="userInfo">
-                                                <NuxtLink class="mb-4 mx-6 text-xl font-black cursor-pointer"
-                                                          to="/login">
-                                                        用户中心 - {{ userInfo.nickname || userInfo.username }}
-                                                </NuxtLink>
-                                        </div>
-                                        <NuxtLink v-else class="mb-4 mx-6 text-xl font-black cursor-pointer"
-                                                  to="/login">
-                                                登陆
-                                        </NuxtLink>
-                                </ClientOnly>
+
                         </div>
                 </div>
         </transition>
@@ -246,13 +246,16 @@ const toggleDropdown = () => {
         isDropdownOpen.value = !isDropdownOpen.value
 }
 
-// 选中分类
+// 选中分类 - 使用路由跳转更新 URL query 参数
 const selectCategory = (categoryId: number | undefined) => {
-        selectedCategoryId.value = categoryId
-        saveSelectedCategory(categoryId)
-        isDropdownOpen.value = false
-        // 触发 ContentList 刷新
-        window.dispatchEvent(new CustomEvent('categoryChange', {detail: {categoryId}}))
+	selectedCategoryId.value = categoryId
+	saveSelectedCategory(categoryId)
+	isDropdownOpen.value = false
+	// 通过路由跳转触发服务端重新获取数据
+	navigateTo({
+		path: '/',
+		query: categoryId ? {categoryId: categoryId.toString()} : {}
+	}, {replace: true})
 }
 
 // 是否显示分类下拉菜单（仅在文章列表页面显示）
