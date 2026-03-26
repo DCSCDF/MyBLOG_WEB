@@ -74,6 +74,18 @@
                                                                         {{ article.summary || '暂无摘要' }}
                                                                 </p>
 
+                                                                <!--                                                                &lt;!&ndash; 标签 &ndash;&gt;-->
+                                                                <!--                                                                <div v-if="article.tags"-->
+                                                                <!--                                                                     class="pt-2 flex flex-wrap gap-1">-->
+                                                                <!--                                                                        <span-->
+                                                                <!--                                                                            v-for="tag in getArticleTags(article.tags)"-->
+                                                                <!--                                                                            :key="tag"-->
+                                                                <!--                                                                            class="text-xs px-2 py-0.5 bg-gray-100 text-gray-500 rounded"-->
+                                                                <!--                                                                        >-->
+                                                                <!--                                                                                {{ tag }}-->
+                                                                <!--                                                                        </span>-->
+                                                                <!--                                                                </div>-->
+
                                                                 <p class="text-blue-400 pt-2 flex items-center">Read
                                                                         more <span
                                                                             class="mt-[3px]">
@@ -148,8 +160,8 @@ const {data: serverData} = await useAsyncData(
 
 // 处理服务端返回的数据
 if ((serverData.value as any)?.success !== false) {
-	articleList.value = serverData.value?.data?.records || [];
-	total.value = serverData.value?.data?.total || 0;
+        articleList.value = serverData.value?.data?.records || [];
+        total.value = serverData.value?.data?.total || 0;
 }
 loading.value = false;
 
@@ -162,6 +174,12 @@ const formatDate = (dateStr: string) => {
         const day = String(date.getDate()).padStart(2, '0');
         return `${year}/${month}/${day}`;
 };
+
+// // 解析标签字符串
+// const getArticleTags = (tagsStr: string | null | undefined) => {
+//         if (!tagsStr) return [];
+//         return tagsStr.split(',').map(tag => tag.trim()).filter(Boolean);
+// };
 
 // 获取文章列表（客户端分页/搜索时调用）
 const fetchArticleList = async () => {

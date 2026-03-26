@@ -1,7 +1,7 @@
 <template>
         <div>
                 <div class="my-24"></div>
-                <div class="mx-auto max-w-4xl w-auto px-4 md:px-8">
+                <div class="mx-auto max-w-5xl w-auto px-4 md:px-8">
                         <Transition enter-active-class="transition duration-300 ease-out"
                                     enter-from-class="opacity-0 translate-y-2"
                                     enter-to-class="opacity-100 translate-y-0"

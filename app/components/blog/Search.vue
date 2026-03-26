@@ -6,7 +6,7 @@
                     type="button"
                     @click="openSearch"
                 >
-                        <SearchOutlined class="text-gray-500"/>
+                        <SearchOutlined class="text-gray-600"/>
                 </button>
 
                 <!-- 搜索弹窗 -->
@@ -27,7 +27,7 @@
                                         <input
                                             ref="searchInputRef"
                                             v-model="searchValue"
-                                            class="flex-1 bg-transparent font-medium outline-none placeholder:text-gray-400"
+                                            class="flex-1 bg-transparent font-medium outline-none placeholder:text-gray-500 placeholder:font-normal"
                                             placeholder="搜索文章..."
                                             type="text"
                                             @keyup.enter="handleSearch"
@@ -42,9 +42,8 @@
                                         <!--                                        </button>-->
                                 </div>
                         </template>
-                        <div class=" px-2">
 
-
+                        <div>
                                 <!-- 搜索结果下拉 -->
                                 <div v-if="showResults" class="mt-4">
                                         <!-- 结果列表 -->
@@ -60,28 +59,64 @@
                                                 <div
                                                     v-for="article in searchResults"
                                                     :key="article.id"
-                                                    class="p-3 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors"
+                                                    class="p-4 hover:bg-gray-50 cursor-pointer transition-colors border-b border-gray-100 last:border-b-0"
                                                     @click="goToArticle(article.id)"
                                                 >
                                                         <div class="flex gap-3">
-                                                                <!--                                                                <img-->
-                                                                <!--                                                                    :alt="article.title"-->
-                                                                <!--                                                                    :src="getArticleImage(article)"-->
-                                                                <!--                                                                    class="w-16 h-16 rounded-lg object-cover flex-shrink-0"-->
-                                                                <!--                                                                    @error="handleImageError($event, article.id)"/>-->
-                                                                <div class="flex-1 min-w-0">
-                                                                        <h4 class="text-sm font-medium text-gray-800 truncate">
-                                                                                {{ article.title }}</h4>
-                                                                        <p class="text-xs text-gray-400 mt-1 line-clamp-2">
-                                                                                {{ article.summary }}</p>
-                                                                        <div class="flex items-center gap-2 mt-2">
+                                                                <!-- 封面图区域 -->
+                                                                <!--                                                                <div v-if="article.coverImage && !failedImages.includes(article.id)"-->
+                                                                <!--                                                                     class="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100">-->
+                                                                <!--                                                                        <img :alt="article.title"-->
+                                                                <!--                                                                             :src="article.coverImage"-->
+                                                                <!--                                                                             class="w-full h-full object-cover"-->
+                                                                <!--                                                                             @error="failedImages.push(article.id)"/>-->
+                                                                <!--                                                                </div>-->
+                                                                <!--                                                                <div v-else-->
+                                                                <!--                                                                     class="w-20 h-20 rounded-lg flex-shrink-0 bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center">-->
+                                                                <!--                                                                        <span class="text-primary/40 text-2xl font-bold">{{ (article.title || '?').charAt(0).toUpperCase() }}</span>-->
+                                                                <!--                                                                </div>-->
+
+                                                                <div
+                                                                    class="flex-1 min-w-0 flex flex-col justify-center">
+                                                                        <!-- 分类和标签 -->
+                                                                        <div
+                                                                            class="flex items-center flex-wrap gap-2 mb-1.5">
                                                                                 <span
-                                                                                    class="text-xs text-primary">{{
-                                                                                                article.categoryName
-                                                                                        }}</span>
+                                                                                    class="text-xs font-medium px-2 py-0.5 rounded-full bg-primary/10 text-primary">
+                                                                                        {{
+                                                                                                article.categoryName || '未分类'
+                                                                                        }}
+                                                                                </span>
                                                                                 <span v-if="article.isTop"
-                                                                                      class="text-xs px-1.5 py-0.5 bg-primary/10 text-primary rounded">置顶</span>
+                                                                                      class="text-xs px-2 py-0.5 rounded-full bg-red-50 text-red-500 font-medium">
+                                                                                        置顶
+                                                                                </span>
+                                                                                <span
+                                                                                    v-for="tag in getArticleTags(article.tags)"
+                                                                                    :key="tag"
+                                                                                    class="text-xs px-2 py-0.5 rounded-full bg-gray-100 text-gray-500">
+                                                                                        {{ tag }}
+                                                                                </span>
                                                                         </div>
+
+                                                                        <!-- 标题 -->
+                                                                        <h4 class="text-sm font-semibold text-gray-800 truncate group-hover:text-primary transition-colors">
+                                                                                {{ article.title }}</h4>
+
+                                                                        <!-- 摘要 -->
+                                                                        <p class="text-xs text-gray-500 mt-1 line-clamp-2 leading-relaxed">
+                                                                                {{ article.summary || '暂无摘要' }}</p>
+                                                                </div>
+
+                                                                <!-- 箭头指示 -->
+                                                                <div class="flex-shrink-0 flex items-center">
+                                                                        <svg class="w-4 h-4 text-gray-300" fill="none"
+                                                                             stroke="currentColor" viewBox="0 0 24 24">
+                                                                                <path d="M9 5l7 7-7 7"
+                                                                                      stroke-linecap="round"
+                                                                                      stroke-linejoin="round"
+                                                                                      stroke-width="2"/>
+                                                                        </svg>
                                                                 </div>
                                                         </div>
                                                 </div>
@@ -118,7 +153,7 @@
                                 </div>
 
                                 <!-- 搜索提示 -->
-                                <div v-else class="py-6 text-center text-sm text-gray-400">
+                                <div v-else class="py-6 text-center text-sm text-gray-600">
                                         <span v-if="!searchValue">输入关键词后按 Enter 键搜索</span>
                                         <span v-else>按 Enter 搜索: <span
                                             class="text-primary font-medium">{{ searchValue }}</span></span>
@@ -198,6 +233,12 @@ const lastKeyword = ref('');
 const totalPages = computed(() => {
         return Math.ceil(total.value / pageSize.value) || 1;
 });
+
+// 解析标签字符串
+const getArticleTags = (tagsStr: string | null | undefined) => {
+        if (!tagsStr) return [];
+        return tagsStr.split(',').map(tag => tag.trim()).filter(Boolean);
+};
 
 // 打开搜索弹窗
 const openSearch = async () => {
