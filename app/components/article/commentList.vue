@@ -292,12 +292,18 @@ const replyForm = ref({
         content: ''
 });
 
+// 验证文章ID是否有效
+const isValidArticleId = (id: any): boolean => {
+        const num = Number(id);
+        return !isNaN(num) && num > 0 && Number.isFinite(num) && String(id).trim() !== '';
+};
+
 // 获取评论列表
 const fetchCommentList = async () => {
         loading.value = true;
         try {
                 const articleId = props.blogId || Number(route.params.id);
-                if (!articleId) return;
+                if (!articleId || !isValidArticleId(articleId)) return;
 
                 const result = await commentApi.getCommentList(articleId);
                 if (result && result.success && result.data) {
@@ -321,15 +327,25 @@ const handleSubmitComment = async () => {
                 message.warning('请输入评论内容');
                 return;
         }
-        // 未登录用户需要验证名称
-        if (!isLoggedIn.value && !commentForm.value.username.trim()) {
-                message.warning('请输入名称');
-                return;
+        // 未登录用户需要验证名称和邮箱
+        if (!isLoggedIn.value) {
+                if (!commentForm.value.username.trim()) {
+                        message.warning('请输入名称');
+                        return;
+                }
+                if (!commentForm.value.email.trim()) {
+                        message.warning('请输入邮箱');
+                        return;
+                }
         }
 
         submitting.value = true;
         try {
                 const articleId = props.blogId || Number(route.params.id);
+                if (!articleId || !isValidArticleId(articleId)) {
+                        message.error('无效的文章ID');
+                        return;
+                }
 
                 // 如果已登录，使用当前用户信息
                 const username = isLoggedIn.value && currentUser.value
@@ -422,10 +438,18 @@ const handleSubmitReply = async (data: {
                 message.warning('请输入名称');
                 return;
         }
+        if (!data.email.trim()) {
+                message.warning('请输入邮箱');
+                return;
+        }
 
         submitting.value = true;
         try {
                 const articleId = props.blogId || Number(route.params.id);
+                if (!articleId || !isValidArticleId(articleId)) {
+                        message.error('无效的文章ID');
+                        return;
+                }
 
                 const result = await commentApi.submitComment({
                         blogId: articleId,

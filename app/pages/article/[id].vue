@@ -177,10 +177,23 @@ import {articleApi} from '~/api/article/articleApi.js';
 // 路由
 const route = useRoute();
 
+// 验证 ID 是否为有效数字
+const isValidArticleId = (id: any): boolean => {
+        const num = Number(id);
+        return !isNaN(num) && num > 0 && Number.isFinite(num);
+};
+
 // 服务端渲染：使用 useAsyncData 获取初始数据
 const {data: apiResult, error: fetchError, pending} = await useAsyncData(
     `article-${route.params.id}`,
     async () => {
+            // 验证 ID 格式
+            if (!isValidArticleId(route.params.id)) {
+                    throw createError({
+                            statusCode: 404,
+                            statusMessage: 'Invalid article ID'
+                    });
+            }
             return await articleApi.getPublicArticleDetail(route.params.id);
     },
     {
@@ -202,6 +215,10 @@ const article = computed(() => {
 // 错误信息
 const error = computed(() => {
         if (fetchError.value) {
+                const err = fetchError.value as any;
+                if (err?.statusCode === 404) {
+                        return '文章不存在';
+                }
                 return '获取文章详情失败';
         }
         const result = apiResult.value as any;

@@ -175,6 +175,7 @@
 
 <script lang="ts" setup>
 import {computed, ref} from 'vue';
+import {message} from 'ant-design-vue';
 import CommentItem from './CommentItem.vue';
 
 interface Comment {
@@ -246,6 +247,20 @@ const localReplyForm = ref<ReplyForm>({
 });
 
 const handleSubmit = () => {
+        // 验证必填项
+        if (!localReplyForm.value.content.trim()) {
+                message.warning('请输入回复内容');
+                return;
+        }
+        if (!props.isLoggedIn && !localReplyForm.value.username.trim()) {
+                message.warning('请输入名称');
+                return;
+        }
+        if (!props.isLoggedIn && !localReplyForm.value.email.trim()) {
+                message.warning('请输入邮箱');
+                return;
+        }
+
         const username: string = props.isLoggedIn && props.currentUser
             ? (props.currentUser.nickname || props.currentUser.username || '')
             : (localReplyForm.value.username || '');
