@@ -85,7 +85,8 @@ if (code && redirectUrl) {
 				return
 			}
 
-        window.location.href = `http://localhost:5173/login`
+        const webBase = (window as any).__WEB_BASE__;
+        window.location.href = `${webBase || ''}/login`
 })
 </script>
 
