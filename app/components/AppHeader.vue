@@ -7,7 +7,7 @@
         >
                 <div class="text-lg font-bold tracking-tighter text-gray-900 px-3 flex items-center ">
                         <img alt="" height="30" src="../assets/images/白猫.svg" width="30">
-                        <!--                        <h1 class="mx-2">MYBLOG</h1>-->
+                        <!--					<span v-if="siteName" class="mx-2 text-base">{{ siteName }}</span>-->
                 </div>
                 <div class="hidden md:flex items-center gap-8">
                         <NuxtLink v-for="(item, index) in menu"
@@ -186,10 +186,13 @@
 </template>
 
 <script lang="ts" setup>
-
 import {authApi} from '~/api/user/authApi'
-import {categoryApi} from '~/api/category/categoryApi.js'
+import {categoryApi} from '~/api/category/categoryApi'
 import Search from "~/components/blog/Search.vue";
+
+defineProps<{
+        siteName?: string
+}>()
 
 const route = useRoute()
 
@@ -248,14 +251,14 @@ const toggleDropdown = () => {
 
 // 选中分类 - 使用路由跳转更新 URL query 参数
 const selectCategory = (categoryId: number | undefined) => {
-	selectedCategoryId.value = categoryId
-	saveSelectedCategory(categoryId)
-	isDropdownOpen.value = false
-	// 通过路由跳转触发服务端重新获取数据
-	navigateTo({
-		path: '/',
-		query: categoryId ? {categoryId: categoryId.toString()} : {}
-	}, {replace: true})
+        selectedCategoryId.value = categoryId
+        saveSelectedCategory(categoryId)
+        isDropdownOpen.value = false
+        // 通过路由跳转触发服务端重新获取数据
+        navigateTo({
+                path: '/',
+                query: categoryId ? {categoryId: categoryId.toString()} : {}
+        }, {replace: true})
 }
 
 // 是否显示分类下拉菜单（仅在文章列表页面显示）

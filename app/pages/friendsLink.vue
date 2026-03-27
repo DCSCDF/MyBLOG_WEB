@@ -76,9 +76,8 @@
                                 若长时间未审核or评论不了，请加QQ：3209174373，只换个人博客。
                         </p>
                         <p class="text-on-surface-variant text-sm leading-relaxed max-w-2xl mt-2">
-                                我的网站：名称 JiuLiu的博客、域名 myblog.icu 、站点图片
-                                <span class="break-all">  https://avatars.githubusercontent.com/u/75759503?v=4</span>
-
+                                我的网站：名称 {{ siteStore.siteName }}、域名 {{ siteStore.siteDomain || '待配置' }} 、描述
+                                {{ siteStore.siteDescription || '待配置' }}
                         </p>
                 </div>
 
@@ -154,7 +153,10 @@
 
 <script lang="ts" setup>
 import {message} from 'ant-design-vue';
-import {friendLinkApi} from '~/api/friendLink/friendLinkApi.js';
+import {friendLinkApi} from '~/api/friendLink/friendLinkApi';
+import {useSiteStore} from '~/stores/siteStore';
+
+const siteStore = useSiteStore();
 
 // 友链列表数据
 const friendLinkList = ref<any[]>([]);
@@ -266,9 +268,17 @@ const handleSubmit = async () => {
 
 // SEO 配置
 useHead({
-        title: '友链 - JiuLiu的博客',
+        title: `友链 - ${siteStore.siteName}`,
         meta: [
-                {name: 'description', content: 'JiuLiu的博客友链页面，汇集优质技术博客和网站链接'}
+                {name: 'description', content: `${siteStore.siteName}的友链页面，汇集优质技术博客和网站链接`}
         ]
+});
+
+// OG 标签
+useSeoMeta({
+        title: `友链 - ${siteStore.siteName}`,
+        description: `${siteStore.siteName}的友链页面，汇集优质技术博客和网站链接`,
+        ogTitle: `友链 - ${siteStore.siteName}`,
+        ogDescription: `${siteStore.siteName}的友链页面，汇集优质技术博客和网站链接`,
 });
 </script>

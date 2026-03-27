@@ -172,10 +172,12 @@
 import {computed, onMounted} from 'vue';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/monokai.css';
-import {articleApi} from '~/api/article/articleApi.js';
+import {articleApi} from '~/api/article/articleApi';
+import {useSiteStore} from '~/stores/siteStore';
 
 // 路由
 const route = useRoute();
+const siteStore = useSiteStore();
 
 // 验证 ID 是否为有效数字
 const isValidArticleId = (id: any): boolean => {
@@ -324,30 +326,30 @@ const articleDescription = computed(() => {
 
 // SEO 配置（使用响应式数据）
 useHead({
-        title: () => article.value ? `${article.value.title} - JiuLiu的博客` : '加载中... - JiuLiu的博客',
-        meta: [
-                {
-                        name: 'description',
-                        content: () => article.value?.categoryName
-                                ? `${article.value.categoryName} - ${articleDescription.value}`
-                                : articleDescription.value
-                },
-                {
-                        name: 'keywords',
-                        content: () => article.value?.tags || ''
-                }
-        ]
+	title: () => article.value ? `${article.value.title} - ${siteStore.siteName}` : '加载中...',
+	meta: [
+		{
+			name: 'description',
+			content: () => article.value?.categoryName
+				? `${article.value.categoryName} - ${articleDescription.value}`
+				: articleDescription.value
+		},
+		{
+			name: 'keywords',
+			content: () => article.value?.tags || ''
+		}
+	]
 });
 
 // OG 标签（社交分享优化）
 useSeoMeta({
-        title: () => article.value ? `${article.value.title} - JiuLiu的博客` : '加载中... - JiuLiu的博客',
-        description: () => articleDescription.value,
-        keywords: () => article.value?.tags || '',
-        ogTitle: () => article.value?.title || '',
-        ogDescription: () => articleDescription.value,
-        ogImage: () => article.value?.coverImage || '',
-        articleAuthor: () => article.value?.authorNickname || '',
-        articlePublishedTime: () => article.value?.createTime || ''
+	title: () => article.value ? `${article.value.title} - ${siteStore.siteName}` : '加载中...',
+	description: () => articleDescription.value,
+	keywords: () => article.value?.tags || '',
+	ogTitle: () => article.value?.title || '',
+	ogDescription: () => articleDescription.value,
+	ogImage: () => article.value?.coverImage || '',
+	articleAuthor: () => article.value?.authorNickname || '',
+	articlePublishedTime: () => article.value?.createTime || ''
 });
 </script>

@@ -125,9 +125,11 @@
 import {useRoute} from 'vue-router';
 import {message} from 'ant-design-vue';
 import {CalendarOutlined, CommentOutlined} from '@ant-design/icons-vue';
-import {articleApi} from '~/api/article/articleApi.js';
+import {articleApi} from '~/api/article/articleApi';
+import {useSiteStore} from '~/stores/siteStore';
 
 const route = useRoute();
+const siteStore = useSiteStore();
 
 // 文章列表数据
 const articleList = ref<any[]>([]);
@@ -159,9 +161,9 @@ const {data: serverData} = await useAsyncData(
 );
 
 // 处理服务端返回的数据
-if ((serverData.value as any)?.success !== false) {
-        articleList.value = serverData.value?.data?.records || [];
-        total.value = serverData.value?.data?.total || 0;
+if (serverData.value && (serverData.value as any).success !== false) {
+        articleList.value = (serverData.value as any)?.data?.records || [];
+        total.value = (serverData.value as any)?.data?.total || 0;
 }
 loading.value = false;
 
@@ -226,10 +228,19 @@ watch(() => route.query.categoryId, async () => {
 
 // SEO 配置
 useHead({
-        title: '首页 - JiuLiu的博客',
-        meta: [
-                {name: 'description', content: 'JiuLiu的博客，分享优质的前端开发、生活日常等文章。'},
-                {name: 'keywords', content: '前端,后端,全栈,开发,生活日常,博客,个人博客,久流,jiuliu'}
-        ]
+	title: () => `${siteStore.siteName} - 首页`,
+	meta: [
+		{name: 'description', content: () => siteStore.siteDescription},
+		{name: 'keywords', content: () => `博客,${siteStore.siteName},技术文章,生活分享`}
+	]
+});
+
+// OG 标签
+useSeoMeta({
+	title: () => `${siteStore.siteName} - 首页`,
+	description: () => siteStore.siteDescription,
+	ogTitle: () => siteStore.siteName,
+	ogDescription: () => siteStore.siteDescription,
+	ogSiteName: () => siteStore.siteName,
 });
 </script>
