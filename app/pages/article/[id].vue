@@ -310,4 +310,44 @@ const highlightCode = (attempt = 0) => {
 onMounted(() => {
         setTimeout(() => highlightCode(0), 100);
 });
+
+
+// 提取文章摘要用于 meta description（取纯文本前200字符）
+const articleDescription = computed(() => {
+        if (!article.value?.htmlContent) return '';
+        const text = article.value.htmlContent
+                .replace(/<[^>]*>/g, ' ')  // 移除HTML标签
+                .replace(/\s+/g, ' ')        // 合并空白字符
+                .trim();
+        return text.length > 200 ? text.substring(0, 200) + '...' : text;
+});
+
+// SEO 配置（使用响应式数据）
+useHead({
+        title: () => article.value ? `${article.value.title} - JiuLiu的博客` : '加载中... - JiuLiu的博客',
+        meta: [
+                {
+                        name: 'description',
+                        content: () => article.value?.categoryName
+                                ? `${article.value.categoryName} - ${articleDescription.value}`
+                                : articleDescription.value
+                },
+                {
+                        name: 'keywords',
+                        content: () => article.value?.tags || ''
+                }
+        ]
+});
+
+// OG 标签（社交分享优化）
+useSeoMeta({
+        title: () => article.value ? `${article.value.title} - JiuLiu的博客` : '加载中... - JiuLiu的博客',
+        description: () => articleDescription.value,
+        keywords: () => article.value?.tags || '',
+        ogTitle: () => article.value?.title || '',
+        ogDescription: () => articleDescription.value,
+        ogImage: () => article.value?.coverImage || '',
+        articleAuthor: () => article.value?.authorNickname || '',
+        articlePublishedTime: () => article.value?.createTime || ''
+});
 </script>

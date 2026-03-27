@@ -223,4 +223,13 @@ watch(() => route.query.categoryId, async () => {
         currentPage.value = 1;
         await fetchArticleList();
 });
+
+// SEO 配置
+useHead({
+        title: '首页 - JiuLiu的博客',
+        meta: [
+                {name: 'description', content: 'JiuLiu的博客，分享优质的前端开发、生活日常等文章。'},
+                {name: 'keywords', content: '前端,后端,全栈,开发,生活日常,博客,个人博客,久流,jiuliu'}
+        ]
+});
 </script>
