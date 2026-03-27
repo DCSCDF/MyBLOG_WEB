@@ -7,16 +7,15 @@ export default defineNuxtConfig({
   
   // 运行时配置
   runtimeConfig: {
-    // 仅在服务端可见
     public: {
-      apiBase: process.env.NUXT_PUBLIC_API_BASE
+      apiBase: ''
     }
   },
-  
+
   // SSR 配置
   ssr: true,
-  
-  // Vite 开发服务器代理配置
+
+  // Vite 开发服务器代理配置（仅开发环境生效）
   vite: {
     server: {
       proxy: {
@@ -27,5 +26,10 @@ export default defineNuxtConfig({
         }
       }
     }
+  },
+
+  // Nitro 配置
+  nitro: {
+    preset: 'node-server'
   }
 })
