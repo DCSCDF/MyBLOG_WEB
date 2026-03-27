@@ -116,23 +116,30 @@
 
                                                 <!-- 文章内容 -->
                                                 <div v-if="article.htmlContent" :key="article.id" class="prose-sm max-w-none dark:prose-invert
-                        prose-h1:text-3xl prose-h1:mb-6 prose-h1:border-b prose-h1:pb-4 prose-h1:border-gray-200 dark:prose-h1:border-gray-700
-                        prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4
-                        prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3
-                        prose-p:text-gray-700 dark:prose-p:text-gray-300 prose-p:leading-relaxed prose-p:my-4
-                        prose-blockquote:border-l-4 prose-blockquote:border-gray-300 dark:prose-blockquote:border-gray-600
-                        prose-blockquote:pl-4
-                        prose-blockquote:italic
-                        prose-ul:list-disc prose-ul:pl-6 prose-ul:my-4
-                        prose-ol:list-decimal prose-ol:pl-6 prose-ol:my-4
-                        prose-li:text-gray-700 dark:prose-li:text-gray-300
-                        prose-li:my-1
-                        break-words hyphenate
-                        prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-a:underline hover:prose-a:text-blue-800 dark:hover:prose-a:text-blue-300
-                        prose-img:rounded-md prose-img:shadow-lg prose-img:mx-auto prose-img:my-8
-                        prose-code:px-2 prose-code:py-1 prose-code:rounded prose-code:text-sm prose-code:bg-gray-100 dark:prose-code:bg-gray-800 prose-code:text-gray-700 dark:prose-code:text-gray-300
-                        prose-pre:rounded-md prose-pre:my-6 prose-pre:overflow-x-auto
-                        line-numbers"
+                                                prose-h1:text-3xl prose-h1:mb-6 prose-h1:border-b prose-h1:pb-4 prose-h1:border-gray-200 dark:prose-h1:border-gray-700
+                                                prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4
+                                                prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3
+                                                prose-p:text-gray-700 dark:prose-p:text-gray-300 prose-p:leading-relaxed prose-p:my-4
+                                                prose-blockquote:border-l-4 prose-blockquote:border-gray-300 dark:prose-blockquote:border-gray-600
+                                                prose-blockquote:pl-4
+                                                prose-blockquote:italic
+                                                prose-ul:list-disc prose-ul:pl-6 prose-ul:my-4
+                                                prose-ol:list-decimal prose-ol:pl-6 prose-ol:my-4
+                                                prose-li:text-gray-700 dark:prose-li:text-gray-300
+                                                prose-li:my-1
+                                                break-words hyphenate
+                                                prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-a:underline hover:prose-a:text-blue-800 dark:hover:prose-a:text-blue-300
+                                                prose-img:rounded-md prose-img:shadow-lg prose-img:mx-auto prose-img:my-8
+                                                prose-code:px-2 prose-code:py-1 prose-code:rounded prose-code:text-sm prose-code:bg-gray-100 dark:prose-code:bg-gray-800 prose-code:text-gray-700 dark:prose-code:text-gray-300
+                                                prose-pre:rounded-md prose-pre:my-6 prose-pre:overflow-x-auto
+                                                prose-table:w-full prose-table:text-sm prose-table:overflow-auto prose-table:my-6
+                                                prose-thead:bg-gradient-to-r prose-thead:from-primary/10 prose-thead:to-primary/5 dark:prose-thead:from-primary-dark/20 dark:prose-thead:to-primary-dark/10 prose-thead:border-gray-200 dark:prose-thead:border-gray-700
+                                                prose-th:px-4 prose-th:py-3 prose-th:text-left prose-th:font-bold prose-th:text-gray-800 dark:prose-th:text-gray-100 prose-th:border-b prose-th:border-primary/20 dark:prose-th:border-primary-dark/30
+                                                prose-td:px-4 prose-td:py-3 prose-td:border-gray-100 dark:prose-td:border-gray-700
+                                                prose-tr:border-gray-200 dark:prose-tr:border-gray-700
+                                                prose-tr:transition-colors prose-tr:duration-200
+                                                prose-tr:even:bg-gray-50 dark:prose-tr:even:bg-gray-800/30
+                                                line-numbers"
                                                      v-html="article.htmlContent">
                                                 </div>
 
@@ -318,38 +325,38 @@ onMounted(() => {
 const articleDescription = computed(() => {
         if (!article.value?.htmlContent) return '';
         const text = article.value.htmlContent
-                .replace(/<[^>]*>/g, ' ')  // 移除HTML标签
-                .replace(/\s+/g, ' ')        // 合并空白字符
-                .trim();
+            .replace(/<[^>]*>/g, ' ')  // 移除HTML标签
+            .replace(/\s+/g, ' ')        // 合并空白字符
+            .trim();
         return text.length > 200 ? text.substring(0, 200) + '...' : text;
 });
 
 // SEO 配置（使用响应式数据）
 useHead({
-	title: () => article.value ? `${article.value.title} - ${siteStore.siteName}` : '加载中...',
-	meta: [
-		{
-			name: 'description',
-			content: () => article.value?.categoryName
-				? `${article.value.categoryName} - ${articleDescription.value}`
-				: articleDescription.value
-		},
-		{
-			name: 'keywords',
-			content: () => article.value?.tags || ''
-		}
-	]
+        title: () => article.value ? `${article.value.title} - ${siteStore.siteName}` : '加载中...',
+        meta: [
+                {
+                        name: 'description',
+                        content: () => article.value?.categoryName
+                            ? `${article.value.categoryName} - ${articleDescription.value}`
+                            : articleDescription.value
+                },
+                {
+                        name: 'keywords',
+                        content: () => article.value?.tags || ''
+                }
+        ]
 });
 
 // OG 标签（社交分享优化）
 useSeoMeta({
-	title: () => article.value ? `${article.value.title} - ${siteStore.siteName}` : '加载中...',
-	description: () => articleDescription.value,
-	keywords: () => article.value?.tags || '',
-	ogTitle: () => article.value?.title || '',
-	ogDescription: () => articleDescription.value,
-	ogImage: () => article.value?.coverImage || '',
-	articleAuthor: () => article.value?.authorNickname || '',
-	articlePublishedTime: () => article.value?.createTime || ''
+        title: () => article.value ? `${article.value.title} - ${siteStore.siteName}` : '加载中...',
+        description: () => articleDescription.value,
+        keywords: () => article.value?.tags || '',
+        ogTitle: () => article.value?.title || '',
+        ogDescription: () => articleDescription.value,
+        ogImage: () => article.value?.coverImage || '',
+        articleAuthor: () => article.value?.authorNickname || '',
+        articlePublishedTime: () => article.value?.createTime || ''
 });
 </script>
