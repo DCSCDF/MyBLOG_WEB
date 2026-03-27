@@ -9,7 +9,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     // 仅在服务端可见
     public: {
-      apiBase: process.env.NUXT_PUBLIC_API_BASE || 'http://localhost:8088'
+      apiBase: process.env.NUXT_PUBLIC_API_BASE
     }
   },
   
@@ -21,7 +21,7 @@ export default defineNuxtConfig({
     server: {
       proxy: {
         '/api': {
-          target: 'http://localhost:8088',
+          target: process.env.NUXT_PUBLIC_API_BASE,
           changeOrigin: true,
           secure: false
         }

@@ -1,27 +1,21 @@
 import axios from 'axios';
 import {handleApi} from '../config/apiInterceptor.js';
 
-// 基础 URL 配置
-const getBaseURL = () => {
-	// 服务端使用默认值
+// 获取当前环境的 API 地址
+const getApiBase = () => {
 	if (typeof window === 'undefined') {
-		return 'http://localhost:8088';
+		// 服务端：使用环境变量
+		return import.meta.env?.NUXT_PUBLIC_API_BASE || process.env.NUXT_PUBLIC_API_BASE;
 	}
-	// 客户端使用相对路径，让浏览器自动使用当前域名
+	// 客户端：使用相对路径，通过代理访问
 	return '';
 };
 
-const BASE_URL = getBaseURL();
-axios.defaults.baseURL = BASE_URL;
-
 /**
- * 创建一个axios实例
- * 包含预设的配置参数和拦截器
+ * 创建一个axios实例（延迟初始化）
  * @type {import('axios').AxiosInstance}
  */
 const service = axios.create({
-	// 设置请求基础URL
-	baseURL: BASE_URL,
 	// 设置请求超时时间为40秒，避免长时间等待
 	timeout: 40000,
 	// 默认请求头配置，指定请求来源和数据格式
@@ -29,12 +23,14 @@ const service = axios.create({
 		'X-Requested-With': 'XMLHttpRequest', // 告诉服务器这是一个Ajax请求
 		'Content-Type': 'application/json; charset=UTF-8',// 指定请求数据格式为JSON
 	},
-})
+});
 
-// 请求拦截器 - 在发送请求前对请求进行处理
+// 请求拦截器 - 在发送请求前设置 baseURL 和 headers
 service.interceptors.request.use(
     (config) => {
-
+	    // 每次请求时动态设置 baseURL
+	    config.baseURL = getApiBase();
+	    
 	    // 在客户端环境中获取token，避免SSR报错
 	    if (typeof window !== 'undefined') {
 		    // 根据 remember 值决定从哪里读取 token
