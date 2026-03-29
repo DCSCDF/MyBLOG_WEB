@@ -1,11 +1,11 @@
 <template>
         <!-- 主评论 -->
-        <div class="relative">
+        <div class="relative md:px-6">
                 <!--                &lt;!&ndash; 左边框线 - 使用 left 定位 &ndash;&gt;-->
                 <!--                <div v-if="depth > 0" class="absolute w-0.5 bg-gray-200"-->
                 <!--                     style="left: -1.5rem; top: 0; bottom: 0;"></div>-->
 
-                <div :style="indentStyle" class="flex gap-3">
+                <div :style="indentStyle" class="flex ">
                         <!-- 头像 -->
                         <a v-if="(comment.website && isValidUrl(comment.website)) && avatarLoaded"
                            :href="comment.website"
@@ -33,7 +33,7 @@
                                 {{ getNameInitial(comment.username) }}
                         </div>
 
-                        <div class="flex flex-col flex-1 min-w-0">
+                        <div class="flex flex-col flex-1 min-w-0 ml-4">
                                 <div class="flex items-center gap-2 pb-1 flex-wrap">
                                         <a v-if="comment.website && isValidUrl(comment.website)"
                                            :href="comment.website"
@@ -235,7 +235,7 @@ const props = defineProps<{
 // 计算固定的左边距（不累积，基于当前深度）
 const indentStyle = computed(() => {
         return {
-                marginLeft: props.depth > 0 ? '1.5rem' : '0'
+                marginLeft: props.depth > 0 ? '2rem' : '0'
         };
 });
 

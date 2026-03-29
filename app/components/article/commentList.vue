@@ -1,11 +1,11 @@
 <template>
         <section>
-                <h3 class="text-2xl font-headline font-bold text-on-background mb-8 border-b pb-2 border-outline-variant/10">
+                <h3 class="text-2xl p-6 font-headline font-bold text-on-background mb-8 border-b pb-2 border-outline-variant/10">
                         评论 <span class="text-base font-normal text-gray-400">({{ totalComments }})</span>
                 </h3>
 
                 <!-- 提交评论表单 -->
-                <div class="mb-12">
+                <div class="mb-12 p-5">
                         <!-- 未登录用户：显示用户名、邮箱、头像URL输入框 -->
                         <div v-if="!isLoggedIn" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                                 <div>

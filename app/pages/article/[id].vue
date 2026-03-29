@@ -165,7 +165,7 @@
                                         </article>
 
                                         <!-- 评论区 -->
-                                        <div class="mt-8 bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-sm">
+                                        <div class="mt-8 bg-white/80 backdrop-blur-sm rounded-xl p-3 shadow-sm">
                                                 <article-comment-list :blog-id="article.id"/>
                                         </div>
                                 </div>
