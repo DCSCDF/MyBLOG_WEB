@@ -44,16 +44,16 @@
                         <!-- 已登录用户：只显示网站链接 -->
                         <div v-else class="mb-4">
                                 <div class="flex items-center gap-3 mb-4 p-3 bg-primary/5 rounded-lg">
-                                        <img v-if="currentUser?.avatarUrl"
-                                             :alt="currentUser.nickname || currentUser.username"
-                                             :src="currentUser.avatarUrl"
-                                             class="w-10 h-10 rounded-full object-cover"/>
-                                        <div v-else
-                                             class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold text-sm">
-                                                {{
-                                                        (currentUser?.nickname || currentUser?.username || '?').charAt(0).toUpperCase()
-                                                }}
-                                        </div>
+                                        <!--                                        <img v-if="currentUser?.avatarUrl"-->
+                                        <!--                                             :alt="currentUser.nickname || currentUser.username"-->
+                                        <!--                                             :src="currentUser.avatarUrl"-->
+                                        <!--                                             class="w-10 h-10 rounded-full object-cover"/>-->
+                                        <!--                                        <div v-else-->
+                                        <!--                                             class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold text-sm">-->
+                                        <!--                                                {{-->
+                                        <!--                                                        (currentUser?.nickname || currentUser?.username || '?').charAt(0).toUpperCase()-->
+                                        <!--                                                }}-->
+                                        <!--                                        </div>-->
                                         <span class="text-sm font-medium text-on-background">
 						{{ currentUser?.nickname || currentUser?.username }}
 					</span>
@@ -100,7 +100,7 @@
                         </div>
                 </div>
 
-                <!-- 评论列表 -->
+                <!-- 评论列表 - 使用 CSS 变量固定缩进 -->
                 <div v-else-if="commentList.length > 0" class="space-y-6">
                         <CommentItem
                             v-for="comment in commentList"

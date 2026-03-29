@@ -31,12 +31,33 @@
                            target="_blank">
                                 <div class="flex items-center gap-4">
                                         <div
-                                            class="w-12 h-12 rounded-lg overflow-hidden bg-surface-container flex-shrink-0 border border-outline-variant/10">
-                                                <img v-if="link.imageUrl"
-                                                     :alt="link.name"
-                                                     :src="link.imageUrl"
-                                                     class="w-full h-full object-cover transition-all"
-                                                     @error="handleImageError">
+                                            class="w-12 h-12 rounded-lg overflow-hidden bg-surface-container flex-shrink-0 border border-outline-variant/10 text-gray-400">
+                                                <template v-if="link.imageUrl">
+                                                        <img v-if="imageLoadedMap[link.name]"
+                                                             :alt="link.name"
+                                                             :src="link.imageUrl"
+                                                             class="w-full h-full object-cover transition-all"
+                                                             @error="(e) => handleImageError(e, link.name)">
+                                                        <div v-else-if="imageErrorMap[link.name]"
+                                                             class="w-full h-full flex flex-col items-center justify-center bg-surface-container-highest/50">
+                                                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                                                </svg>
+                                                                <span class="text-[8px] text-gray-400 mt-0.5">404</span>
+                                                        </div>
+                                                        <img v-else
+                                                             :alt="link.name"
+                                                             :src="link.imageUrl"
+                                                             class="w-full h-full object-cover transition-all hidden"
+                                                             @load="handleImageLoad(link.name)"
+                                                             @error="(e) => handleImageError(e, link.name)">
+                                                        <div v-if="!imageLoadedMap[link.name] && !imageErrorMap[link.name]"
+                                                             class="w-full h-full flex flex-col items-center justify-center bg-surface-container-highest/50">
+                                                                <svg class="w-5 h-5 text-gray-400 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                                                </svg>
+                                                        </div>
+                                                </template>
                                                 <div v-else
                                                      class="w-full h-full flex items-center justify-center text-on-surface-variant text-xs">
                                                         {{ link.name.charAt(0).toUpperCase() }}
@@ -177,11 +198,16 @@ const formData = ref({
         imageUrl: ''
 });
 
-// 图片加载失败处理
-const handleImageError = (e: Event) => {
-        const target = e.target as HTMLImageElement;
-        target.style.display = 'none';
-        target.parentElement!.innerHTML = target.alt?.charAt(0).toUpperCase() || '?';
+// 图片加载失败处理 - 使用对象存储每张图片的错误状态
+const imageErrorMap = reactive<Record<string, boolean>>({});
+const imageLoadedMap = reactive<Record<string, boolean>>({});
+
+const handleImageLoad = (linkName: string) => {
+        imageLoadedMap[linkName] = true;
+};
+
+const handleImageError = (e: Event, linkName: string) => {
+        imageErrorMap[linkName] = true;
 };
 
 // 服务端渲染：使用 useAsyncData 获取初始数据

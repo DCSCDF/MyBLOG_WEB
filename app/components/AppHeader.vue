@@ -54,7 +54,7 @@
                                         <a-avatar
                                             :size="40"
                                             :src="userInfo.avatarUrl || undefined"
-                                            :style="{ backgroundColor: userInfo.avatarUrl ? undefined : '#1890ff' }"
+
                                             class="cursor-pointer hover:opacity-80 transition-opacity"
                                             @click="navigateTo('/login')">
                                                 {{ userInfo.nickname?.[0] || userInfo.username?.[0] || '?' }}
