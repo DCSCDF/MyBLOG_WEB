@@ -101,7 +101,7 @@
                 </div>
 
                 <!-- 评论列表 - 使用 CSS 变量固定缩进 -->
-                <div v-else-if="commentList.length > 0" class="space-y-6">
+                <div v-else-if="commentList.length > 0" class="space-y-6  md:px-6">
                         <CommentItem
                             v-for="comment in commentList"
                             :key="comment.id"

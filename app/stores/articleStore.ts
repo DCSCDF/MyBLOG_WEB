@@ -30,13 +30,13 @@ export const useArticleStore = defineStore('article', {
         triggerSearch() {
             this.shouldSearch = true;
         },
-
-        /**
-         * 清除搜索触发标志
-         */
-        clearSearchTrigger() {
-            this.shouldSearch = false;
-        },
+        //
+        // /**
+        //  * 清除搜索触发标志
+        //  */
+        // clearSearchTrigger() {
+        //     this.shouldSearch = false;
+        // },
 
         /**
          * 执行搜索（设置关键词并触发）

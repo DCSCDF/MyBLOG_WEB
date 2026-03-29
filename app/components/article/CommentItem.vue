@@ -1,6 +1,6 @@
 <template>
         <!-- 主评论 -->
-        <div class="relative md:px-6">
+        <div class="relative">
                 <!--                &lt;!&ndash; 左边框线 - 使用 left 定位 &ndash;&gt;-->
                 <!--                <div v-if="depth > 0" class="absolute w-0.5 bg-gray-200"-->
                 <!--                     style="left: -1.5rem; top: 0; bottom: 0;"></div>-->

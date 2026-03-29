@@ -33,26 +33,24 @@ export const getPublicArticleList = async ({currentPage, pageSize, keyword = '',
  * @returns {boolean} - 是否有效
  */
 const isValidArticleId = (id) => {
-        const num = Number(id);
-        return !isNaN(num) && num > 0 && Number.isFinite(num) && String(id).trim() !== '';
+	const num = Number(id);
+	return !isNaN(num) && num > 0 && Number.isFinite(num) && String(id).trim() !== '';
 };
 
 /**
  * 获取公共文章详情
  */
 export const getPublicArticleDetail = async (id) => {
-        // 验证 ID 格式
-        if (!isValidArticleId(id)) {
-                return {
-                        success: false,
-                        errorMsg: '无效的文章ID'
-                };
-        }
-        const {default: request} = await import('../../utils/request.js');
-        return request.get(`${API_BASE}/${id}`);
+	// 验证 ID 格式
+	if (!isValidArticleId(id)) {
+		return {
+			success: false,
+			errorMsg: '无效的文章ID'
+		};
+	}
+	const {default: request} = await import('../../utils/request.js');
+	return request.get(`${API_BASE}/${id}`);
 };
-
-// ==================== 导出模块 ====================
 
 /**
  * 文章API模块 - 统一导出

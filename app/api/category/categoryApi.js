@@ -21,13 +21,13 @@ export const categoryApi = {
 		return request.get(`${PUBLIC_CATEGORY_BASE_PATH}/list`);
 	},
 
-	/**
-	 * 根据ID获取分类详情
-	 * @param {number} id - 分类ID
-	 * @returns {Promise} 返回指定分类的信息
-	 */
-	getCategoryById: async (id) => {
-		return request.get(`${PUBLIC_CATEGORY_BASE_PATH}/${id}`);
-	},
+	// /**
+	//  * 根据ID获取分类详情
+	//  * @param {number} id - 分类ID
+	//  * @returns {Promise} 返回指定分类的信息
+	//  */
+	// getCategoryById: async (id) => {
+	// 	return request.get(`${PUBLIC_CATEGORY_BASE_PATH}/${id}`);
+	// },
 
 };
