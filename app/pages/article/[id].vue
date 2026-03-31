@@ -115,31 +115,47 @@
                                                 </div>
 
                                                 <!-- 文章内容 -->
-                                                <div v-if="article.htmlContent" :key="article.id" class="prose-sm max-w-none dark:prose-invert
-                                                prose-h1:text-3xl prose-h1:mb-6 prose-h1:border-b prose-h1:pb-4 prose-h1:border-gray-200 dark:prose-h1:border-gray-700
-                                                prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4
-                                                prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3
-                                                prose-p:text-gray-700 dark:prose-p:text-gray-300 prose-p:leading-relaxed prose-p:my-4
-                                                prose-blockquote:border-l-4 prose-blockquote:border-gray-300 dark:prose-blockquote:border-gray-600
-                                                prose-blockquote:pl-4
-                                                prose-blockquote:italic
-                                                prose-ul:list-disc prose-ul:pl-6 prose-ul:my-4
-                                                prose-ol:list-decimal prose-ol:pl-6 prose-ol:my-4
-                                                prose-li:text-gray-700 dark:prose-li:text-gray-300
-                                                prose-li:my-1
-                                                break-words hyphenate
-                                                prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-a:underline hover:prose-a:text-blue-800 dark:hover:prose-a:text-blue-300
-                                                prose-img:rounded-md prose-img:shadow-lg prose-img:mx-auto prose-img:my-8
-                                                prose-code:px-2 prose-code:py-1 prose-code:rounded prose-code:text-sm prose-code:bg-gray-100 dark:prose-code:bg-gray-800 prose-code:text-gray-700 dark:prose-code:text-gray-300
-                                                prose-pre:rounded-md prose-pre:my-6 prose-pre:overflow-x-auto
-                                                prose-table:w-full prose-table:text-sm prose-table:overflow-auto prose-table:my-6
-                                                prose-thead:bg-gradient-to-r prose-thead:from-primary/10 prose-thead:to-primary/5 dark:prose-thead:from-primary-dark/20 dark:prose-thead:to-primary-dark/10 prose-thead:border-gray-200 dark:prose-thead:border-gray-700
-                                                prose-th:px-4 prose-th:py-3 prose-th:text-left prose-th:font-bold prose-th:text-gray-800 dark:prose-th:text-gray-100 prose-th:border-b prose-th:border-primary/20 dark:prose-th:border-primary-dark/30
-                                                prose-td:px-4 prose-td:py-3 prose-td:border-gray-100 dark:prose-td:border-gray-700
-                                                prose-tr:border-gray-200 dark:prose-tr:border-gray-700
-                                                prose-tr:transition-colors prose-tr:duration-200
-                                                prose-tr:even:bg-gray-50 dark:prose-tr:even:bg-gray-800/30
-                                                line-numbers"
+                                                <!-- 文章内容 -->
+                                                <div v-if="article.htmlContent"
+                                                     :key="article.id"
+                                                     class="article-content prose-sm max-w-none dark:prose-invert
+            prose-h1:text-3xl prose-h1:mb-8 prose-h1:font-bold prose-h1:text-gray-900 dark:prose-h1:text-gray-100
+            prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-6 prose-h2:font-semibold prose-h2:text-gray-800 dark:prose-h2:text-gray-200 prose-h2:pt-2
+            prose-h3:text-xl prose-h3:mt-10 prose-h3:mb-4 prose-h3:font-medium prose-h3:text-gray-700 dark:prose-h3:text-gray-300
+            prose-p:text-gray-600 dark:prose-p:text-gray-300 prose-p:leading-relaxed prose-p:my-5 prose-p:text-[15.5px]
+
+            prose-blockquote:border-l-4 prose-blockquote:border-gray-300 dark:prose-blockquote:border-gray-600
+            prose-blockquote:pl-4 prose-blockquote:py-0 prose-blockquote:my-6
+            prose-blockquote:not-italic prose-blockquote:text-gray-700 dark:prose-blockquote:text-gray-300
+
+            prose-ul:list-disc prose-ul:pl-6 prose-ul:my-6 prose-ul:space-y-1.5
+            prose-ol:list-decimal prose-ol:pl-6 prose-ol:my-6 prose-ol:space-y-1.5
+            prose-li:text-gray-600 dark:prose-li:text-gray-300 prose-li:pl-1
+            prose-li:marker:text-gray-400 dark:prose-li:marker:text-gray-500
+            prose-a:text-blue-600 dark:prose-a:text-blue-400
+            prose-a:underline prose-a:underline-offset-2 prose-a:decoration-blue-300 dark:prose-a:decoration-blue-600
+            hover:prose-a:text-blue-700 dark:hover:prose-a:text-blue-300 hover:prose-a:decoration-2
+            prose-img:rounded-lg prose-img:shadow-md prose-img:mx-auto prose-img:my-8 prose-img:border prose-img:border-gray-200 dark:prose-img:border-gray-700
+            prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm prose-code:bg-gray-100 dark:prose-code:bg-gray-800/60 prose-code:text-gray-800 dark:prose-code:text-gray-200 prose-code:font-mono prose-code:border prose-code:border-gray-200 dark:prose-code:border-gray-700
+            prose-pre:rounded-lg prose-pre:my-7 prose-pre:overflow-x-auto prose-pre:bg-gray-800 dark:prose-pre:bg-gray-800/40 prose-pre:border prose-pre:border-gray-200 dark:prose-pre:border-gray-700
+            prose-pre code:bg-transparent code:text-gray-200 code:border-0 prose-pre code:p-0
+
+            prose-table:w-full prose-table:text-sm prose-table:overflow-hidden prose-table:my-8 prose-table:rounded-lg prose-table:border prose-table:border-separate prose-table:border-spacing-0 prose-table:border-gray-200 dark:prose-table:border-gray-700 prose-table:shadow-sm
+            prose-thead:bg-gray-50 dark:prose-thead:bg-gray-800/30
+            prose-th:px-5 prose-th:py-3.5 prose-th:text-left prose-th:font-semibold prose-th:text-gray-700 dark:prose-th:text-gray-300 prose-th:border-b prose-th:border-b-gray-300 dark:prose-th:border-b-gray-600
+            prose-td:px-5 prose-td:py-3.5 prose-td:text-gray-600 dark:prose-td:text-gray-300
+            prose-tr:border-b prose-tr:border-gray-100 dark:prose-tr:border-gray-700
+            prose-tr:hover:bg-gray-50/50 dark:prose-tr:hover:bg-gray-800/20 prose-tr:transition-colors prose-tr:duration-150
+
+            prose-th:first-child:rounded-tl-lg prose-th:last-child:rounded-tr-lg
+            prose-tr:last-child prose-td:first-child:rounded-bl-lg prose-tr:last-child prose-td:last-child:rounded-br-lg
+
+            prose-hr:my-8 prose-hr:border-gray-200 dark:prose-hr:border-gray-700
+            line-numbers
+            selection:bg-blue-100 dark:selection:bg-blue-900/40
+            prose-strong:font-semibold prose-strong:text-gray-800 dark:prose-strong:text-gray-200
+            prose-em:italic
+            first:prose-p:mt-0 last:prose-p:mb-0"
                                                      v-html="article.htmlContent">
                                                 </div>
 
@@ -178,7 +194,7 @@
 <script lang="ts" setup>
 import {computed, onMounted} from 'vue';
 import hljs from 'highlight.js';
-import 'highlight.js/styles/monokai.css';
+import 'highlight.js/styles/atom-one-dark.css';
 import {articleApi} from '~/api/article/articleApi';
 import {useSiteStore} from '~/stores/siteStore';
 
@@ -360,3 +376,4 @@ useSeoMeta({
         articlePublishedTime: () => article.value?.createTime || ''
 });
 </script>
+
