@@ -161,9 +161,10 @@ const {data: serverData} = await useAsyncData(
 );
 
 // 处理服务端返回的数据
-if (serverData.value && (serverData.value as any).success !== false) {
-        articleList.value = (serverData.value as any)?.data?.records || [];
-        total.value = (serverData.value as any)?.data?.total || 0;
+const serverResponse = serverData.value as any;
+if (serverResponse && serverResponse.success !== false) {
+        articleList.value = serverResponse?.data?.records || [];
+        total.value = serverResponse?.data?.total || 0;
 }
 loading.value = false;
 
@@ -188,7 +189,7 @@ const fetchArticleList = async () => {
         loading.value = true;
         try {
                 const categoryId = route.query.categoryId ? Number(route.query.categoryId) : undefined;
-                const result = await articleApi.getPublicArticleList({
+                const result: any = await articleApi.getPublicArticleList({
                         currentPage: currentPage.value,
                         pageSize: pageSize.value,
                         keyword: '',

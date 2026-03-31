@@ -28,7 +28,7 @@ const siteStore = useSiteStore();
 // 在服务端获取网站配置
 await useAsyncData('site-info', async () => {
 	try {
-		const result = await siteApi.getSiteInfo();
+		const result: any = await siteApi.getSiteInfo();
 		if (result?.success && result.data) {
 			siteStore.setSiteInfo(result.data);
 		}
