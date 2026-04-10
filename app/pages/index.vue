@@ -90,7 +90,7 @@
                                                                         more <span
                                                                             class="mt-[3px]">
 									<svg
-                                                                            class="relative mt-px overflow-visible ml-2.5 text-sky-300 dark:text-sky-700"
+                                                                            class="relative mt-px overflow-visible ml-2.5 text-sky-300"
                                                                             fill="none" height="6" stroke="currentColor"
                                                                             stroke-linecap="round"
                                                                             stroke-linejoin="round" stroke-width="2"
@@ -229,19 +229,19 @@ watch(() => route.query.categoryId, async () => {
 
 // SEO 配置
 useHead({
-	title: () => `${siteStore.siteName} - 首页`,
-	meta: [
-		{name: 'description', content: () => siteStore.siteDescription},
-		{name: 'keywords', content: () => `博客,${siteStore.siteName},技术文章,生活分享`}
-	]
+        title: () => `${siteStore.siteName} - 首页`,
+        meta: [
+                {name: 'description', content: () => siteStore.siteDescription},
+                {name: 'keywords', content: () => `博客,${siteStore.siteName},技术文章,生活分享`}
+        ]
 });
 
 // OG 标签
 useSeoMeta({
-	title: () => `${siteStore.siteName} - 首页`,
-	description: () => siteStore.siteDescription,
-	ogTitle: () => siteStore.siteName,
-	ogDescription: () => siteStore.siteDescription,
-	ogSiteName: () => siteStore.siteName,
+        title: () => `${siteStore.siteName} - 首页`,
+        description: () => siteStore.siteDescription,
+        ogTitle: () => siteStore.siteName,
+        ogDescription: () => siteStore.siteDescription,
+        ogSiteName: () => siteStore.siteName,
 });
 </script>

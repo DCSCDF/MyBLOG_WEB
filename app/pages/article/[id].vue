@@ -1,7 +1,7 @@
 <template>
         <div>
                 <div class="my-24"></div>
-                <div class="mx-auto max-w-5xl w-auto px-4 md:px-8">
+                <div class="mx-auto max-w-4xl w-auto px-4 md:px-8">
                         <Transition enter-active-class="transition duration-300 ease-out"
                                     enter-from-class="opacity-0 translate-y-2"
                                     enter-to-class="opacity-100 translate-y-0"
@@ -127,42 +127,42 @@
                                                 <div v-if="article.htmlContent"
                                                      :key="article.id"
                                                      ref="contentRef"
-                                                     class="article-content prose-sm max-w-none dark:prose-invert
-                                                            prose-h1:text-3xl prose-h1:mb-8 prose-h1:font-bold prose-h1:text-gray-900 dark:prose-h1:text-gray-100
-                                                            prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-6 prose-h2:font-semibold prose-h2:text-gray-800 dark:prose-h2:text-gray-200 prose-h2:pt-2
-                                                            prose-h3:text-xl prose-h3:mt-10 prose-h3:mb-4 prose-h3:font-medium prose-h3:text-gray-700 dark:prose-h3:text-gray-300
-                                                            prose-p:text-gray-600 dark:prose-p:text-gray-300 prose-p:leading-relaxed prose-p:my-5 prose-p:text-[15.5px]
+                                                     class="article-content prose-sm max-w-none
+                                                            prose-h1:text-3xl prose-h1:mb-8 prose-h1:font-bold prose-h1:text-gray-900
+                                                            prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-6 prose-h2:font-semibold prose-h2:text-gray-800 prose-h2:pt-2
+                                                            prose-h3:text-xl prose-h3:mt-10 prose-h3:mb-4 prose-h3:font-medium prose-h3:text-gray-700
+                                                            prose-p:text-gray-600 prose-p:leading-relaxed prose-p:my-5 prose-p:text-[15.5px]
 
-                                                            prose-blockquote:border-l-4 prose-blockquote:border-gray-300 dark:prose-blockquote:border-gray-600
+                                                            prose-blockquote:border-l-4 prose-blockquote:border-gray-300
                                                             prose-blockquote:pl-4 prose-blockquote:py-0 prose-blockquote:my-6
-                                                            prose-blockquote:not-italic prose-blockquote:text-gray-700 dark:prose-blockquote:text-gray-300
+                                                            prose-blockquote:not-italic prose-blockquote:text-gray-700
 
                                                             prose-ul:list-disc prose-ul:pl-6 prose-ul:my-6 prose-ul:space-y-1.5
                                                             prose-ol:list-decimal prose-ol:pl-6 prose-ol:my-6 prose-ol:space-y-1.5
-                                                            prose-li:text-gray-600 dark:prose-li:text-gray-300 prose-li:pl-1
-                                                            prose-li:marker:text-gray-400 dark:prose-li:marker:text-gray-500
-                                                            prose-a:text-blue-600 dark:prose-a:text-blue-400
-                                                            prose-a:underline prose-a:underline-offset-2 prose-a:decoration-blue-300 dark:prose-a:decoration-blue-600
-                                                            hover:prose-a:text-blue-700 dark:hover:prose-a:text-blue-300 hover:prose-a:decoration-2
-                                                            prose-img:rounded-md prose-img:mx-auto prose-img:!my-0 prose-img:border prose-img:border-gray-200 dark:prose-img:border-gray-700
-                                                            prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm prose-code:bg-gray-100 dark:prose-code:bg-gray-800/60 prose-code:text-gray-800 dark:prose-code:text-gray-200 prose-code:font-mono prose-code:border prose-code:border-gray-200 dark:prose-code:border-gray-700
-                                                            prose-pre:rounded-lg prose-pre:my-7 prose-pre:overflow-x-auto prose-pre:bg-gray-800 dark:prose-pre:bg-gray-800/40 prose-pre:border prose-pre:border-gray-200 dark:prose-pre:border-gray-700
+                                                            prose-li:text-gray-600  prose-li:pl-1
+                                                            prose-li:marker:text-gray-400
+                                                            prose-a:text-blue-600 d
+                                                            prose-a:underline prose-a:underline-offset-2 prose-a:decoration-blue-300
+                                                            hover:prose-a:text-blue-700 hover:prose-a:decoration-2
+                                                            prose-img:rounded-md prose-img:mx-auto prose-img:!m-0 prose-img:border prose-img:border-gray-200
+                                                            prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm prose-code:bg-gray-100 prose-code:text-gray-800  prose-code:font-mono prose-code:border prose-code:border-gray-200
+                                                            prose-pre:rounded-lg prose-pre:my-7 prose-pre:overflow-x-auto prose-pre:bg-gray-800 prose-pre:border prose-pre:border-gray-200
                                                             prose-pre code:bg-transparent code:text-gray-200 code:border-0 prose-pre code:p-0
 
-                                                            prose-table:w-full prose-table:text-sm prose-table:overflow-hidden prose-table:my-8 prose-table:rounded-lg prose-table:border prose-table:border-separate prose-table:border-spacing-0 prose-table:border-gray-200 dark:prose-table:border-gray-700 prose-table:shadow-sm
-                                                            prose-thead:bg-gray-50 dark:prose-thead:bg-gray-800/30
-                                                            prose-th:px-5 prose-th:py-3.5 prose-th:text-left prose-th:font-semibold prose-th:text-gray-700 dark:prose-th:text-gray-300 prose-th:border-b prose-th:border-b-gray-300 dark:prose-th:border-b-gray-600
-                                                            prose-td:px-5 prose-td:py-3.5 prose-td:text-gray-600 dark:prose-td:text-gray-300
-                                                            prose-tr:border-b prose-tr:border-gray-100 dark:prose-tr:border-gray-700
-                                                            prose-tr:hover:bg-gray-50/50 dark:prose-tr:hover:bg-gray-800/20 prose-tr:transition-colors prose-tr:duration-150
+                                                            prose-table:w-full prose-table:text-sm prose-table:overflow-hidden prose-table:my-8 prose-table:rounded-lg prose-table:border prose-table:border-separate prose-table:border-spacing-0 prose-table:border-gray-200 prose-table:shadow-sm
+                                                            prose-thead:bg-gray-50
+                                                            prose-th:px-5 prose-th:py-3.5 prose-th:text-left prose-th:font-semibold prose-th:text-gray-700 prose-th:border-b prose-th:border-b-gray-300
+                                                            prose-td:px-5 prose-td:py-3.5 prose-td:text-gray-600
+                                                            prose-tr:border-b prose-tr:border-gray-100
+                                                            prose-tr:hover:bg-gray-50/50 prose-tr:transition-colors prose-tr:duration-150
 
                                                             prose-th:first-child:rounded-tl-lg prose-th:last-child:rounded-tr-lg
                                                             prose-tr:last-child prose-td:first-child:rounded-bl-lg prose-tr:last-child prose-td:last-child:rounded-br-lg
 
-                                                            prose-hr:my-8 prose-hr:border-gray-200 dark:prose-hr:border-gray-700
+                                                            prose-hr:my-8 prose-hr:border-gray-200
                                                             line-numbers
-                                                            selection:bg-blue-100 dark:selection:bg-blue-900/40
-                                                            prose-strong:font-semibold prose-strong:text-gray-800 dark:prose-strong:text-gray-200
+                                                            selection:bg-blue-100
+                                                            prose-strong:font-semibold prose-strong:text-gray-800
                                                             prose-em:italic
                                                             first:prose-p:mt-0 last:prose-p:mb-0"
                                                      v-html="article.htmlContent">
@@ -354,6 +354,7 @@ const highlightCode = (attempt = 0) => {
 // 处理内容区域图片的加载状态
 const contentRef = ref<HTMLElement | null>(null);
 let imageProcessingComplete = false;
+let isProcessingImages = false; // 互斥锁，防止并发执行
 
 const setupContentImageLoading = () => {
         if (!contentRef.value) {
@@ -361,26 +362,29 @@ const setupContentImageLoading = () => {
                 return;
         }
 
+        // 互斥锁：防止重复执行
+        if (isProcessingImages) {
+                console.log('[Article Page] 图片处理正在进行中，跳过');
+                return;
+        }
+        isProcessingImages = true;
+
         const images = contentRef.value.querySelectorAll('img');
         console.log('[Article Page] 找到图片数量:', images.length);
 
         if (images.length === 0) {
                 console.log('[Article Page] 没有图片需要处理');
                 imageProcessingComplete = true;
+                isProcessingImages = false;
                 return;
         }
 
-        let processedCount = 0;
-        const totalImages = images.length;
+        // 重置已处理的图片标记，确保重新处理
+        images.forEach((img) => {
+                img.dataset.hasSkeleton = 'false';
+        });
 
         images.forEach((img) => {
-                // 跳过已处理的图片
-                if (img.dataset.hasSkeleton === 'true') {
-                        processedCount++;
-                        return;
-                }
-                img.dataset.hasSkeleton = 'true';
-
                 const parent = img.parentElement;
                 if (!parent) return;
 
@@ -411,23 +415,26 @@ const setupContentImageLoading = () => {
                 parent.insertBefore(wrapper, img);
                 wrapper.appendChild(img);
 
-                // 标记状态
+                // 标记状态 - 防止重复处理
+                img.dataset.hasSkeleton = 'true';
                 let isHandled = false;
 
-                // 添加事件监听
                 const onLoad = () => {
                         if (isHandled) return;
                         isHandled = true;
+                        img.removeEventListener('load', onLoad);
+                        img.removeEventListener('error', onError);
                         img.style.opacity = '1';
                         wrapper.className = 'w-full my-8 overflow-hidden rounded-lg';
                         wrapper.style.minHeight = '';
                         console.log('[Article Page] 图片加载成功:', img.src);
-                        checkComplete();
                 };
 
                 const onError = () => {
                         if (isHandled) return;
                         isHandled = true;
+                        img.removeEventListener('load', onLoad);
+                        img.removeEventListener('error', onError);
                         console.log('[Article Page] 图片加载失败:', img.src);
                         img.style.display = 'none';
                         wrapper.className = 'relative my-8 overflow-hidden rounded-lg border-2 border-dashed border-red-400 bg-red-50 flex items-center justify-center';
@@ -435,41 +442,22 @@ const setupContentImageLoading = () => {
                         wrapper.textContent = '图片加载失败';
                         wrapper.style.color = '#ef4444';
                         wrapper.style.fontSize = '14px';
-                        checkComplete();
                 };
 
+                // 添加事件监听
                 img.addEventListener('load', onLoad);
                 img.addEventListener('error', onError);
 
-                // 检查缓存
+                // 检查是否已经在缓存中加载完成
                 if (img.complete && img.naturalWidth > 0) {
                         onLoad();
-                } else if (img.complete && img.naturalWidth === 0) {
-                        // 图片已完成但没有宽度，说明加载失败
-                        onError();
-                } else {
-                        // 图片还未加载，添加超时处理
-                        setTimeout(() => {
-                                if (!isHandled) {
-                                        console.log('[Article Page] 图片加载超时，标记为失败:', img.src);
-                                        onError();
-                                }
-                        }, 10000);
                 }
-
-                processedCount++;
         });
 
-        function checkComplete() {
-                // 检查所有图片是否都已处理
-                const handledImages = contentRef.value?.querySelectorAll('img[data-has-skeleton="true"]');
-                if (handledImages && handledImages.length >= totalImages) {
-                        imageProcessingComplete = true;
-                        console.log('[Article Page] 所有图片处理完成');
-                }
-        }
-
-        checkComplete();
+        // 标记处理完成
+        imageProcessingComplete = true;
+        isProcessingImages = false;
+        console.log('[Article Page] 所有图片处理完成');
 };
 
 // 监听文章内容变化
@@ -479,15 +467,14 @@ watch(() => article.value?.htmlContent, async (newContent) => {
                 coverImageLoading.value = true;
                 imageProcessingComplete = false;
                 await nextTick();
+                // 使用 $nextTick 确保 DOM 已更新
                 setTimeout(() => {
                         if (!imageProcessingComplete) {
-                                console.log('[Article Page] 执行代码高亮和图片处理');
+                                console.log('[Article Page] 执行代码高亮和图片处理 (watch)');
                                 highlightCode(0);
                                 setupContentImageLoading();
-                        } else {
-                                console.log('[Article Page] 图片已处理过，跳过');
                         }
-                }, 100);
+                }, 50);
         }
 }, {immediate: true});
 
@@ -495,13 +482,15 @@ watch(() => article.value?.htmlContent, async (newContent) => {
 onMounted(() => {
         console.log('[Article Page] 组件挂载');
         setTimeout(() => {
+                // 只在未处理时执行
                 if (!imageProcessingComplete) {
+                        console.log('[Article Page] 执行代码高亮和图片处理 (onMounted)');
                         highlightCode(0);
                         setupContentImageLoading();
                 } else {
                         console.log('[Article Page] 图片已在watch中处理过，跳过onMounted处理');
                 }
-        }, 100);
+        }, 200);
 });
 
 
@@ -536,7 +525,6 @@ useHead({
 useSeoMeta({
         title: () => article.value ? `${article.value.title} - ${siteStore.siteName}` : '加载中...',
         description: () => articleDescription.value,
-        keywords: () => article.value?.tags || '',
         ogTitle: () => article.value?.title || '',
         ogDescription: () => articleDescription.value,
         ogImage: () => article.value?.coverImage || '',
