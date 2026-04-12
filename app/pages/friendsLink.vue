@@ -26,7 +26,7 @@
                         <a v-for="link in friendLinkList"
                            :key="link.name"
                            :href="link.url"
-                           class="group block p-4 bg-transparent border border-outline-variant/15 rounded-lg hover:bg-surface-container-highest transition-all duration-300"
+                           class="group block p-4 bg-transparent border border-outline-variant/15 rounded-lg transition-all duration-300"
                            rel="noopener noreferrer"
                            target="_blank">
                                 <div class="flex items-center gap-4">
@@ -40,8 +40,13 @@
                                                              @error="(e) => handleImageError(e, link.name)">
                                                         <div v-else-if="imageErrorMap[link.name]"
                                                              class="w-full h-full flex flex-col items-center justify-center bg-surface-container-highest/50">
-                                                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                                                <svg class="w-5 h-5 text-gray-400" fill="none"
+                                                                     stroke="currentColor" viewBox="0 0 24 24">
+                                                                        <path
+                                                                            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                                                            stroke-linecap="round"
+                                                                            stroke-linejoin="round"
+                                                                            stroke-width="1.5"/>
                                                                 </svg>
                                                                 <span class="text-[8px] text-gray-400 mt-0.5">404</span>
                                                         </div>
@@ -49,12 +54,19 @@
                                                              :alt="link.name"
                                                              :src="link.imageUrl"
                                                              class="w-full h-full object-cover transition-all hidden"
-                                                             @load="handleImageLoad(link.name)"
-                                                             @error="(e) => handleImageError(e, link.name)">
-                                                        <div v-if="!imageLoadedMap[link.name] && !imageErrorMap[link.name]"
-                                                             class="w-full h-full flex flex-col items-center justify-center bg-surface-container-highest/50">
-                                                                <svg class="w-5 h-5 text-gray-400 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                                             @error="(e) => handleImageError(e, link.name)"
+                                                             @load="handleImageLoad(link.name)">
+                                                        <div
+                                                            v-if="!imageLoadedMap[link.name] && !imageErrorMap[link.name]"
+                                                            class="w-full h-full flex flex-col items-center justify-center bg-surface-container-highest/50">
+                                                                <svg class="w-5 h-5 text-gray-400 animate-pulse"
+                                                                     fill="none" stroke="currentColor"
+                                                                     viewBox="0 0 24 24">
+                                                                        <path
+                                                                            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                                                            stroke-linecap="round"
+                                                                            stroke-linejoin="round"
+                                                                            stroke-width="1.5"/>
                                                                 </svg>
                                                         </div>
                                                 </template>
@@ -103,7 +115,7 @@
                 </div>
 
                 <!-- 申请友链表单 -->
-                <div class="mt-16 bg-transparent border border-outline-variant/15 p-8 rounded-lg">
+                <div class="mt-16 bg-transparent border border-outline-variant/15 px-8 pt-8 pb-2 rounded-lg">
                         <h2 class="font-bold text-lg mb-6 text-on-surface">申请友链</h2>
                         <a-form
                             ref="formRef"
