@@ -1,4 +1,10 @@
-# Nuxt Minimal Starter
+## 部署改项目：
+
+如果想部署该项目，请跳转到下方链接根据文档安装发行版。
+> https://github.com/DCSCDF/MYBLOG-Distribution
+
+
+Nuxt Minimal Starter
 
 Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
