@@ -144,14 +144,14 @@
                                           data-allow-mismatch>
                                         {{ item.name }}
                                 </NuxtLink>
-                                <ClientOnly fallback="<!-- mobile-user-auth-section -->" fallback-tag="div">
-                                        <div v-if="userInfo">
-                                                <NuxtLink class="mb-4 mx-6 text-xl font-black cursor-pointer"
-                                                          to="/login">
-                                                        用户中心 - {{ userInfo.nickname || userInfo.username }}
-                                                </NuxtLink>
-                                        </div>
-                                        <NuxtLink v-else class="mb-4 mx-6 text-xl font-black cursor-pointer"
+                                <ClientOnly fallback-tag="div">
+
+                                        <NuxtLink v-if="userInfo" class="pb-4 mx-6 text-xl font-black cursor-pointer"
+                                                  to="/login">
+                                                用户中心 - {{ userInfo.nickname || userInfo.username }}
+                                        </NuxtLink>
+
+                                        <NuxtLink v-else class="pb-4 mx-6 text-xl font-black cursor-pointer"
                                                   to="/login">
                                                 登陆
                                         </NuxtLink>
@@ -473,7 +473,7 @@ onUnmounted(() => {
         font-family: 'Plus_Jakarta_Sans', sans-serif;
         font-size: 14px;
         font-weight: 500;
-        color: #64748b;
+        color: #8c8c8c;
         transition: all 0.2s;
 }
 
