@@ -1,12 +1,23 @@
 <template>
-        <!-- TopNavBar (Shared Component) -->
         <nav
             :class="isVisible || isMenuOpen ? 'translate-y-0' : '-translate-y-full'"
-            class="fixed top-4 left-1/2 -translate-x-1/2 w-[95%] md:max-w-2xl max-w-xl rounded-full px-4 py-2 border border-gray-200/50 bg-white/70 backdrop-blur-md flex items-center justify-between z-50 shadow-[0_8px_32px_rgba(22,119,255,0.04)] transition-transform duration-300"
+            class="fixed top-4 left-1/2 -translate-x-1/2 w-[95%] md:max-w-2xl max-w-xl rounded-full px-4 py-2 border border-gray-200/50 bg-white/70 backdrop-blur-md flex items-center justify-between z-50 transition-transform duration-300"
             data-allow-mismatch
         >
                 <div class="text-lg font-bold tracking-tighter text-gray-900 px-3 flex items-center ">
-                        <img alt="" height="30" src="../assets/images/白猫.svg" width="30">
+                        <svg class="icon" height="30" p-id="1320" t="1777084112424"
+                             version="1.1" viewBox="0 0 1024 1024" width="30" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M447.7 62H94.1C76.4 62 62 74.6 62 90.1v478.1c0 15.5 14.4 28.1 32.1 28.1h353.6c17.8 0 32.1-12.6 32.1-28.1V90.1c0.1-15.5-14.3-28.1-32.1-28.1z m-32.1 478.1H126.3V118.3h289.3v421.8z"
+                                    fill="#37B1C9" p-id="1321"></path>
+                                <path
+                                    d="M447.7 652.6H94.1c-17.8 0-32.1 12.6-32.1 28.1v253.1c0 15.5 14.4 28.1 32.1 28.1h353.6c17.8 0 32.1-12.6 32.1-28.1v-253c0.1-15.6-14.3-28.2-32.1-28.2z m-32.1 253.2H126.3V708.9h289.3v196.9zM929.9 62H576.3c-17.8 0-32.1 12.6-32.1 28.1v253.1c0 15.5 14.4 28.1 32.1 28.1h353.6c17.8 0 32.1-12.6 32.1-28.1V90.1c0-15.5-14.4-28.1-32.1-28.1z m-32.2 253.1H608.4V118.3h289.3v196.8z"
+                                    fill="#9BD8E4" p-id="1322"></path>
+                                <path
+                                    d="M929.9 427.6H576.3c-17.8 0-32.1 12.6-32.1 28.1v478.1c0 15.5 14.4 28.1 32.1 28.1h353.6c17.8 0 32.1-12.6 32.1-28.1v-478c0-15.6-14.4-28.2-32.1-28.2z m-32.2 478.2H608.4V483.9h289.3v421.9z"
+                                    fill="#37B1C9" p-id="1323"></path>
+                        </svg>
+                        <!--                        <img alt="" height="30" src="../assets/images/白猫.svg" width="30">-->
                         <!--					<span v-if="siteName" class="mx-2 text-base">{{ siteName }}</span>-->
                 </div>
                 <div class="hidden md:flex items-center gap-8">
@@ -49,7 +60,7 @@
                 <div class="flex items-center gap-2">
                         <Search/>
                         <!-- 用户登录状态 (仅客户端渲染) -->
-                        <ClientOnly fallback="<!-- user-auth-section -->" fallback-tag="div">
+                        <ClientOnly>
                                 <div v-if="userInfo" class="hidden md:flex items-center gap-2">
                                         <a-avatar
                                             :size="40"
@@ -74,60 +85,6 @@
                         </div>
                 </div>
         </nav>
-
-
-        <!--        <header :class="[-->
-        <!--            'sticky top-0 left-0 right-0 z-40 duration-300 flex justify-center transition-transform',-->
-        <!--            isVisible || isMenuOpen ? 'translate-y-0' : '-translate-y-full'-->
-        <!--        ]">-->
-        <!--                <div-->
-        <!--                    class="my-4 w-full max-w-4xl mx-4 md:mx-12 bg-white/90 rounded-full backdrop-blur-md-->
-        <!--                    shadow-[0_0px_0.34px_0.34px_rgba(30,45,82,0.06),0.34px_0.34px_0.34px_0px_rgba(30,45,82,0.2)] opacity-100 mix-blend-plus-lighter">-->
-        <!--                        <div class="p-2 flex justify-between flex-row">-->
-        <!--                                <div class="mx-4 flex h-10">-->
-        <!--                                        <div class="flex items-center">-->
-        <!--                                                <img alt="" height="30" src="../assets/images/白猫.svg" width="30">-->
-        <!--                                        </div>-->
-        <!--                                        <div class="hidden md:flex items-center gap-2 mx-4">-->
-        <!--                                                <a-button v-for="(item, index) in menu" :key="index"-->
-        <!--                                                          type="text"-->
-        <!--                                                          @click="navigateTo(item.link)">-->
-        <!--                                                        {{ item.name }}-->
-        <!--                                                </a-button>-->
-        <!--                                        </div>-->
-        <!--                                </div>-->
-        <!--                                <div class="flex items-center gap-2 mx-1 ">-->
-        <!--                                        &lt;!&ndash; 已登录：显示头像和用户名 &ndash;&gt;-->
-        <!--                                        <div v-if="userInfo" class="hidden md:flex items-center gap-2">-->
-        <!--                                                <a-avatar-->
-        <!--                                                    :size="40"-->
-        <!--                                                    :src="userInfo.avatarUrl || undefined"-->
-        <!--                                                    :style="{ backgroundColor: userInfo.avatarUrl ? undefined : '#1890ff' }"-->
-        <!--                                                    class="cursor-pointer hover:opacity-80 transition-opacity"-->
-        <!--                                                    @click="navigateTo('/login')">-->
-        <!--                                                        {{ userInfo.nickname?.[0] || userInfo.username?.[0] || '?' }}-->
-        <!--                                                </a-avatar>-->
-        <!--                                                &lt;!&ndash;                                                <span class="text-sm font-medium">{{userInfo.nickname || userInfo.username}}</span>&ndash;&gt;-->
-        <!--                                        </div>-->
-        <!--                                        &lt;!&ndash; 未登录：显示登陆按钮 &ndash;&gt;-->
-        <!--                                        <NuxtLink-->
-        <!--                                            v-else-->
-        <!--                                            class="hidden md:flex p-2 text-md px-6 text-white rounded-full bg-gradient-to-b-->
-        <!--                                           from-gray-600 to-gray-900 shadow-[inset_0_1px_1px_0px_rgba(255,255,255,0.25),0_3px_3px_0px_rgba(0,0,0,0.15)]"-->
-        <!--                                            to="/login">-->
-        <!--                                                登陆-->
-        <!--                                        </NuxtLink>-->
-
-
-        <!--                                        <div class="mx-4 flex md:hidden">-->
-        <!--                                                <button class="flex items-center" @click="toggleMenu">-->
-        <!--                                                        <MenuOutlined :style="{ fontSize: '18px' }"/>-->
-        <!--                                                </button>-->
-        <!--                                        </div>-->
-        <!--                                </div>-->
-        <!--                        </div>-->
-        <!--                </div>-->
-        <!--        </header>-->
 
         <transition
             enter-active-class="transition-opacity duration-300"
@@ -338,7 +295,7 @@ const hasToken = (): boolean => {
         }
 }
 
-// 同步 localStorage token 到 sessionStorage（跨标签页共享）
+// 同步 localStorage token 到 sessionStorage
 const syncTokenFromLocalStorage = () => {
         // 只在 remember=false 且 sessionStorage 没有 token 时同步
         const isRemember = localStorage.getItem('remember') === 'true'
@@ -394,7 +351,7 @@ const handleScroll = () => {
         const currentScrollY = window.scrollY
 
         // 只有下滑超过 ~px 才启动隐藏逻辑
-        if (currentScrollY > 10000000) {
+        if (currentScrollY > 100000000) {
                 // 下滑时隐藏
                 if (currentScrollY > lastScrollY.value) {
                         isVisible.value = false
@@ -410,6 +367,17 @@ const handleScroll = () => {
 
         lastScrollY.value = currentScrollY
 }
+
+// 监听路由变化，重置分类选择
+watch(() => route.path, (newPath) => {
+        // 当离开首页时，重置分类为全部
+        if (newPath !== '/' && newPath !== '') {
+                selectedCategoryId.value = undefined
+                saveSelectedCategory(undefined)
+        }
+        // 路由变化时关闭移动端菜单
+        isMenuOpen.value = false
+})
 
 onMounted(() => {
         window.addEventListener('scroll', handleScroll)

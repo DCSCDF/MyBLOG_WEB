@@ -1,6 +1,6 @@
 <template>
-        <div class="fixed inset-0 -z-50 bg-[length:200%_200%] animate-gradient
-        bg-gradient-to-tr from-blue-400/40 via-white/70 to-blue-400/70"></div>
+        <!--        <div class="fixed inset-0 -z-50 bg-[length:200%_200%] animate-gradient-->
+        <!--        bg-gradient-to-tr from-blue-400/40 via-white/70 to-blue-400/70"></div>-->
         <div class="min-h-screen bg-gradient-to-br  to-indigo-100 flex flex-col justify-center items-center p-6">
                 <!-- 错误代码展示 -->
                 <div class="relative">

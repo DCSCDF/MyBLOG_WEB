@@ -145,7 +145,7 @@
                                                             prose-a:underline prose-a:underline-offset-2 prose-a:decoration-blue-300
                                                             hover:prose-a:text-blue-700 hover:prose-a:decoration-2
                                                             prose-img:rounded-md prose-img:mx-auto prose-img:!m-0 prose-img:border prose-img:border-gray-200
-                                                            prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm prose-code:bg-gray-100 prose-code:text-gray-800  prose-code:font-mono prose-code:border prose-code:border-gray-200
+                                                              prose-code:px-1 prose-code:mx-1 prose-code:py-[1px] prose-code:rounded-md prose-code:text-sm prose-code:bg-gray-100 prose-code:text-gray-800  prose-code:font-mono prose-code:border prose-code:border-gray-200
                                                             prose-pre:rounded-lg prose-pre:my-7 prose-pre:overflow-x-auto prose-pre:bg-gray-800 prose-pre:border prose-pre:border-gray-200
                                                             prose-pre code:bg-transparent code:text-gray-200 code:border-0 prose-pre code:p-0
 

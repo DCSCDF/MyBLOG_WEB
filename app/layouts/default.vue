@@ -1,9 +1,9 @@
 <template>
         <div>
-                <img alt=""
-                     class="fixed top-0 left-0 w-full h-full object-cover opacity-30 z-40 pointer-events-none min-w-[100vw] min-h-[100vh] "
-                     src="../assets/images/webbg.webp"
-                     style="mix-blend-mode: multiply;">
+                <!--                <img alt=""-->
+                <!--                     class="fixed top-0 left-0 w-full h-full object-cover opacity-60 z-40 pointer-events-none min-w-[100vw] min-h-[100vh] "-->
+                <!--                     src="../assets/images/webbg.webp"-->
+                <!--                     style="mix-blend-mode: multiply;">-->
 
                 <div class="min-h-screen flex flex-col">
                         <a-back-top/>
