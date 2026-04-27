@@ -91,13 +91,13 @@
                                                                                         }}
                                                                                 </span>
                                                                                 <span v-if="article.isTop"
-                                                                                      class="text-[10px] px-1 py-[1.2px] ounded-[4px] bg-red-50 text-red-500 font-medium">
+                                                                                      class="text-[10px] px-1 py-[1.2px] rounded-[4px] bg-red-50 text-red-500 font-medium">
                                                                                         置顶
                                                                                 </span>
                                                                                 <span
                                                                                     v-for="tag in getArticleTags(article.tags)"
                                                                                     :key="tag"
-                                                                                    class="text-[10px] px-1 py-[1.2px] ounded-[4px] bg-gray-100 text-gray-500">
+                                                                                    class="text-[10px] px-1 py-[1.2px] rounded-[4px] bg-gray-100 text-gray-500">
                                                                                         {{ tag }}
                                                                                 </span>
                                                                         </div>
