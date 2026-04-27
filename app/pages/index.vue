@@ -45,7 +45,7 @@
                                                             :to="`/article/${article.id}`"
                                                             class="timeline-content group block pb-8 px-3"
                                                         >
-                                                                <h3 class="text-lg font-bold text-on-background group-hover:text-primary transition-colors mb-1">
+                                                                <h3 class="text-lg text-gray-700 font-bold group-hover:text-primary transition-colors mb-1">
                                                                         {{ article.title }}
                                                                 </h3>
                                                                 <div class="flex pt-1 items-center mb-1">

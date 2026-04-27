@@ -24,14 +24,14 @@
                         <NuxtLink v-for="(item, index) in menu"
                                   :key="index"
                                   :to="item.link"
-                                  class="text-gray-500 hover:text-primary transition-colors font-['Plus_Jakarta_Sans'] text-sm font-medium tracking-tight cursor-pointer"
+                                  class="text-gray-600 transition-colors text-sm font-medium tracking-tight cursor-pointer"
                                   data-allow-mismatch>
                                 {{ item.name }}
                         </NuxtLink>
                         <!-- 分类选择下拉 (仅文章列表页面显示) -->
                         <div v-if="showCategoryDropdown" class="category-dropdown">
                                 <button
-                                    class="category-dropdown-trigger text-gray-500 hover:text-primary transition-colors font-['Plus_Jakarta_Sans'] text-sm font-medium tracking-tight cursor-pointer"
+                                    class="category-dropdown-trigger text-gray-600 transition-colors font-medium text-sm tracking-tight cursor-pointer"
                                     @click="toggleDropdown"
                                 >
                                         {{ currentCategoryName }}

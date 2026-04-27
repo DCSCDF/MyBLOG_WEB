@@ -6,7 +6,7 @@
                     type="button"
                     @click="openSearch"
                 >
-                        <SearchOutlined class="text-gray-600"/>
+                        <SearchOutlined class="text-gray-700"/>
                 </button>
 
                 <!-- 搜索弹窗 -->
@@ -78,33 +78,33 @@
 
                                                                 <div
                                                                     class="flex-1 min-w-0 flex flex-col justify-center">
+                                                                        <!-- 标题 -->
+                                                                        <h4 class="text-md font-semibold text-gray-800 truncate group-hover:text-primary transition-colors">
+                                                                                {{ article.title }}</h4>
                                                                         <!-- 分类和标签 -->
                                                                         <div
-                                                                            class="flex items-center flex-wrap gap-2 mb-1.5">
+                                                                            class="flex items-center flex-wrap gap-2 my-2">
                                                                                 <span
-                                                                                    class="text-xs font-medium px-2 py-0.5 rounded-full bg-primary/10 text-primary">
+                                                                                    class="text-[10px] font-medium px-1 py-[1.2px] rounded-[4px] bg-primary/10 text-primary">
                                                                                         {{
                                                                                                 article.categoryName || '未分类'
                                                                                         }}
                                                                                 </span>
                                                                                 <span v-if="article.isTop"
-                                                                                      class="text-xs px-2 py-0.5 rounded-full bg-red-50 text-red-500 font-medium">
+                                                                                      class="text-[10px] px-1 py-[1.2px] ounded-[4px] bg-red-50 text-red-500 font-medium">
                                                                                         置顶
                                                                                 </span>
                                                                                 <span
                                                                                     v-for="tag in getArticleTags(article.tags)"
                                                                                     :key="tag"
-                                                                                    class="text-xs px-2 py-0.5 rounded-full bg-gray-100 text-gray-500">
+                                                                                    class="text-[10px] px-1 py-[1.2px] ounded-[4px] bg-gray-100 text-gray-500">
                                                                                         {{ tag }}
                                                                                 </span>
                                                                         </div>
 
-                                                                        <!-- 标题 -->
-                                                                        <h4 class="text-sm font-semibold text-gray-800 truncate group-hover:text-primary transition-colors">
-                                                                                {{ article.title }}</h4>
 
                                                                         <!-- 摘要 -->
-                                                                        <p class="text-xs text-gray-500 mt-1 line-clamp-2 leading-relaxed">
+                                                                        <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed">
                                                                                 {{ article.summary || '暂无摘要' }}</p>
                                                                 </div>
 

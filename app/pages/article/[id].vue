@@ -118,7 +118,10 @@
 
                                                 <!-- 文章内容 - 使用 MdPreview 渲染 Markdown -->
                                                 <div v-if="article.mdContent">
-                                                     <MdPreview :id="editorId" :modelValue="article.mdContent" />
+                                                        <MdPreview :id="editorId" :modelValue="article.mdContent"
+
+                                                                   theme="light"/>
+                                                        <!--                                                                   previewTheme="github"-->
                                                 </div>
 
                                                 <!-- 文章底部 -->
@@ -193,11 +196,11 @@ const {data: apiResult, error: fetchError, pending} = await useAsyncData(
     }
 );
 
-// 调试信息
-if (import.meta.client) {
-        console.log('[Article Page] SSR data loaded:', apiResult.value);
-        console.log('[Article Page] pending:', pending.value);
-}
+// // 调试信息
+// if (import.meta.client) {
+//         console.log('[Article Page] SSR data loaded:', apiResult.value);
+//         console.log('[Article Page] pending:', pending.value);
+// }
 
 // 文章数据
 const article = computed(() => {
@@ -260,7 +263,7 @@ const articleDescription = computed(() => {
         return text.length > 200 ? text.substring(0, 200) + '...' : text;
 });
 
-// SEO 配置（使用响应式数据）
+// SEO 配置
 useHead({
         title: () => article.value ? `${article.value.title} - ${siteStore.siteName}` : '加载中...',
         meta: [
@@ -277,7 +280,7 @@ useHead({
         ]
 });
 
-// OG 标签（社交分享优化）
+// OG 标签
 useSeoMeta({
         title: () => article.value ? `${article.value.title} - ${siteStore.siteName}` : '加载中...',
         description: () => articleDescription.value,
