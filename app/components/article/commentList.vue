@@ -118,7 +118,7 @@
 
                 <!-- 空状态 -->
                 <div v-else class="text-center py-12 text-gray-400">
-                        <p>暂无评论，快来抢沙发吧~</p>
+                        <p>暂无评论</p>
                 </div>
         </section>
 </template>

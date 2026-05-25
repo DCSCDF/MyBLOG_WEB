@@ -1,7 +1,7 @@
 <template>
         <nav
             :class="isVisible || isMenuOpen ? 'translate-y-0' : '-translate-y-full'"
-            class="fixed top-4 left-1/2 -translate-x-1/2 w-[95%] md:max-w-2xl max-w-xl rounded-full px-4 py-2 border border-gray-200/50 bg-white/70 backdrop-blur-md flex items-center justify-between z-50 transition-transform duration-300"
+            class="fixed top-4 left-1/2 -translate-x-1/2 w-[95%] md:max-w-2xl max-w-xl rounded-full px-4 py-2 border border-gray-200/50 bg-white/60 backdrop-blur-md flex items-center justify-between z-50 transition-transform duration-300"
             data-allow-mismatch
         >
                 <div class="text-lg font-bold tracking-tighter text-gray-900 px-3 flex items-center ">
@@ -93,7 +93,7 @@
             leave-active-class="transition-opacity duration-300"
             leave-from-class="opacity-100"
             leave-to-class="opacity-0">
-                <div v-if="isMenuOpen" class="md:hidden fixed w-full h-full bg-white z-30">
+                <div v-if="isMenuOpen" class="md:hidden fixed w-full h-full bg-white/60 backdrop-blur-md   z-30">
                         <div class="mt-28 flex flex-col">
                                 <NuxtLink v-for="(item, index) in menu"
                                           :key="index" :to="item.link"
