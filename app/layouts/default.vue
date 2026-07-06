@@ -40,6 +40,3 @@ await useAsyncData('site-info', async () => {
 </script>
 
 
-<style scoped>
-
-</style>

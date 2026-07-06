@@ -28,34 +28,7 @@
                                   data-allow-mismatch>
                                 {{ item.name }}
                         </NuxtLink>
-                        <!-- 分类选择下拉 (仅文章列表页面显示) -->
-                        <div v-if="showCategoryDropdown" class="category-dropdown">
-                                <button
-                                    class="category-dropdown-trigger text-gray-600 transition-colors font-medium text-sm tracking-tight cursor-pointer"
-                                    @click="toggleDropdown"
-                                >
-                                        {{ currentCategoryName }}
-                                        <span class="dropdown-arrow">▼</span>
-                                </button>
-                                <div v-if="isDropdownOpen" class="category-dropdown-menu">
-                                        <div
-                                            :class="{ active: !selectedCategoryId }"
-                                            class="dropdown-item"
-                                            @click="selectCategory(undefined)"
-                                        >
-                                                全部分类
-                                        </div>
-                                        <div
-                                            v-for="category in categoryList"
-                                            :key="category.id"
-                                            :class="{ active: selectedCategoryId === category.id }"
-                                            class="dropdown-item"
-                                            @click="selectCategory(category.id)"
-                                        >
-                                                {{ category.name }}
-                                        </div>
-                                </div>
-                        </div>
+                        <CategoryDropdown v-if="showCategoryDropdown"/>
                 </div>
                 <div class="flex items-center gap-2">
                         <Search/>
@@ -113,27 +86,8 @@
                                                 登陆
                                         </NuxtLink>
                                 </ClientOnly>
-                                <!-- 移动端分类选择 (仅文章列表页面显示) -->
                                 <div v-if="showMobileCategory" class="mb-4 mx-6">
-                                        <div class="text-xl font-black mb-2">选择分类</div>
-                                        <div class="flex flex-col gap-2 px-3 border-l-2 border-gray-300">
-                                                <div
-                                                    :class="{ 'text-blue-500 font-bold': !selectedCategoryId }"
-                                                    class="text-base cursor-pointer"
-                                                    @click="selectCategory(undefined)"
-                                                >
-                                                        全部分类
-                                                </div>
-                                                <div
-                                                    v-for="category in categoryList"
-                                                    :key="category.id"
-                                                    :class="{ 'text-blue-500 font-bold': selectedCategoryId === category.id }"
-                                                    class="text-base  cursor-pointer"
-                                                    @click="selectCategory(category.id)"
-                                                >
-                                                        {{ category.name }}
-                                                </div>
-                                        </div>
+                                        <CategoryDropdown/>
                                 </div>
 
 
@@ -144,8 +98,8 @@
 
 <script lang="ts" setup>
 import {authApi} from '~/api/user/authApi'
-import {categoryApi} from '~/api/category/categoryApi'
-import Search from "~/components/blog/Search.vue";
+import Search from "~/components/blog/Search.vue"
+import CategoryDropdown from "~/components/blog/CategoryDropdown.vue";
 
 defineProps<{
         siteName?: string
@@ -153,95 +107,13 @@ defineProps<{
 
 const route = useRoute()
 
-// 分类列表
-const categoryList = ref<any[]>([])
-const selectedCategoryId = ref<number | undefined>(undefined)
-const isDropdownOpen = ref(false)
-
-// 本地存储键名
-const STORAGE_KEY = 'selectedCategoryId'
-
-// 从本地存储读取选中的分类
-const loadSelectedCategory = () => {
-        if (import.meta.client) {
-                const stored = localStorage.getItem(STORAGE_KEY)
-                if (stored) {
-                        selectedCategoryId.value = stored === 'all' ? undefined : Number(stored)
-                }
-        }
-}
-
-// 保存选中的分类到本地存储
-const saveSelectedCategory = (categoryId: number | undefined) => {
-        if (import.meta.client) {
-                if (categoryId === undefined) {
-                        localStorage.setItem(STORAGE_KEY, 'all')
-                } else {
-                        localStorage.setItem(STORAGE_KEY, categoryId.toString())
-                }
-        }
-}
-
-// 获取当前选中的分类名称
-const currentCategoryName = computed(() => {
-        if (!selectedCategoryId.value) return '全部分类'
-        const category = categoryList.value.find(c => c.id === selectedCategoryId.value)
-        return category?.name || '全部分类'
-})
-
-// 获取分类列表
-const fetchCategoryList = async () => {
-        try {
-                const result = await categoryApi.getCategoryList()
-                if (result && result.data) {
-                        categoryList.value = result.data || []
-                }
-        } catch (error) {
-                console.error('获取分类列表失败:', error)
-        }
-}
-
-// 切换下拉菜单
-const toggleDropdown = () => {
-        isDropdownOpen.value = !isDropdownOpen.value
-}
-
-// 选中分类 - 使用路由跳转更新 URL query 参数
-const selectCategory = (categoryId: number | undefined) => {
-        selectedCategoryId.value = categoryId
-        saveSelectedCategory(categoryId)
-        isDropdownOpen.value = false
-        // 通过路由跳转触发服务端重新获取数据
-        navigateTo({
-                path: '/',
-                query: categoryId ? {categoryId: categoryId.toString()} : {}
-        }, {replace: true})
-}
-
-// 是否显示分类下拉菜单（仅在文章列表页面显示）
 const showCategoryDropdown = computed(() => {
-        return route.path === '/' || route.path === ''
+        return route.path === '/myblog' || route.path === ''
 })
 
-// 移动端是否显示分类选择
 const showMobileCategory = computed(() => {
-        return route.path === '/' || route.path === ''
+        return route.path === '/myblog' || route.path === ''
 })
-
-// 点击其他地方关闭下拉菜单
-const closeDropdown = (e: MouseEvent) => {
-        const target = e.target as HTMLElement
-        if (!target.closest('.category-dropdown')) {
-                isDropdownOpen.value = false
-        }
-}
-
-// 监听其他标签页的分类变化
-const handleCategoryStorageChange = (e: StorageEvent) => {
-        if (e.key === STORAGE_KEY) {
-                loadSelectedCategory()
-        }
-}
 
 const menu = ref([
         {
@@ -252,10 +124,10 @@ const menu = ref([
                 name: "友情链接",
                 link: "/friendsLink"
         },
-        // {
-        //         name: "MyBlog",
-        //         link: "/"
-        // }
+        {
+                name: "我的博客",
+                link: "/myblog"
+        }
 ])
 
 const isMenuOpen = ref(false)
@@ -351,7 +223,7 @@ const handleScroll = () => {
         const currentScrollY = window.scrollY
 
         // 只有下滑超过 ~px 才启动隐藏逻辑
-        if (currentScrollY > 100000000) {
+        if (currentScrollY > 60000000000000000000000000000000000000000000000000000000000n) {
                 // 下滑时隐藏
                 if (currentScrollY > lastScrollY.value) {
                         isVisible.value = false
@@ -368,90 +240,25 @@ const handleScroll = () => {
         lastScrollY.value = currentScrollY
 }
 
-// 监听路由变化，重置分类选择
 watch(() => route.path, (newPath) => {
-        // 当离开首页时，重置分类为全部
-        if (newPath !== '/' && newPath !== '') {
-                selectedCategoryId.value = undefined
-                saveSelectedCategory(undefined)
-        }
-        // 路由变化时关闭移动端菜单
         isMenuOpen.value = false
 })
 
 onMounted(() => {
         window.addEventListener('scroll', handleScroll)
         window.addEventListener('storage', handleStorageChange)
-        window.addEventListener('storage', handleCategoryStorageChange)
         document.addEventListener('visibilitychange', handleVisibilityChange)
-        document.addEventListener('click', closeDropdown)
-        // 初始化时同步 localStorage token 到 sessionStorage
         syncTokenFromLocalStorage()
         fetchUserProfile()
-        fetchCategoryList()
-        loadSelectedCategory()
 })
 
 onUnmounted(() => {
         window.removeEventListener('scroll', handleScroll)
         window.removeEventListener('storage', handleStorageChange)
-        window.removeEventListener('storage', handleCategoryStorageChange)
         document.removeEventListener('visibilitychange', handleVisibilityChange)
-        document.removeEventListener('click', closeDropdown)
 })
 
 </script>
 
 <style scoped>
-/* 分类选择下拉样式 */
-.category-dropdown {
-        position: relative;
-}
-
-.category-dropdown-trigger {
-        display: flex;
-        align-items: center;
-        gap: 4px;
-        background: none;
-        border: none;
-        padding: 0;
-}
-
-.dropdown-arrow {
-        font-size: 10px;
-        transition: transform 0.2s;
-}
-
-.category-dropdown-menu {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        margin-top: 8px;
-        min-width: 120px;
-        background: white;
-        border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        padding: 4px 0;
-        z-index: 100;
-}
-
-.dropdown-item {
-        padding: 8px 12px;
-        cursor: pointer;
-        font-family: 'Plus_Jakarta_Sans', sans-serif;
-        font-size: 14px;
-        font-weight: 500;
-        color: #8c8c8c;
-        transition: all 0.2s;
-}
-
-.dropdown-item:hover {
-        background: #f1f5f9;
-
-}
-
-.dropdown-item.active {
-
-        font-weight: 600;
-}
 </style>
